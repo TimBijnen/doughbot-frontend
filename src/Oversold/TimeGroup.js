@@ -1,16 +1,18 @@
+import moment from 'moment'
 import { Card, Container, Row, Col } from "react-bootstrap"
 import OversoldItem from "./Item"
 
-
 const OversoldTimeGroup = ( { time, items } ) => {
     return (
-        <Card className="bg-secondary text-white">
+        <Card className="bg-secondary text-white mt-2">
             <Container>
                 <Row>
-                    <Col xs="2">
-                        { time }
+                    <Col xs="3">
+                        <div className="small">
+                            { moment(time/1000).format("hh:mm") }
+                        </div>
                     </Col>
-                    <Col xs="10">
+                    <Col xs="9">
                         { items.map( ( i ) => (
                             <OversoldItem { ...i } />
                         ) ) }

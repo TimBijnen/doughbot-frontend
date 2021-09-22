@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap"
 import OversoldTimeGroup from "./TimeGroup"
+import useOversold from "./hooks/oversold"
 
 const data = [
     {   
@@ -70,8 +71,8 @@ const Oversold = () => {
         });
         return Object.entries( grouped )
     }
-    const { data } = fetch("http://localhost:5000/oversold")
-    const sorted = groupData(data)
+    const [ { items }, _] = useOversold()
+    const sorted = groupData( items )
 
     return (
         <Container>

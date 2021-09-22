@@ -19,7 +19,7 @@ const Indicator = ( { label, value }: indicator ) => {
     return (
         <div key={ label } title="indicator" style={ { width: "100%" } } className={ className }>
             { label }
-            { value }%
+            { value.toFixed(0) }%
         </div>
     )    
 }
