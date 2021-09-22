@@ -3,6 +3,13 @@ type indicator = {
     value: number,
 }
 
+const style = {
+    width: "100%",
+    height: "32px",
+    lineHeight: "32px",
+    textAlign: "center" as const,
+}
+
 const Indicator = ( { label, value }: indicator ) => {
     let className = ""
 
@@ -17,8 +24,9 @@ const Indicator = ( { label, value }: indicator ) => {
     }
 
     return (
-        <div key={ label } title="indicator" style={ { width: "100%" } } className={ className }>
+        <div key={ label } title="indicator" style={ style } className={ className }>
             { label }
+            { ' - ' }
             { value.toFixed(0) }%
         </div>
     )    
