@@ -20,23 +20,23 @@ const reducer = ( state: any, { type, data }: any ) => {
     }
 }
 
-const useOversold = () => {
-    const [ state, dispatch ] = useReducer(reducer, {})
+const useHealth = () => {
+    const [ state, dispatch ] = useReducer(reducer, { health: {} })
     
-    const getSentiment = async () => {
+    const getHealth = async () => {
         try {
-            dispatch( { type: actions.LOAD, data: {} } )
-            const { data } = await axios.get( `${ API }/sentiment` )
-            dispatch( { type: actions.SET_DATA, data: { sentiment: data.data } } )
+            dispatch( { type: actions.LOAD, data: { health: {} } } )
+            const { data } = await axios.get( `${ API }/health` )
+            dispatch( { type: actions.SET_DATA, data: { health: data.data } } )
         } catch ( error: any ) {
         }
     }
 
     useEffect( () => {
-        getSentiment()
+        getHealth()
     }, [])
 
-    return [ state, { getSentiment }]
+    return [ state, { getHealth }]
   }
 
-export default useOversold
+export default useHealth

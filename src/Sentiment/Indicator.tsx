@@ -27,7 +27,7 @@ const Indicator = ( { label, value }: indicator ) => {
         <div key={ label } title="indicator" style={ style } className={ className }>
             { label }
             { ' - ' }
-            { value.toFixed(0) }%
+            { value?.toFixed(0) }%
         </div>
     )    
 }

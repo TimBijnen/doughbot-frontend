@@ -1,6 +1,8 @@
 import { useEffect, useReducer } from 'react'
 import axios from "axios"
 
+const API = process.env.REACT_APP_API_URL
+
 const actions = {
     LOAD: "LOAD",
     SET_DATA: "SET_DATA",
@@ -24,7 +26,7 @@ const useOversold = () => {
     const getOversoldData = async () => {
         try {
             dispatch( { type: actions.LOAD, data: { items: [] } } )
-            const { data } = await axios.get( `http://localhost:5000/oversold` )
+            const { data } = await axios.get( `${ API }/oversold` )
             dispatch( { type: actions.SET_DATA, data: { items: data.data } } )
         } catch ( error: any ) {
         }

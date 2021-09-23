@@ -20,23 +20,23 @@ const reducer = ( state: any, { type, data }: any ) => {
     }
 }
 
-const useOversold = () => {
-    const [ state, dispatch ] = useReducer(reducer, {})
+const useSettings = () => {
+    const [ state, dispatch ] = useReducer(reducer, { settings: [] })
     
-    const getSentiment = async () => {
+    const getSettings = async () => {
         try {
-            dispatch( { type: actions.LOAD, data: {} } )
-            const { data } = await axios.get( `${ API }/sentiment` )
-            dispatch( { type: actions.SET_DATA, data: { sentiment: data.data } } )
+            dispatch( { type: actions.LOAD, data: { settings: [] } } )
+            const { data } = await axios.get( `${ API }/settings` )
+            dispatch( { type: actions.SET_DATA, data: { settings: data.data } } )
         } catch ( error: any ) {
         }
     }
 
     useEffect( () => {
-        getSentiment()
+        getSettings()
     }, [])
 
-    return [ state, { getSentiment }]
+    return [ state, { getSettings }]
   }
 
-export default useOversold
+export default useSettings
