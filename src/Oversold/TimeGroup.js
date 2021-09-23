@@ -9,7 +9,7 @@ const OversoldTimeGroup = ( { time, items } ) => {
                 <Row>
                     <Col xs="3">
                         <div className="small">
-                            { moment(time/1000).format("hh:mm") }
+                            { moment.unix(time/1000).format("hh:mm") }
                         </div>
                     </Col>
                     <Col xs="9">
