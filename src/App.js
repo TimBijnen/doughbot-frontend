@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Container, Navbar, Modal } from "react-bootstrap"
+import { Container, Navbar } from "react-bootstrap"
 import Sentiment from "./Sentiment"
 import Oversold from "./Oversold"
 import SettingsDashboard from "./Settings"
