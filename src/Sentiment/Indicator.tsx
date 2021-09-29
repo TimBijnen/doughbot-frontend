@@ -11,23 +11,18 @@ const style = {
 }
 
 const Indicator = ( { label, value }: indicator ) => {
-    let className = ""
-
-    if ( value < 90 ) {
-        className = "text-white bg-danger"
-    } else if ( value < 100 ) {
-        className = "text-dark bg-warning"
-    } else if ( value < 110 ) {
-        className = "text-white bg-info"
-    } else {
-        className = "text-white bg-success"
+    if ( !value ) {
+        <div key={ label } title="indicator" style={ style } className="bg-secondary" />
     }
+    let isNegative = value < 100
+    let className = `text-white bg-${ isNegative ? "danger" : "success" }`
 
+    const displayValue = value?.toFixed(4).replace(/.+\./i, isNegative ? '-.' : '+.')
     return (
         <div key={ label } title="indicator" style={ style } className={ className }>
             { label }
-            { ' - ' }
-            { value?.toFixed(0) }%
+            { ' ' }
+            { displayValue }%
         </div>
     )    
 }

@@ -2,6 +2,9 @@ import { Card } from "react-bootstrap"
 import { Led } from "../Icon"
 
 const ItemLine = ( { coin, stoch_oversold, has_active_trades, price_above_minimum, bollinger_oversold, bollinger_percentage, trade_volume_24h } ) => {
+    if (coin === "TOMOBTC") {
+        // debugger
+    }
     return (
         <div className="d-flex">
             { coin }
@@ -9,7 +12,7 @@ const ItemLine = ( { coin, stoch_oversold, has_active_trades, price_above_minimu
             <Led isOn={ has_active_trades } />
             <Led isOn={ price_above_minimum } />
             <Led isOn={ bollinger_oversold } />
-            <Led isOn={ bollinger_percentage } />
+            <Led title={ bollinger_percentage } isOn={ bollinger_percentage >= 1 && bollinger_percentage <= 5 } />
             <Led isOn={ trade_volume_24h } />
             
             {/* { stoch_oversold ? "YES" : "NO" } */}
