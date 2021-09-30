@@ -4,12 +4,12 @@ import OversoldItem from "./Item"
 
 const OversoldTimeGroup = ( { time, items } ) => {
     return (
-        <Card className="bg-secondary text-white mt-2">
+        <Card className="bg-light text-dark mt-2">
             <Container>
                 <Row>
                     <Col xs="3">
                         <div className="small">
-                            { moment.unix(time/1000).format("hh:mm") }
+                            { moment.unix(time/1000).format("HH:mm") }
                         </div>
                     </Col>
                     <Col xs="9">

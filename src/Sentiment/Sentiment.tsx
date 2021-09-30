@@ -3,7 +3,10 @@ import useSentiment from "./hooks/sentiment"
 
 const Sentiment = () => {
     const [{ sentiment, isLoading }] = useSentiment()
-
+    
+    if ( isLoading ) {
+        return <div className="text-center" style={ { lineHeight: "32px" } }>Loading</div>
+    }
     if ( !sentiment ) {
         return <div>No data</div>
     }
@@ -12,9 +15,6 @@ const Sentiment = () => {
         { label: "4h", value: sentiment.four_h },
         { label: "24h", value: sentiment.one_d },
     ]
-    if ( isLoading ) {
-        return <div>Loading</div>
-    }
     return (
         <div className="d-flex">
             { data.map( Indicator ) }

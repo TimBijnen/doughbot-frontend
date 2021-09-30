@@ -8,11 +8,15 @@ const ItemLine = ( { coin, stoch_oversold, has_active_trades, price_above_minimu
     return (
         <div className="d-flex">
             { coin }
-            <Led isOn={ stoch_oversold } />
+            {/* <Led isOn={ stoch_oversold } />
             <Led isOn={ has_active_trades } />
             <Led isOn={ price_above_minimum } />
-            <Led isOn={ bollinger_oversold } />
-            <Led title={ bollinger_percentage } isOn={ bollinger_percentage >= 1 && bollinger_percentage <= 5 } />
+            <Led isOn={ bollinger_oversold } /> */}
+            {/* <Led title={ bollinger_percentage } isOn={ bollinger_percentage >= 1 && bollinger_percentage <= 5 } /> */}
+            <div className={ bollinger_percentage >= 1 && bollinger_percentage <= 5 ? "text-success" : "text-danger"}>
+                {' '}
+                { bollinger_percentage?.toFixed(2) }%
+            </div>
             <Led isOn={ trade_volume_24h } />
             
             {/* { stoch_oversold ? "YES" : "NO" } */}

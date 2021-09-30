@@ -1,9 +1,12 @@
 const Setting = ( { key, value } ) => {
     return (
         <div>
-            { key }
-            { " - "}
-            { value > 0 ? "True" : "False" }
+            <label>
+                { key }
+            </label>
+            <p>
+                { value > 0 ? "True" : "False" }
+            </p>
         </div>
     )
 }

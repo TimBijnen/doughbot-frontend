@@ -10,7 +10,12 @@ const Dashboard = ( { show, onHide } ) => {
                     Info
                 </Modal.Header>
                 <Modal.Body>
-                    API URL: { process.env.REACT_APP_API_URL }
+                    <label>
+                        API URL:
+                    </label>
+                    <p>
+                        { process.env.REACT_APP_API_URL }
+                    </p>
                     <Settings />
                     <Health />
                 </Modal.Body>
