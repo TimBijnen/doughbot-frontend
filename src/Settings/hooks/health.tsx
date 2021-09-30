@@ -24,6 +24,7 @@ const useHealth = () => {
     const [ state, dispatch ] = useReducer(reducer, { health: {} })
     
     const getHealth = async () => {
+        console.log("gethealth")
         try {
             dispatch( { type: actions.LOAD, data: { health: {} } } )
             const { data } = await axios.get( `${ API }/health` )
@@ -34,6 +35,8 @@ const useHealth = () => {
 
     useEffect( () => {
         getHealth()
+        const interval = setInterval( () => getHealth(), 10000 )
+        return () => clearInterval( interval )
     }, [])
 
     return [ state, { getHealth }]

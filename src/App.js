@@ -7,12 +7,12 @@ import moment from 'moment'
 
 const App = () => {
     const [ isShowing, setIsShowing ] = useState()
-    const [ now, setNow ] = useState( "00:00:00" )
+    const [ now, setNow ] = useState( moment().format("HH:mm:ss") )
     const showModal = () => setIsShowing( true )
     const hideModal = () => setIsShowing( false )
 
     useEffect(() => {
-        const interval = setInterval( () => setNow( moment().format("hh:mm:ss") ), 1000 )
+        const interval = setInterval( () => setNow( moment().format("HH:mm:ss") ), 1000 )
         return () => clearInterval( interval )
     }, [])
 
@@ -26,7 +26,7 @@ const App = () => {
             </Navbar>
             <Sentiment />
             <Oversold />
-            <SettingsDashboard show={ isShowing } onHide={ hideModal } />
+            <SettingsDashboard now={ now } show={ isShowing } onHide={ hideModal } />
             
         </div>
     );

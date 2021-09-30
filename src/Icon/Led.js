@@ -1,7 +1,9 @@
 const style = {
     borderRadius: "50%",
-    width: 20,
-    height: 20,
+    width: 12,
+    minWidth: 12,
+    height: 12,
+    margin: 'auto 4px auto auto',
     border: '2px solid white',
 }
 

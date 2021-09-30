@@ -13,7 +13,7 @@ const Health = ( { key, value } ) => {
                 Status
             </label>
             <p>
-                { health.status }
+                { health.status || "" }
             </p>
 
             <label>
