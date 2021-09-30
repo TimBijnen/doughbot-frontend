@@ -1,7 +1,6 @@
 import { Modal } from "react-bootstrap"
 import Settings from "./Settings"
 import Health from "./Health"
-import moment from "moment"
 
 const Dashboard = ( { show, onHide, now } ) => {
     
