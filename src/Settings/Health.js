@@ -4,7 +4,7 @@ import moment from "moment"
 const Health = ( { key, value } ) => {
     const [ { health } ] = useHealth()
     const now = moment()
-    const latest = moment( health.latest_received_candle, "DD-MM-YYYY HH:mm" )
+    const latest = moment.utc( health.latest_received_candle )
     const diff = latest.diff( now, 'minutes' )
 
     return (
@@ -20,7 +20,7 @@ const Health = ( { key, value } ) => {
                 Latest candle received at:
             </label>
             <p>
-                { `${ health.latest_received_candle } (${ diff } minutes)` }
+                { `${ latest.local().format( "DD-MM-YYYY HH:mm:ss" ) } (${ diff } minutes)` }
             </p>
         </div>
     )
