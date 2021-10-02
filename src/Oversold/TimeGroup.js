@@ -3,7 +3,7 @@ import { Card, Container, Row, Col } from "react-bootstrap"
 import OversoldItem from "./Item"
 
 const OversoldTimeGroup = ( { time, items } ) => {
-    const isSentimentPositive = items[0].is_positive_sentiment
+    const isSentimentPositive = items[0].is_sentiment_positive
     return (
         <Card className="bg-light text-dark mt-2">
             <Container>

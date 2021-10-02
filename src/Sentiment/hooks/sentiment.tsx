@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from 'react'
 import axios from "axios"
+import moment from "moment"
 
 const API = process.env.REACT_APP_API_URL
 
@@ -20,7 +21,7 @@ const reducer = ( state: any, { type, data }: any ) => {
     }
 }
 
-const useOversold = () => {
+const useSentiment = () => {
     const [ state, dispatch ] = useReducer(reducer, {})
     
     const getSentiment = async () => {
@@ -33,10 +34,25 @@ const useOversold = () => {
     }
 
     useEffect( () => {
+        const secondsPastMinute = moment.now() / 1000 % 60
+        let timeout = 40 - secondsPastMinute
+        let interval: any
+        if ( secondsPastMinute > 40 ) {
+            timeout = 60 - secondsPastMinute + 40
+        } 
         getSentiment()
+        setTimeout(
+            () => {
+                interval = setInterval( getSentiment, 60000 )
+            },
+            timeout * 1000
+        )
+        return () => interval && clearInterval( interval )
+        // debugger
+        // getSentiment()
     }, [])
 
     return [ state, { getSentiment }]
   }
 
-export default useOversold
+export default useSentiment

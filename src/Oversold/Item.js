@@ -6,7 +6,9 @@ const ItemLine = ( { coin, stoch_oversold, has_active_trades, price_above_minimu
         <div className="d-flex">
             <Led isOn={ trade_volume_24h } />
             <div className="d-flex w-100">
-                { coin }
+                <div style={ { fontWeight: should_trade ? "bold" : "normal" } }>
+                    { coin }
+                </div>
                 { should_trade && (
                     <Badge>Trade!</Badge>
                 ) }
