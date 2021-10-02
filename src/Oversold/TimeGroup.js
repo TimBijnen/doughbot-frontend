@@ -8,7 +8,7 @@ const OversoldTimeGroup = ( { time, items } ) => {
         <Card className="bg-light text-dark mt-2">
             <Container>
                 <Row>
-                    <Col xs="3" style={ { borderLeft: `8px solid var(--bs-${ isSentimentPositive ? "error" : "danger" })` } }>
+                    <Col xs="3" style={ { borderLeft: `8px solid var(--bs-${ isSentimentPositive ? "success" : "danger" })` } }>
                         <div className="small">
                             { moment.unix(time/1000).format("HH:mm") }
                         </div>
