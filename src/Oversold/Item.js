@@ -1,10 +1,10 @@
 import { Card, Badge } from "react-bootstrap"
 import { Led } from "../Icon"
 
-const ItemLine = ( { coin, stoch_oversold, has_active_trades, price_above_minimum, bollinger_oversold, bollinger_percentage, trade_volume_24h, should_trade } ) => {
+const ItemLine = ( { coin, stoch_oversold, has_active_trades, price_above_minimum, bollinger_oversold, bollinger_percentage, close_price_filter, should_trade } ) => {
     return (
         <div className="d-flex">
-            <Led isOn={ trade_volume_24h } />
+            <Led isOn={ close_price_filter } />
             <div className="d-flex w-100">
                 <div style={ { fontWeight: should_trade ? "bold" : "normal" } }>
                     { coin }
