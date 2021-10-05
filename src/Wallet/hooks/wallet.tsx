@@ -25,7 +25,7 @@ const useWallet = () => {
     
     const getAccountData = async () => {
         try {
-            dispatch( { type: actions.LOAD, data: { items: [] } } )
+            dispatch( { type: actions.LOAD } )
             const { data } = await axios.get( `${ API }/account` )
             dispatch( { type: actions.SET_DATA, data: { items: data } } )
         } catch ( error: any ) {
@@ -34,6 +34,8 @@ const useWallet = () => {
 
     useEffect( () => {
         getAccountData()
+        const interval = setInterval( getAccountData, 20000 )
+        return () => clearInterval( interval )
     }, [])
 
     return [ state, { getAccountData }]

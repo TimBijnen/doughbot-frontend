@@ -10,7 +10,7 @@ const Wallet = () => {
     return (
         <div>
             <div onClick={ toggleWallet }>
-                Wallet
+                Wallet { state.isLoading && "Loading..."}
             </div>
             { isWalletVisible && (
                 <div>

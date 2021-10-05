@@ -67,7 +67,6 @@ const Oversold = () => {
             if ( !grouped[ e.opentime ] ) {
                 grouped[ e.opentime ] = []
             }
-            const item = e
             e.trades = t.filter( t => t.candle_id === e.id || t.id === e.trade_id )
             if ( e.trades.length > 0 ) {
                 e.trades = [ ...e.trades, ...t.filter( a => e.trades.find(x => x.id === a.trade_id) ? a : null )]
