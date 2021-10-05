@@ -61,18 +61,25 @@ import useOversold from "./hooks/oversold"
 // ]
 
 const Oversold = () => {
-    const groupData = ( d ) => {
+    const groupData = ( d, t ) => {
         const grouped = {}
         d.forEach(( e ) => {
             if ( !grouped[ e.opentime ] ) {
                 grouped[ e.opentime ] = []
             }
+            const item = e
+            e.trades = t.filter( t => t.candle_id === e.id || t.id === e.trade_id )
+            if ( e.trades.length > 0 ) {
+                e.trades = [ ...e.trades, ...t.filter( a => e.trades.find(x => x.id === a.trade_id) ? a : null )]
+            }
+            
             grouped[ e.opentime ] = [ e, ...grouped[ e.opentime ] ]
         });
         return Object.entries( grouped )
     }
-    const [ { items } ] = useOversold()
-    const sorted = groupData( items )
+
+    const [ { items, trades } ] = useOversold()
+    const sorted = groupData( items, trades )
 
     return (
         <Container>

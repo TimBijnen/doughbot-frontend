@@ -1,13 +1,16 @@
-const Setting = ( { key, value } ) => {
+import { Form, Row } from "react-bootstrap"
+
+const Setting = ( { label, value, updateSetting } ) => {
+    const onCheck = () => {
+        updateSetting( label, !value )
+    }
+
     return (
-        <div>
-            <label>
-                { key }
-            </label>
-            <p>
-                { value > 0 ? "True" : "False" }
-            </p>
-        </div>
+        <Row>
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" checked={ value } label={ label } onChange={ onCheck } />
+            </Form.Group>
+        </Row>
     )
 }
 

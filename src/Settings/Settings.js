@@ -1,17 +1,20 @@
+import { Container } from "react-bootstrap"
 import useSettings from "./hooks/settings"
 import Setting from "./Setting"
 
 const Settings = () => {
-    const [ { settings, isLoading } ] = useSettings()
+    const [ { settings, isLoading }, { updateSetting } ] = useSettings()
 
     if ( isLoading ) {
         return <div>Loading</div>
     }
 
     return (
-        <div>
-            { settings.map( Setting ) }
-        </div>
+        <Container className="bg-light">
+            { settings.map( ( { key, value } ) => (
+                <Setting label={ key } value={ value } updateSetting={ updateSetting } />
+            ) ) }
+        </Container>
     )
 }
 

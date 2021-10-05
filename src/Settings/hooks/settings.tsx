@@ -31,12 +31,19 @@ const useSettings = () => {
         } catch ( error: any ) {
         }
     }
+    
+    const updateSetting = async (key: any, value: any) => {
+        const { data } = await axios.post( `${ API }/settings`, { key, value } )
+        if ( data === "Success" ) {
+            dispatch( { type: actions.SET_DATA, data: { settings: state.settings.map( ( s: any ) => s.key === key ? { key, value } : s ) } } )
+        }
+    }
 
     useEffect( () => {
         getSettings()
     }, [])
 
-    return [ state, { getSettings }]
+    return [ state, { updateSetting }]
   }
 
 export default useSettings

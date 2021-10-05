@@ -20,25 +20,23 @@ const reducer = ( state: any, { type, data }: any ) => {
     }
 }
 
-const useOversold = () => {
+const useWallet = () => {
     const [ state, dispatch ] = useReducer(reducer, { items: [] })
     
-    const getOversoldData = async () => {
+    const getAccountData = async () => {
         try {
             dispatch( { type: actions.LOAD, data: { items: [] } } )
-            const { data } = await axios.get( `${ API }/oversold` )
-            const { data: trades } = await axios.get( `${ API }/trades` )
-            console.log(trades)
-            dispatch( { type: actions.SET_DATA, data: { items: data.data, trades: trades.data } } )
+            const { data } = await axios.get( `${ API }/account` )
+            dispatch( { type: actions.SET_DATA, data: { items: data } } )
         } catch ( error: any ) {
         }
     }
 
     useEffect( () => {
-        getOversoldData()
+        getAccountData()
     }, [])
 
-    return [ state, { getOversoldData }]
+    return [ state, { getAccountData }]
   }
 
-export default useOversold
+export default useWallet
