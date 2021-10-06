@@ -1,22 +1,17 @@
-import { useState } from "react"
 import { Table, Button } from "react-bootstrap"
 import useWallet from "./hooks/wallet"
 
 const Wallet = () => {
-    const [ isWalletVisible, setIsWalletVisible ] = useState()
-    const toggleWallet = () => setIsWalletVisible( !isWalletVisible )
     const [ state, { getAccountData } ] = useWallet()
 
     return (
         <div>
-            <div onClick={ toggleWallet }>
-                Wallet { state.isLoading && "Loading..."}
-            </div>
-            { isWalletVisible && (
                 <div>
                     <div>
                         Wallet info
-                        <Button onClick={ getAccountData }>Reload</Button>
+                        <Button onClick={ getAccountData }>
+                            { state.isLoading ? "Loading..." : "Reload" }
+                        </Button>
                     </div>
                     <Table>
                         <thead>
@@ -28,7 +23,7 @@ const Wallet = () => {
                         </thead>
                         <tbody>
                     { state.items.map( ( a ) => (
-                        <tr>
+                        <tr key={ a.asset }>
                             <td>
                                 { a.asset }
                             </td>
@@ -43,7 +38,6 @@ const Wallet = () => {
                     </tbody>
                     </Table>
                 </div>
-            ) }
         </div>
     )
 }

@@ -6,11 +6,15 @@ import SettingsDashboard from "./Settings"
 import moment from 'moment'
 import Wallet from "./Wallet"
 import Log from "./Log"
+import Login from "./Login"
+import { CoinIcon, LogIcon, WalletIcon } from "./Icon"
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 
-// const uppStyle = {
-//     maxHeight: "100%",
-//     height: "100%",
-// }
 
 const appStyle = {
     display: "grid",
@@ -33,36 +37,53 @@ const App = () => {
         return () => clearInterval( interval )
     }, [])
 
-    return (
-        <div className="App" style={ appStyle }>
-            <SettingsDashboard now={ now } show={ isShowing } onHide={ hideModal } />
+    const isLoggedIn = false
+    return isLoggedIn ? (
+        <Router>
+            <div className="App" style={ appStyle }>
+                <SettingsDashboard now={ now } show={ isShowing } onHide={ hideModal } />
 
-            <div>
-                <Navbar bg="primary" variant="dark">
-                    <Container>
-                        <Navbar.Brand onClick={ showModal }>Doughbot</Navbar.Brand>
-                        <div className="pull-right text-white">{ now }</div>
-                    </Container>
-                </Navbar>
-                <Sentiment />
-            </div>
-            
-            <div style={ oversoldContainer }>
-                <Oversold />
-            </div>
+                <div>
+                    <Navbar bg="primary" variant="dark">
+                        <Container>
+                            <Navbar.Brand onClick={ showModal }>Doughbot</Navbar.Brand>
+                            <div className="pull-right text-white">{ now }</div>
+                        </Container>
+                    </Navbar>
+                    <Sentiment />
+                </div>
+                
+                <div style={ oversoldContainer }>
+                    <Switch>
+                        <Route path="/login" component={ Login } />
+                        <Route path="/wallet" component={ Wallet } />
+                        <Route path="/oversold" component={ Oversold } />
+                        <Route path="/log" component={ Log } />
+                    </Switch>
+                </div>
 
-            <div>
-                <footer>
-                    <ul>
-                        <Wallet />
-                    </ul>
-                    <ul>
-                        <Log />
-                    </ul>
-                </footer>
+                <div>
+                    <footer className="d-flex">
+                        <div className="w-100 text-center">
+                            <Link to="/oversold">
+                                <CoinIcon />
+                            </Link>
+                        </div>
+                        <div className="w-100 text-center">
+                            <Link to="/wallet">
+                                <WalletIcon />
+                            </Link>
+                        </div>
+                        <div className="w-100 text-center">
+                            <Link to="/log">
+                                <LogIcon />
+                            </Link>
+                        </div>
+                    </footer>
+                </div>
             </div>
-        </div>
-    );
+        </Router>
+    ) : <Login />
 }
 
 export default App;

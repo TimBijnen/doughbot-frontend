@@ -1,21 +1,17 @@
-import { useState } from "react"
 import { Table, Button } from "react-bootstrap"
 import useLog from "./hooks/log"
 
 const Wallet = () => {
-    const [ isVisible, setIsVisible ] = useState()
-    const toggleLog = () => setIsVisible( !isVisible )
     const [ state, { getLog } ] = useLog()
 
     return (
         <div>
-            <div onClick={ toggleLog }>
-                Log { state.isLoading && "Loading..."}
-            </div>
-            { isVisible && (
                 <div>
                     <div>
-                        <Button onClick={ getLog }>Reload</Button>
+                        Logs 
+                        <Button onClick={ getLog }>
+                            { state.isLoading ? "Loading..." : "Reload" }
+                        </Button>
                     </div>
                     <Table>
                         <thead>
@@ -25,8 +21,8 @@ const Wallet = () => {
                             </tr>
                         </thead>
                         <tbody>
-                    { state.items.map( ( a ) => (
-                        <tr>
+                    { state.items.map( ( a, i ) => (
+                        <tr key={ i }>
                             <td>
                                 { a.coin }
                             </td>
@@ -38,7 +34,6 @@ const Wallet = () => {
                     </tbody>
                     </Table>
                 </div>
-            ) }
         </div>
     )
 }
