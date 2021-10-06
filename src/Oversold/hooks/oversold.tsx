@@ -1,5 +1,7 @@
 import { useEffect, useReducer } from 'react'
 import axios from "axios"
+import moment from "moment"
+
 
 const API = process.env.REACT_APP_API_URL
 
@@ -28,14 +30,26 @@ const useOversold = () => {
             dispatch( { type: actions.LOAD, data: { items: [] } } )
             const { data } = await axios.get( `${ API }/oversold` )
             const { data: trades } = await axios.get( `${ API }/trades` )
-            console.log(trades)
-            dispatch( { type: actions.SET_DATA, data: { items: data.data, trades: trades.data } } )
+            dispatch( { type: actions.SET_DATA, data: { items: data.data, trades: trades.data, updateTime: moment.now() } } )
         } catch ( error: any ) {
         }
     }
 
     useEffect( () => {
+        const secondsPastMinute = moment.now() / 1000 % 60
+        let timeout = 40 - secondsPastMinute
+        let interval: any
+        if ( secondsPastMinute > 40 ) {
+            timeout = 60 - secondsPastMinute + 40
+        } 
         getOversoldData()
+        setTimeout(
+            () => {
+                interval = setInterval( getOversoldData, 60000 )
+            },
+            timeout * 1000
+        )
+        return () => interval && clearInterval( interval )
     }, [])
 
     return [ state, { getOversoldData }]

@@ -1,16 +1,40 @@
-import { Card, Badge, Table } from "react-bootstrap"
+import { Card, Badge, Table, Modal, Button } from "react-bootstrap"
+import { useState } from "react"
 import { Led } from "../Icon"
+import axios from "axios"
 
-const ItemLine = ( { coin, stoch_oversold, has_active_trades, price_above_minimum, bollinger_oversold, bollinger_percentage, close_price_filter, should_trade } ) => {
+const API = process.env.REACT_APP_API_URL
+
+
+const ItemLine = ( { coin, id, stoch_oversold, has_active_trades, price_above_minimum, bollinger_oversold, bollinger_percentage, close_price_filter, should_trade } ) => {
+    const [ isShowingTradeModal, setIsShowingTradeModal ] = useState()
+    const showConfirm = () => setIsShowingTradeModal( !isShowingTradeModal )
+    const makeTrade = async () => {
+        const { data } = await axios.post(`${ API }/trades/new`, { coin, candle_id: id})
+        console.log(data)
+    }
+
     return (
         <div className="d-flex">
+            <Modal show={ isShowingTradeModal }>
+                <Modal.Header>
+                    Confirm
+                </Modal.Header>
+                <Modal.Body>
+                    Place trade?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={ showConfirm }>Cancel</Button>
+                    <Button variant="success" onClick={ makeTrade }>Yes</Button>
+                </Modal.Footer>
+            </Modal>
             <Led isOn={ close_price_filter } />
             <div className="d-flex w-100">
                 <div style={ { fontWeight: should_trade ? "bold" : "normal" } }>
                     { coin }
                 </div>
                 { should_trade && (
-                    <Badge>Trade!</Badge>
+                    <Badge onClick={ showConfirm }>Trade!</Badge>
                 ) }
             </div>
             <div className={ bollinger_percentage >= 1 && bollinger_percentage <= 5 ? "text-success pull-right" : "text-danger pull-right"}>
@@ -22,7 +46,6 @@ const ItemLine = ( { coin, stoch_oversold, has_active_trades, price_above_minimu
 }
 
 const OversoldItem = ( { trades, ...item } ) => {
-    console.log(trades)
     return (
         trades?.length > 0 ? (
             <Card className="text-black">

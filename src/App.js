@@ -5,6 +5,7 @@ import Oversold from "./Oversold"
 import SettingsDashboard from "./Settings"
 import moment from 'moment'
 import Wallet from "./Wallet"
+import Log from "./Log"
 
 // const uppStyle = {
 //     maxHeight: "100%",
@@ -54,6 +55,9 @@ const App = () => {
                 <footer>
                     <ul>
                         <Wallet />
+                    </ul>
+                    <ul>
+                        <Log />
                     </ul>
                 </footer>
             </div>

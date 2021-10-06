@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap"
 import OversoldTimeGroup from "./TimeGroup"
 import useOversold from "./hooks/oversold"
-
+import moment from "moment"
 // const data = [
 //     {   
 //         "id": 1,
@@ -77,11 +77,12 @@ const Oversold = () => {
         return Object.entries( grouped )
     }
 
-    const [ { items, trades } ] = useOversold()
+    const [ { items, trades, isLoading, updateTime } ] = useOversold()
     const sorted = groupData( items, trades )
 
     return (
         <Container>
+            Updated at { moment.unix(updateTime/1000).format("DD-MM-YYYY HH:mm:ss") } { isLoading && "Loading..." }
             { sorted.map( ( [time, items ] ) => (
                 <OversoldTimeGroup time={ time } items={ items } />
             ))}
