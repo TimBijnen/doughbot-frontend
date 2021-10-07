@@ -48,8 +48,6 @@ const useSentiment = () => {
             timeout * 1000
         )
         return () => interval && clearInterval( interval )
-        // debugger
-        // getSentiment()
     }, [])
 
     return [ state, { getSentiment }]

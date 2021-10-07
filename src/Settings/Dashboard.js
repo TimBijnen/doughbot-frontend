@@ -2,7 +2,7 @@ import { Modal } from "react-bootstrap"
 import Settings from "./Settings"
 import Health from "./Health"
 
-const Dashboard = ( { show, onHide, now } ) => {
+const Dashboard = ( { show, onHide } ) => {
     
     return (
         <div>
