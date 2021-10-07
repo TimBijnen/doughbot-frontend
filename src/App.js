@@ -7,7 +7,8 @@ import moment from 'moment'
 import Wallet from "./Wallet"
 import Log from "./Log"
 import Login from "./Login"
-import { CoinIcon, LogIcon, WalletIcon } from "./Icon"
+import Footer from "./Footer"
+// import { CoinIcon, LogIcon, WalletIcon } from "./Icon"
 import {
     BrowserRouter as Router,
     Switch,
@@ -37,14 +38,14 @@ const App = () => {
         return () => clearInterval( interval )
     }, [])
 
-    const isLoggedIn = false
+    const isLoggedIn = true
     return isLoggedIn ? (
         <Router>
             <div className="App" style={ appStyle }>
                 <SettingsDashboard now={ now } show={ isShowing } onHide={ hideModal } />
 
-                <div>
-                    <Navbar bg="primary" variant="dark">
+                <div className="shadow">
+                    <Navbar bg="primary" variant="dark" >
                         <Container>
                             <Navbar.Brand onClick={ showModal }>Doughbot</Navbar.Brand>
                             <div className="pull-right text-white">{ now }</div>
@@ -62,25 +63,7 @@ const App = () => {
                     </Switch>
                 </div>
 
-                <div>
-                    <footer className="d-flex">
-                        <div className="w-100 text-center">
-                            <Link to="/oversold">
-                                <CoinIcon />
-                            </Link>
-                        </div>
-                        <div className="w-100 text-center">
-                            <Link to="/wallet">
-                                <WalletIcon />
-                            </Link>
-                        </div>
-                        <div className="w-100 text-center">
-                            <Link to="/log">
-                                <LogIcon />
-                            </Link>
-                        </div>
-                    </footer>
-                </div>
+                <Footer />
             </div>
         </Router>
     ) : <Login />
