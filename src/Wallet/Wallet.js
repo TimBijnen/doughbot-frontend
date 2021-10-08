@@ -2,7 +2,7 @@ import { Table, Button } from "react-bootstrap"
 import useWallet from "./hooks/wallet"
 
 const Wallet = () => {
-    const [ state, { getAccountData } ] = useWallet()
+    const [ state, { getAccountData, createSellOrder } ] = useWallet()
 
     return (
         <div>
@@ -19,6 +19,7 @@ const Wallet = () => {
                                 <th>Asset</th>
                                 <th>Free</th>
                                 <th>Locked</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,6 +33,11 @@ const Wallet = () => {
                             </td>
                             <td>
                                 { a.locked }
+                            </td>
+                            <td>
+                                <Button variant="secondary" onClick={ () => createSellOrder( a.asset ) }>
+                                    Sell
+                                </Button>
                             </td>
                         </tr>
                     ) ) }

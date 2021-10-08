@@ -27,7 +27,19 @@ const useWallet = () => {
         try {
             dispatch( { type: actions.LOAD } )
             const { data } = await axios.get( `${ API }/account` )
-            dispatch( { type: actions.SET_DATA, data: { items: data } } )
+            let items = data.sort((a:any, b:any) => parseFloat(a['free']) < parseFloat(b['free']) ? 1 : -1)
+            items = [...items.filter((a:any) => a['asset'] === 'BNB' || a['asset'] === 'BTC'), ...items.filter((a:any) => a['asset'] !== 'BNB' && a['asset'] !== 'BTC')]
+            dispatch( { type: actions.SET_DATA, data: { items } } )
+        } catch ( error: any ) {
+        }
+    }
+
+    const createSellOrder = async ( coin: string ) => {
+        try {
+            const { data } = await axios.post( `${ API }/trades/new`, { coin: `${ coin }BTC`, type: "SELL", order_type: "MARKET"} )
+            if ( data === "Success") {
+                getAccountData()
+            }
         } catch ( error: any ) {
         }
     }
@@ -38,7 +50,7 @@ const useWallet = () => {
         return () => clearInterval( interval )
     }, [])
 
-    return [ state, { getAccountData }]
+    return [ state, { getAccountData, createSellOrder }]
   }
 
 export default useWallet

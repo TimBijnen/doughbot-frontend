@@ -65,7 +65,7 @@ const OversoldItem = ( { trades, ...item } ) => {
                                 <tr>
                                     <td><small>{ t.order_id }</small></td>
                                     <td><Badge pill bg={ "secondary" }>{ t.type }</Badge></td>
-                                    <td>{ t.executed_qty }</td>
+                                    <td>{ t.executed_qty } ({ t.executed_qty / t.original_qty * 100 })</td>
                                     <td>
                                         {
                                             t.cancelled ? (
