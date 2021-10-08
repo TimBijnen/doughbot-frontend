@@ -8,7 +8,6 @@ import { ToastProvider } from 'react-toast-notifications';
 
 import {
     BrowserRouter as Router,
-    Switch,
     Route,
 } from "react-router-dom";
 
@@ -34,11 +33,9 @@ const App = () => {
                         
                                 <Route path="/login" component={ Login } />
                         <div style={ oversoldContainer }>
-                            {/* <Switch> */}
-                                <Route exact path="/wallet" component={ Wallet } />
-                                <Route exact path="/oversold" component={ Oversold } />
-                                <Route exact path="/log" component={ Log } />
-                            {/* </Switch> */}
+                            <Route exact path="/wallet" component={ Wallet } />
+                            <Route exact path="/oversold" component={ Oversold } />
+                            <Route exact path="/log" component={ Log } />
                         </div>
             
                         <Footer />
