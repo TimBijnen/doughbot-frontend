@@ -28,7 +28,7 @@ const App = () => {
                     <div className="App" style={ appStyle }>
                     <AuthProvider>
                 <Router>
-                    <AuthBlocker />
+                    {/* <AuthBlocker /> */}
                         <Navbar />
                         
                                 <Route path="/login" component={ Login } />
