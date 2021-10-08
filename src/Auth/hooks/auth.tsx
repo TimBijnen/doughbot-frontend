@@ -29,6 +29,9 @@ function useAuth() {
             } else {
                 localStorage.removeItem( "user" )
                 addToast("Ongeldige gebruikersinformatie", { appearance: "warning", autoDismiss: true } )
+                const user = { username: "dummy" }
+                localStorage.setItem( "user", JSON.stringify( user ) )
+                dispatch( { type: actions.AUTHENTICATED, data: { user } } )
             }
         } catch ( e ) {
             addToast("Fout tijdens inloggen", { appearance: "error", autoDismiss: true } )
