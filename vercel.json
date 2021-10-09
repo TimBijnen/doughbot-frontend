@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "https://api.deontwikkelplaats.nl/api/:path*"
+        },
+        {
+            "source": "/api/:path*/",
+            "destination": "https://api.deontwikkelplaats.nl/api/:path*"
+        }
+    ]
+}
