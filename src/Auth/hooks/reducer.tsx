@@ -1,6 +1,5 @@
 import actions from "./actions"
 
-
 const initialReducerState = {
     isLoggedIn: localStorage.getItem( "isLoggedIn" ) === "true",
     user: JSON.parse( localStorage.getItem( "user" ) || "false" ),

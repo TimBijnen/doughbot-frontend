@@ -5,7 +5,7 @@ import axios from "axios"
 import { useToasts } from "react-toast-notifications"
 
 const headers = { "Content-Type": "multipart/form-data" }
-const API = process.env.REACT_APP_API_URL?.replace("5000", "5001")
+const API = process.env.REACT_APP_API_URL//?.replace("5000", "5001")
 
 function useAuth() {
     const context = useContext( AuthBlocker )
@@ -29,9 +29,6 @@ function useAuth() {
             } else {
                 localStorage.removeItem( "user" )
                 addToast("Ongeldige gebruikersinformatie", { appearance: "warning", autoDismiss: true } )
-                const user = { username: "dummy" }
-                localStorage.setItem( "user", JSON.stringify( user ) )
-                dispatch( { type: actions.AUTHENTICATED, data: { user } } )
             }
         } catch ( e ) {
             addToast("Fout tijdens inloggen", { appearance: "error", autoDismiss: true } )
