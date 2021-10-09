@@ -28,7 +28,7 @@ const useHealth = () => {
         try {
             dispatch( { type: actions.LOAD, data: { health: {} } } )
             const { data } = await axios.get( `${ API }/health` )
-            dispatch( { type: actions.SET_DATA, data: { health: data.data } } )
+            dispatch( { type: actions.SET_DATA, data: { health: data.data || {} } } )
         } catch ( error: any ) {
         }
     }
