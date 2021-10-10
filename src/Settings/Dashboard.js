@@ -1,9 +1,13 @@
-import { Modal } from "react-bootstrap"
+import { Modal, Button } from "react-bootstrap"
 import Settings from "./Settings"
 import Health from "./Health"
+import axios from "axios"
 
 const Dashboard = ( { show, onHide } ) => {
-    
+    const restartStreams = async () => {
+        const { data } = await axios.post("/api/restart-streams", {})
+        console.log(data)
+    }
     return (
         <div>
             <Modal show={ show } onHide={ onHide }>
@@ -19,6 +23,7 @@ const Dashboard = ( { show, onHide } ) => {
                     </p>
                     <Settings />
                     <Health />
+                    <Button onClick={ restartStreams }>Restart collector</Button>
                 </Modal.Body>
             </Modal>
         </div>

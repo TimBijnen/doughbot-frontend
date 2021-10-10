@@ -27,7 +27,7 @@ const useWallet = () => {
         try {
             dispatch( { type: actions.LOAD } )
             const { data } = await axios.get( `${ API }/account` )
-            let items = data.sort((a:any, b:any) => parseFloat(a['free']) < parseFloat(b['free']) ? 1 : -1)
+            let items = data.sort((a:any, b:any) => parseFloat(a['free']) + parseFloat(a['locked']) < parseFloat(b['free']) + parseFloat(b['locked']) ? 1 : -1)
             items = [...items.filter((a:any) => a['asset'] === 'BNB' || a['asset'] === 'BTC'), ...items.filter((a:any) => a['asset'] !== 'BNB' && a['asset'] !== 'BTC')]
             dispatch( { type: actions.SET_DATA, data: { items } } )
         } catch ( error: any ) {

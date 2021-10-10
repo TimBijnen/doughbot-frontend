@@ -4,6 +4,7 @@ import Wallet from "./Wallet"
 import Log from "./Log"
 import Login, { AuthProvider, AuthBlocker} from "./Auth"
 import Footer from "./Footer"
+import Socket from "./Socket"
 import { ToastProvider } from 'react-toast-notifications';
 
 import {
@@ -30,7 +31,7 @@ const App = () => {
                 <Router>
                     <AuthBlocker />
                         <Navbar />
-                        
+                            <Socket />
                                 <Route path="/login" component={ Login } />
                         <div style={ oversoldContainer }>
                             <Route exact path="/wallet" component={ Wallet } />
