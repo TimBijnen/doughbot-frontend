@@ -4,7 +4,7 @@ import { Badge, Card, Container, Row, Col, Collapse } from "react-bootstrap"
 import OversoldItem from "./Item"
 import styled from "styled-components"
 
-const CCard = styled( Card )`
+const StyledCard = styled( Card )`
     border-left: 8px solid var(--bs-${ ( { isSentimentPositive } ) => isSentimentPositive ? "success" : "danger" });
 `
 
@@ -20,7 +20,7 @@ const OversoldTimeGroup = ( { time, items } ) => {
 
     return (
         <>
-        <CCard className="bg-light text-dark mb-2" isSentimentPositive={ isSentimentPositive }>
+        <StyledCard className="bg-light text-dark mb-2" isSentimentPositive={ isSentimentPositive }>
             <Card.Header className="p-0" onClick={ () => setOpen(!open) }>
                 <TimeDrop className="time small">
                     { moment.unix(time/1000).format("HH:mm") } <Badge pill>{ `${ anyCouldTrade } / ${ items.length }` }</Badge>
@@ -37,7 +37,7 @@ const OversoldTimeGroup = ( { time, items } ) => {
                     </Row>
                 </Container>
             </Collapse>
-        </CCard>
+        </StyledCard>
         </>
     )
 }

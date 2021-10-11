@@ -46,14 +46,6 @@ const OversoldItem = ( { trades, ...item } ) => {
                     { `${ item.coin } ${ item.bollinger_percentage?.toFixed(2) }%` }
                 </b>
                     <Table striped bordered className="small" size="sm">
-                        {/* <thead>
-                            <tr>
-                                <th>Order id</th>
-                                <th>Type</th>
-                                <th>Executed</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead> */}
                         <tbody>
                             { trades.map( t => (
                                 <tr>
@@ -62,10 +54,14 @@ const OversoldItem = ( { trades, ...item } ) => {
                                     <td>{ t.executed_qty } ({ t.executed_qty / t.original_qty * 100 }%)</td>
                                     <td>
                                         {
-                                            t.cancelled ? (
-                                                <Badge pill bg="danger">CANCELLED</Badge>
+                                            t.original_qty === t.executed_qty ? (
+                                                <Badge pill bg="success">FILLED</Badge>
                                             ) : (
-                                                <Badge pill bg="success">ACTIVE</Badge>
+                                                t.cancelled ? (
+                                                    <Badge pill bg="danger">CANCELLED</Badge>
+                                                ) : (
+                                                    <Badge pill bg="info">ACTIVE</Badge>
+                                                )
                                             )
                                         }
                                     </td>
