@@ -1,11 +1,11 @@
 import moment from 'moment'
-import { Card, Container, Row, Col } from "react-bootstrap"
+import { useState } from "react"
+import { Badge, Card, Container, Row, Col, Collapse } from "react-bootstrap"
 import OversoldItem from "./Item"
 import styled from "styled-components"
 
-const TimeContainer = styled( Container )`
+const CCard = styled( Card )`
     border-left: 8px solid var(--bs-${ ( { isSentimentPositive } ) => isSentimentPositive ? "success" : "danger" });
-    // padding-bottom: 2px;
 `
 
 const TimeDrop = styled.div`
@@ -14,24 +14,30 @@ const TimeDrop = styled.div`
 
 const OversoldTimeGroup = ( { time, items } ) => {
     const isSentimentPositive = items[0].is_sentiment_positive
+    const anyHasTrades = items.find( ( i ) => i.trades?.length > 0)
+    const anyCouldTrade = items.filter( ( i ) => i.should_trade).length
+    const [ open, setOpen ] = useState( !!anyHasTrades );
+
     return (
         <>
-        <Card className="bg-light text-dark mb-2">
-            <Card.Header className="p-0">
+        <CCard className="bg-light text-dark mb-2" isSentimentPositive={ isSentimentPositive }>
+            <Card.Header className="p-0" onClick={ () => setOpen(!open) }>
                 <TimeDrop className="time small">
-                    { moment.unix(time/1000).format("HH:mm") }
+                    { moment.unix(time/1000).format("HH:mm") } <Badge pill>{ `${ anyCouldTrade } / ${ items.length }` }</Badge>
                 </TimeDrop>
             </Card.Header>
-            <TimeContainer className="pb-2" isSentimentPositive={ isSentimentPositive }>
-                <Row>
-                    <Col xs="12">
-                        { items.map( ( i ) => (
-                            <OversoldItem { ...i } />
-                        ) ) }
-                    </Col>
-                </Row>
-            </TimeContainer>
-        </Card>
+            <Collapse in={open}>
+                <Container className="pb-2">
+                    <Row>
+                        <Col xs="12">
+                            { items.map( ( i ) => (
+                                <OversoldItem { ...i } />
+                            ) ) }
+                        </Col>
+                    </Row>
+                </Container>
+            </Collapse>
+        </CCard>
         </>
     )
 }
