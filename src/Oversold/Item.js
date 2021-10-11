@@ -6,17 +6,17 @@ import axios from "axios"
 const API = process.env.REACT_APP_API_URL
 
 
-const ItemLine = ( { coin, id, stoch_oversold, has_active_trades, price_above_minimum, bollinger_oversold, bollinger_percentage, close_price_filter, should_trade } ) => {
+const ItemLine = ( { coin, id, badge, has_trades, price_above_minimum, bollinger_oversold, bollinger_percentage, close_price_filter, should_trade } ) => {
     const [ isShowingTradeModal, setIsShowingTradeModal ] = useState()
-    const showConfirm = () => setIsShowingTradeModal( !isShowingTradeModal )
+    const showConfirm = () => should_trade && setIsShowingTradeModal( !isShowingTradeModal )
     const makeTrade = async () => {
         const { data } = await axios.post(`${ API }/trades/new`, { coin, candle_id: id})
-        console.log(data)
+        showConfirm()
     }
 
     return (
-        <div className="d-flex">
-            <Modal show={ isShowingTradeModal }>
+        <>
+        <Modal show={ isShowingTradeModal }>
                 <Modal.Header>
                     Confirm
                 </Modal.Header>
@@ -28,38 +28,33 @@ const ItemLine = ( { coin, id, stoch_oversold, has_active_trades, price_above_mi
                     <Button variant="success" onClick={ makeTrade }>Yes</Button>
                 </Modal.Footer>
             </Modal>
-            <Led isOn={ close_price_filter } />
-            <div className="d-flex w-100">
-                <div style={ { fontWeight: should_trade ? "bold" : "normal" } }>
-                    { coin }
-                </div>
-                { should_trade && (
-                    <Badge onClick={ showConfirm }>Trade!</Badge>
-                ) }
-            </div>
-            <div className={ bollinger_percentage >= 1 && bollinger_percentage <= 5 ? "text-success pull-right" : "text-danger pull-right"}>
-                {' '}
+            
+            <Badge bg={ has_trades ? "success" : should_trade ? "info" : "secondary" } onClick={ showConfirm } className="mr-2">
+                { coin }
+                { " " }
                 { bollinger_percentage?.toFixed(2) }%
-            </div>
-        </div>
+            </Badge>
+            { " "}
+    </>
     )
 }
 
 const OversoldItem = ( { trades, ...item } ) => {
     return (
         trades?.length > 0 ? (
-            <Card className="text-black">
-                <Card.Body>
-                    <ItemLine { ...item } />
-                    <Table striped bordered size="sm">
-                        <thead>
+            <>  
+                <b className="text-success">
+                    { `${ item.coin } ${ item.bollinger_percentage?.toFixed(2) }%` }
+                </b>
+                    <Table striped bordered className="small" size="sm">
+                        {/* <thead>
                             <tr>
                                 <th>Order id</th>
                                 <th>Type</th>
                                 <th>Executed</th>
                                 <th>Status</th>
                             </tr>
-                        </thead>
+                        </thead> */}
                         <tbody>
                             { trades.map( t => (
                                 <tr>
@@ -79,10 +74,10 @@ const OversoldItem = ( { trades, ...item } ) => {
                             )) }
                         </tbody>
                     </Table>
-                </Card.Body>
-            </Card>
+                    <hr className="m-0"/>
+            </>
         ) : (
-            <ItemLine { ...item } />
+            <ItemLine { ...item } badge/>
         )
     )
 }
