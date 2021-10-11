@@ -3,25 +3,7 @@ import OversoldTimeGroup from "./TimeGroup"
 import useOversold from "./hooks/oversold"
 import moment from "moment"
 // const data = [
-//     {   
-//         "id": 1,
-//         "coin": "NOPEBTC",
-//         "opentime": 123,
-//         "date": "21-09-21 16:42:00",
-//         "open_price": 123,
-//         "close_price": 123,
-//         "high": 123,
-//         "low": 123,
-//         "volume": 123,
-//         "K": 123,
-//         "stoch_oversold": true,
-//         "has_active_trades": false,
-//         "price_above_minimum": true,
-//         "bollinger_oversold": false,
-//         "bollinger_percentage": 2,
-//         "trade_volume_24h": 2,
-//         trades: [{ id: 1, type: "SELL" }],
-//     },
+
 //     {   
 //         "id": 2,
 //         "coin": "NOPEBTC",
@@ -76,6 +58,26 @@ import moment from "moment"
 //         "bollinger_oversold": false,
 //         "bollinger_percentage": 2,
 //         "trade_volume_24h": 2
+//     },
+//     {   
+//         "id": 1,
+//         "coin": "NOPEBTC",
+//         "opentime": 123,
+//         "date": "21-09-21 16:42:00",
+//         "open_price": 123,
+//         "close_price": 123,
+//         "high": 123,
+//         "low": 123,
+//         "volume": 123,
+//         "K": 123,
+//         "stoch_oversold": true,
+//         "has_active_trades": false,
+//         "price_above_minimum": true,
+//         "bollinger_oversold": false,
+//         "bollinger_percentage": 2,
+//         "trade_volume_24h": 2,
+//         trades: [{ id: 1, type: "SELL" }],
+//         should_trade: true,
 //     },
 //     {   
 //         "id": 6,
@@ -165,10 +167,8 @@ const Oversold = () => {
             
             grouped[ e.opentime ] = [ e, ...grouped[ e.opentime ] ]
         });
-        // debugger
-        // grouped.sort
         return Object.entries( grouped ).map( ( [key, values] ) => {
-            return [ key, values.sort( ( a, b ) => a.trades?.length > b.trades?.length ? 1 : -1) ]
+            return [ key, values.sort( ( a, b ) => (a.trades || []).length < (b.trades || []).length ? 1 : -1) ]
         })
     }
 
