@@ -1,6 +1,5 @@
-import { Card, Badge, Table, Modal, Button } from "react-bootstrap"
+import { Badge, Table, Modal, Button } from "react-bootstrap"
 import { useState } from "react"
-import { Led } from "../Icon"
 import axios from "axios"
 
 const API = process.env.REACT_APP_API_URL
@@ -10,7 +9,7 @@ const ItemLine = ( { coin, id, badge, has_trades, price_above_minimum, bollinger
     const [ isShowingTradeModal, setIsShowingTradeModal ] = useState()
     const showConfirm = () => should_trade && setIsShowingTradeModal( !isShowingTradeModal )
     const makeTrade = async () => {
-        const { data } = await axios.post(`${ API }/trades/new`, { coin, candle_id: id})
+        await axios.post(`${ API }/trades/new`, { coin, candle_id: id})
         showConfirm()
     }
 
