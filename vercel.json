@@ -7,6 +7,14 @@
         {
             "source": "/api/:path*/",
             "destination": "https://api.deontwikkelplaats.nl/api/:path*"
+        },
+        {
+            "source": "/socket.io*",
+            "destination": "https://api.deontwikkelplaats.nl/api/:path*"
+        },
+        {
+            "source": "/socket.io/*",
+            "destination": "https://api.deontwikkelplaats.nl/api/:path*"
         }
     ]
 }
