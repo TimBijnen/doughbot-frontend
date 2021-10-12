@@ -3,7 +3,7 @@ import Settings from "./Settings"
 import Health from "./Health"
 import axios from "axios"
 
-const Dashboard = ( { show, onHide } ) => {
+const Dashboard = ( { show, onHide, ...props } ) => {
     const restartStreams = async () => {
         const { data } = await axios.post("/api/restart-streams", {})
         console.log(data)
@@ -21,7 +21,7 @@ const Dashboard = ( { show, onHide } ) => {
                     <p>
                         { process.env.REACT_APP_API_URL }
                     </p>
-                    <Settings />
+                    <Settings { ...props } />
                     <Health />
                     <Button onClick={ restartStreams }>Restart collector</Button>
                 </Modal.Body>

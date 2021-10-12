@@ -22,26 +22,32 @@ const reducer = ( state: any, { type, data }: any ) => {
 
 const useSettings = () => {
     const [ state, dispatch ] = useReducer(reducer, { settings: [] })
+    // const [ isTraderActive, setIsTraderActive ] = useReducer(reducer, { settings: [] })
     
     const getSettings = async () => {
         try {
             dispatch( { type: actions.LOAD, data: { settings: [] } } )
             const { data } = await axios.get( `${ API }/settings` )
-            dispatch( { type: actions.SET_DATA, data: { settings: data.data } } )
+            const isTraderActive = !!data.data.find( ( { key, value }: any ) => (key === "trader_active" && value) )
+            console.log(isTraderActive)
+            dispatch( { type: actions.SET_DATA, data: { settings: data.data, isTraderActive } } )
         } catch ( error: any ) {
         }
     }
     
     const updateSetting = async (key: any, value: any) => {
-        const { data } = await axios.post( `${ API }/settings`, { key, value } )
+        const rule = key === "trader_active" ? 10 : 0
+        const { data } = await axios.post( `${ API }/settings`, { key, value, rule } )
         if ( data === "Success" ) {
-            dispatch( { type: actions.SET_DATA, data: { settings: state.settings.map( ( s: any ) => s.key === key ? { key, value } : s ) } } )
+            dispatch( { type: actions.SET_DATA, data: { settings: state.settings.map( ( s: any ) => s.key === key ? { key, value, rule } : s ) } } )
         }
     }
 
     useEffect( () => {
         getSettings()
     }, [])
+
+    console.log(state)
 
     return [ state, { updateSetting }]
   }

@@ -1,15 +1,19 @@
-import { Badge, Table, Modal, Button } from "react-bootstrap"
+import { Card, Badge, Container, Row, Col, Modal, Button } from "react-bootstrap"
 import { useState } from "react"
 import axios from "axios"
+import { useToasts } from "react-toast-notifications"
+// import { IndicatorIcon } from "../Icon"
 
 const API = process.env.REACT_APP_API_URL
 
 
-const ItemLine = ( { coin, id, badge, has_trades, price_above_minimum, bollinger_oversold, bollinger_percentage, close_price_filter, should_trade } ) => {
+const ItemLine = ( { coin, id, has_trades, bollinger_percentage, should_trade } ) => {
+    const { addToast } = useToasts()
     const [ isShowingTradeModal, setIsShowingTradeModal ] = useState()
     const showConfirm = () => should_trade && setIsShowingTradeModal( !isShowingTradeModal )
     const makeTrade = async () => {
-        await axios.post(`${ API }/trades/new`, { coin, candle_id: id})
+        const { data } = await axios.post(`${ API }/trades/new`, { coin, candle_id: id})
+        addToast( data.message, { appearance: data.status, autoDismiss: true })
         showConfirm()
     }
 
@@ -33,47 +37,47 @@ const ItemLine = ( { coin, id, badge, has_trades, price_above_minimum, bollinger
                 { " " }
                 { bollinger_percentage?.toFixed(2) }%
             </Badge>
-            { " "}
+            { " " }
     </>
     )
 }
 
 const OversoldItem = ( { trades, ...item } ) => {
     return (
-        trades?.length > 0 ? (
-            <>  
-                <b className="text-success">
-                    { `${ item.coin } ${ item.bollinger_percentage?.toFixed(2) }%` }
-                </b>
-                    <Table striped bordered className="small" size="sm">
-                        <tbody>
-                            { trades.map( t => (
-                                <tr>
-                                    <td><small>{ t.order_id }</small></td>
-                                    <td><Badge pill bg={ "secondary" }>{ t.type }</Badge></td>
-                                    <td>{ t.executed_qty } ({ t.executed_qty / t.original_qty * 100 }%)</td>
-                                    <td>
-                                        {
-                                            t.original_qty === t.executed_qty ? (
-                                                <Badge pill bg="success">FILLED</Badge>
-                                            ) : (
-                                                t.cancelled ? (
-                                                    <Badge pill bg="danger">CANCELLED</Badge>
-                                                ) : (
-                                                    <Badge pill bg="info">ACTIVE</Badge>
-                                                )
-                                            )
-                                        }
-                                    </td>
-                                </tr>
-                            )) }
-                        </tbody>
-                    </Table>
-                    <hr className="m-0"/>
-            </>
-        ) : (
-            <ItemLine { ...item } badge/>
-        )
+            trades?.length > 0 ? (
+                <Card className="p-2">
+
+                <Container>
+                    <Row>  
+                        <Col>
+                            <b className="text-success">
+                                { `${ item.coin } ${ item.bollinger_percentage?.toFixed(2) }%` }
+                            </b>
+                        </Col>
+                    </Row>
+                        { trades.map( ( t ) => (
+                            <Row className="mb-2">
+                            <Col className="border rounded" sm={ { span: 9, offset: t.type === "SELL" ? 3 : 0 } } style={ { textAlign: t.type === "SELL" ? "right" : "left", backgroundColor: t.type === "SELL" ? "#0dcaf01f" : "#1987541f" }}>
+                                { `${ t.order_id } ${ t.type } ${ t.executed_qty || 0 } / ${ t.original_qty }` }
+                                {
+                                    t.original_qty === t.executed_qty ? (
+                                        <Badge className="float-end" pill bg="success">FILLED</Badge>
+                                    ) : (
+                                        t.cancelled ? (
+                                            <Badge className="float-end" pill bg="danger">CANCELLED</Badge>
+                                        ) : (
+                                            <Badge className="float-end" pill bg="info">ACTIVE</Badge>
+                                        )
+                                    )
+                                }
+                            </Col>
+                        </Row>
+                        ) ) }
+                </Container>
+                </Card>
+                ) : (
+                    <ItemLine { ...item } badge/>
+                )
     )
 }
 

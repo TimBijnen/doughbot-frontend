@@ -76,7 +76,7 @@ import moment from "moment"
 //         "bollinger_oversold": false,
 //         "bollinger_percentage": 2,
 //         "trade_volume_24h": 2,
-//         trades: [{ id: 1, type: "SELL" }],
+//         trades: [{ id: 1, type: "SELL", executed_qty: 1, original_qty: 4 }],
 //         should_trade: true,
 //     },
 //     {   
