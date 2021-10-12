@@ -1,5 +1,5 @@
 import FooterItem from "./Item"
-import { TradesIcon, CoinIcon, LogIcon, WalletIcon, SettingsIcon } from "../Icon"
+import { TradesIcon, CoinIcon, LogIcon, WalletIcon } from "../Icon"
 import { useAuth } from "../Auth"
 
 

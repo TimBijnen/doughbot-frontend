@@ -1,6 +1,5 @@
 import { useEffect, useReducer } from 'react'
 import axios from "axios"
-import moment from "moment"
 
 
 const actions = {

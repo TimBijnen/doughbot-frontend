@@ -15,7 +15,7 @@ function App() {
       const appearance = ['error', 'info', 'success', 'warning'].includes( data.status ) ? data.status : "info"
         addToast(`${data.coin} ${data.details}`, { appearance, autoDismiss: true })
     });
-  }, []);
+  }, [addToast]);
 
   return (
     <span />
