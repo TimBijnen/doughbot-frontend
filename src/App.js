@@ -29,8 +29,8 @@ const App = () => {
                 <AuthProvider>
                     <Router>
                         <AuthBlocker />
+                        <Socket />
                         <Navbar />
-                            <Socket />
                             <Route path="/login" component={ Login } />
                             <div style={ oversoldContainer }>
                                 <Route exact path="/wallet" component={ Wallet } />
