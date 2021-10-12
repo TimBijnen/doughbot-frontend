@@ -14,6 +14,10 @@ function App() {
       const appearance = ['error', 'info', 'success', 'warning'].includes( data.status ) ? data.status : "info"
         addToast(`${data.coin} ${data.details}`, { appearance, autoDismiss: true })
     });
+    socket.on("connect", () => {
+        console.log("Connected")
+        addToast(`Connected!`, { appearance: "info", autoDismiss: true })
+    });
   }, [addToast]);
 
   return (
