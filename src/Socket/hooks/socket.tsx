@@ -8,7 +8,7 @@ const useSocket = () => {
         throw new Error('useSocket must be used within a SocketProvider')
     }
 
-    const { state, dispatch } = context
+    const { state } = context
 
     return [ state ]
 }

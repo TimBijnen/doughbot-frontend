@@ -1,4 +1,4 @@
-import { useState, createContext, useReducer, useEffect } from 'react'
+import { createContext, useReducer, useEffect } from 'react'
 import { useToasts } from "react-toast-notifications"
 import socketIOClient from "socket.io-client";
 
