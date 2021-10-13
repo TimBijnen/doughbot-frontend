@@ -29,14 +29,13 @@ const useSettings = () => {
             dispatch( { type: actions.LOAD, data: { settings: [] } } )
             const { data } = await axios.get( `${ API }/settings` )
             const isTraderActive = !!data.data.find( ( { key, value }: any ) => (key === "trader_active" && value) )
-            console.log(isTraderActive)
             dispatch( { type: actions.SET_DATA, data: { settings: data.data, isTraderActive } } )
         } catch ( error: any ) {
         }
     }
     
     const updateSetting = async (key: any, value: any) => {
-        const rule = key === "trader_active" ? 10 : 0
+        const rule = key === "trader_active" ? 40 : 0
         const { data } = await axios.post( `${ API }/settings`, { key, value, rule } )
         if ( data === "Success" ) {
             dispatch( { type: actions.SET_DATA, data: { settings: state.settings.map( ( s: any ) => s.key === key ? { key, value, rule } : s ) } } )
@@ -46,8 +45,6 @@ const useSettings = () => {
     useEffect( () => {
         getSettings()
     }, [])
-
-    console.log(state)
 
     return [ state, { updateSetting }]
   }

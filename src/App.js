@@ -8,7 +8,7 @@ import Trades from "./Trades"
 import Socket, { SocketProvider } from "./Socket"
 import { ToastProvider } from "react-toast-notifications";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
+import Audio from "./Audio"
 
 const appStyle = {
     display: "grid",
@@ -30,6 +30,7 @@ const App = () => {
                     <AuthProvider>
                         <Router>
                             <AuthBlocker />
+                            <Audio />
                             <Socket />
                             <Navbar />
                                 <Route path="/login" component={ Login } />

@@ -56,7 +56,7 @@ const OversoldItem = ( { trades, ...item } ) => {
                         </Col>
                     </Row>
                         { trades.map( ( t ) => (
-                            <TradeItem { ...t } />
+                            <TradeItem key={ t.id } { ...t } />
                         ) ) }
                 </Container>
                 </Card>

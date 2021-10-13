@@ -6,7 +6,7 @@ import styled from "styled-components"
 import { Led } from '../Icon'
 
 const StyledCard = styled( Card )`
-    border-left: 8px solid var(--bs-${ ( { isSentimentPositive } ) => isSentimentPositive ? "success" : "danger" });
+    border-left: 8px solid var(--bs-${ ( { issentimentpositive } ) => issentimentpositive ? "success" : "danger" });
 `
 
 const TimeDrop = styled.div`
@@ -22,7 +22,7 @@ const OversoldTimeGroup = ( { time, items } ) => {
 
     return (
         <>
-        <StyledCard className="bg-light text-dark mb-2" isSentimentPositive={ is_sentiment_positive }>
+        <StyledCard className="bg-light text-dark mb-2" issentimentpositive={ is_sentiment_positive }>
             <Card.Header className="p-0 d-flex" onClick={ () => setOpen(!open) }>
                     <div className="float-end d-flex">
                         <Led isOn={ sentiment_1h >= 100 } title={ `1h ${ sentiment_1h }%`}/>
@@ -41,7 +41,7 @@ const OversoldTimeGroup = ( { time, items } ) => {
                     <Row>
                         <Col xs="12">
                             { items.map( ( i ) => (
-                                <OversoldItem { ...i } />
+                                <OversoldItem key={ i.id } { ...i } />
                             ) ) }
                         </Col>
                     </Row>

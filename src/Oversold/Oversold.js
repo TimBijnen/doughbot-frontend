@@ -160,10 +160,7 @@ const Oversold = () => {
             if ( !grouped[ e.opentime ] ) {
                 grouped[ e.opentime ] = []
             }
-            e.trades = t.filter( t => t.candle_id === e.id )
-            if ( e.trades.length > 0 ) {
-                e.trades = [ ...e.trades, ...t.filter( a => e.trades.find(x => x.id === a.trade_id) ? a : null )]
-            }
+            e.trades = t.filter( t => t.candle_id === e.id ).sort( ( a, b ) => a.type === "BUY" ? -2 : a.type === "SELL" ? -1 : 0 )
             
             grouped[ e.opentime ] = [ e, ...grouped[ e.opentime ] ]
         });
@@ -179,7 +176,7 @@ const Oversold = () => {
         <Container>
             Updated at { moment.unix(updateTime/1000).format("DD-MM-YYYY HH:mm:ss") } { isLoading && "Loading..." }
             { sorted.map( ( [time, items ] ) => (
-                <OversoldTimeGroup time={ time } items={ items } />
+                <OversoldTimeGroup key={ time } time={ time } items={ items } />
             ))}
         </Container>
     )

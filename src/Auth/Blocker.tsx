@@ -9,10 +9,7 @@ function AuthBlocker() {
     const query = useQuery()
     const token = query.get("token")
     const [ state ] = useAuth()
-    console.log(!state.user && !token ? "REDIRECT" : "FALSE" )
     if ( !state.user && !token ) {
-        console.log("!!!")
-        // return (<Redirect to={ { pathname: "/login", state: { message: "Niet ingelogd" } } } />)
         return <Redirect to="/login" />
     }
     return null

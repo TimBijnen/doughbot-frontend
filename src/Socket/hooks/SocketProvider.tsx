@@ -36,7 +36,6 @@ function SocketProvider( { children }: any ) {
             addToast(`${data.coin} ${data.details}`, { appearance, autoDismiss: appearance !== "error" })
         });
         socket.on("connect", () => {
-            console.log("Connected")
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
         });
         // setSocket( socket )
