@@ -5,7 +5,7 @@ import Log from "./Log"
 import Login, { AuthProvider, AuthBlocker} from "./Auth"
 import Footer from "./Footer"
 import Trades from "./Trades"
-import Socket from "./Socket"
+import Socket, { SocketProvider } from "./Socket"
 import { ToastProvider } from "react-toast-notifications";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -25,23 +25,25 @@ const oversoldContainer = {
 const App = () => {
     return (
         <ToastProvider>
-            <div className="App" style={ appStyle }>
-                <AuthProvider>
-                    <Router>
-                        <AuthBlocker />
-                        <Socket />
-                        <Navbar />
-                            <Route path="/login" component={ Login } />
-                            <div style={ oversoldContainer }>
-                                <Route exact path="/wallet" component={ Wallet } />
-                                <Route exact path="/oversold" component={ Oversold } />
-                                <Route exact path="/log" component={ Log } />
-                                <Route exact path="/trades" component={ Trades } />
-                            </div>
-                        <Footer />
-                    </Router>
-                </AuthProvider>
-            </div>
+            <SocketProvider>
+                <div className="App" style={ appStyle }>
+                    <AuthProvider>
+                        <Router>
+                            <AuthBlocker />
+                            <Socket />
+                            <Navbar />
+                                <Route path="/login" component={ Login } />
+                                <div style={ oversoldContainer }>
+                                    <Route exact path="/wallet" component={ Wallet } />
+                                    <Route exact path="/oversold" component={ Oversold } />
+                                    <Route exact path="/log" component={ Log } />
+                                    <Route exact path="/trades" component={ Trades } />
+                                </div>
+                            <Footer />
+                        </Router>
+                    </AuthProvider>
+                </div>
+            </SocketProvider>
         </ToastProvider>
     )
 }

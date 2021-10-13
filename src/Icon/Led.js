@@ -7,10 +7,10 @@ const style = {
     border: '2px solid white',
 }
 
-const Led = ( { isOn, title } ) => {
-    let className = `bg-${ isOn ? "success" : "danger" }`
+const Led = ( { isOn, title, disabled, type = "success" } ) => {
+    let className = `bg-${ isOn ? type : "danger" }`
 
-    return (
+    return disabled ? null :(
         <div title={ title } style={ style } className={ className } />
     )
 }

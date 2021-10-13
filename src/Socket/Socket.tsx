@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
-import { useToasts } from "react-toast-notifications"
+import { useEffect } from "react"
 import styled from "styled-components"
+import useSocket from "./hooks/socket"
 
 const StatusBar = styled.div<{connected:boolean}>`
     height: 10px;
@@ -9,24 +8,12 @@ const StatusBar = styled.div<{connected:boolean}>`
     background-color: var(--bs-${ ( { connected }: any ) => connected ? "success" : "danger" } )   
 `
 
-function App() {
-    const [connected, setConnected] = useState(false);
-    const { addToast } = useToasts()
-
-        useEffect(() => {
-            const socket = socketIOClient();
-            socket.on("log", data => {
-                const appearance = ['error', 'info', 'success', 'warning'].includes( data.status ) ? data.status : "info"
-                addToast(`${data.coin} ${data.details}`, { appearance, autoDismiss: true })
-            });
-            socket.on("connect", () => {
-                setConnected(true)
-            });
-    }, [addToast]);
-
+const Status = () => {
+    const [ { connected } ] = useSocket()
+    
     return (
-      <StatusBar connected={ connected }/>
+        <StatusBar connected={ connected }/>
     );
 }
 
-export default App
+export default Status
