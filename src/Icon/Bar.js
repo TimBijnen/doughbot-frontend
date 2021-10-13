@@ -28,9 +28,9 @@ const BarAppend = styled.div`
     text-align: right;
 `
 
-const Bar = ( { value, target, cancelled } ) => {
+const Bar = ( { value, target, cancelled, market } ) => {
     const isFilled = value === target
-    const type = isFilled ? "success" : cancelled ? "danger" : "info"
+    const type = isFilled ? market ? "warning" : "success" : cancelled ? "danger" : "info"
     let width
     let text
     if ( isFilled ) {

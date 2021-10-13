@@ -32,7 +32,7 @@ const TradeItem = ( t: any ) => {
                 { t.type }
             </Col>
             <Col xs={ 4 }>
-                <Bar cancelled={ t.cancelled } value={ t.executed_qty } target={ t.original_qty} />
+                <Bar market={ t.type === "MARKET" } cancelled={ t.cancelled } value={ t.executed_qty } target={ t.original_qty} />
             </Col>
             <Col xs={ 3 }>
                 <span className="small ms-4">{ t.order_id }</span>
