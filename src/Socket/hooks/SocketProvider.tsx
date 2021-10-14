@@ -33,7 +33,7 @@ function SocketProvider( { children }: any ) {
         const socket = socketIOClient();
         socket.on("log", data => {
             const appearance = ['error', 'info', 'success', 'warning'].includes( data.status ) ? data.status : "info"
-            addToast(`${data.coin} ${data.details}`, { appearance, autoDismiss: appearance !== "error" })
+            addToast(`${data.coin} ${data.details}`, { appearance, autoDismiss: true })
         });
         socket.on("connect", () => {
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
