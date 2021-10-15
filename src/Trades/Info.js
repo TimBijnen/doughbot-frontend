@@ -17,6 +17,9 @@ const TradeInfo = ( { symbol, orders } ) => {
     if ( sell / ( sell + market ) > 0.8 && sell + market > 10) {
         bg = "success"
     }
+    if ( sell / ( sell + market ) > 0.7 && sell + market > 20) {
+        bg = "success"
+    }
     if ( market > sell ) {
         bg = "danger"
     }
