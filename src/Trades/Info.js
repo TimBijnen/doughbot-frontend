@@ -8,7 +8,7 @@ const TradeInfo = ( { symbol, orders } ) => {
         <Col xs={6} sm={4} md={3} lg={2} className="mb-2">
         <Card>
     <div className="d-inline-block mb-2">
-        <b>{ symbol } ( { sell / (sell + market ) * 100 }% )</b><br />
+        <b>{ symbol } ( { ( sell / ( sell + market ) * 100 ).toFixed( 2 ) }% )</b><br />
         Active: { active }<br />
         Sell: { sell }<br />
         Market: { market }<br />
