@@ -9,6 +9,7 @@ import Socket, { SocketProvider } from "./Socket"
 import { ToastProvider } from "react-toast-notifications";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Audio from "./Audio"
+import Settings from "./Settings"
 
 const appStyle = {
     display: "grid",
@@ -39,6 +40,7 @@ const App = () => {
                                     <Route exact path="/oversold" component={ Oversold } />
                                     <Route exact path="/log" component={ Log } />
                                     <Route exact path="/trades" component={ Trades } />
+                                    <Route exact path="/settings" component={ Settings } />
                                 </div>
                             <Footer />
                         </Router>

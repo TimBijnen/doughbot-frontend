@@ -1,5 +1,6 @@
 export { default as Led } from "./Led"
 export { default as Bar } from "./Bar"
+export { default as Dot } from "./Dot"
 export { default as CoinIcon } from "./Coin"
 export { default as WalletIcon } from "./Wallet"
 export { default as LogIcon } from "./Log"

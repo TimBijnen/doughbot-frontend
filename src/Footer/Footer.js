@@ -1,5 +1,5 @@
 import FooterItem from "./Item"
-import { TradesIcon, CoinIcon, LogIcon, WalletIcon } from "../Icon"
+import { TradesIcon, CoinIcon, LogIcon, WalletIcon, SettingsIcon } from "../Icon"
 import { useAuth } from "../Auth"
 
 
@@ -22,9 +22,9 @@ const Footer = () => {
                     <FooterItem link="/log">
                         <LogIcon />
                     </FooterItem>
-                    {/* <FooterItem link="/settings">
+                    <FooterItem link="/settings">
                         <SettingsIcon />
-                    </FooterItem> */}
+                    </FooterItem>
                 </>
             ) }
         </footer>
