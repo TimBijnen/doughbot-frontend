@@ -1,6 +1,7 @@
 import useTrades from "./hooks/trades"
 import { Card, Container, Row, Col } from "react-bootstrap"
 import { Led } from "../Icon"
+import TradeInfo from "./Info"
 
 const Leds = ( ( { a, b, c } ) => (
     <>
@@ -116,25 +117,10 @@ const Page = () => {
             
             <br />
             <hr />
-            <Container>
+            <Container fluid>
                 <Row>
                         { symbols.map( ( [ symbol, orders ] ) => (
-                    <Col xs={2}>
-                                <Card>
-                            <div className="d-inline-block mb-2">
-                                <b>{ symbol }</b>
-                                {
-                                    Object.entries(orders).map( ( [candle_id, trades] ) => (
-                                        <div>
-                                            { trades.length === 1 ? "Active" : null }
-                                            { trades.length === 2 ? "Sell" : null }
-                                            { trades.length === 3 ? "Market" : null }
-                                        </div>
-                                            ) )
-                                        }
-                            </div>
-                                        </Card>
-                    </Col>
+                            <TradeInfo symbol={ symbol } orders={ orders } />
                         ) ) }
                 </Row>
             </Container>
