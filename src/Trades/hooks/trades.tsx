@@ -25,7 +25,7 @@ const useTrades = () => {
     const getTrades = async () => {
         try {
             dispatch( { type: actions.LOAD, data: { items: [] } } )
-            const { data } = await axios.get( `/api/trades` )
+            const { data } = await axios.get( `/api/trades/statistics` )
             dispatch( { type: actions.SET_DATA, data: { items: data.data } } )
         } catch ( error: any ) {
         }
