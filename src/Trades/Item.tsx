@@ -13,6 +13,16 @@ const TradeItemRow = styled(Row)`
     }
 `
 
+const TradeItemContainer = styled.div`
+    .caption {
+        font-size: 0.5rem;
+        display: none;
+    }
+    &:hover .caption {
+        display: block;
+    }
+`
+
 const TradeItem = ( t: any ) => {
     const [ { connected, socket } ] = useSocket()
     const [ isNotified, setIsNotified ] = useState( false )
@@ -44,31 +54,38 @@ const TradeItem = ( t: any ) => {
     const timeValue = t.type === "SELL" ? 30 : 5
     const textClass = nowMinute >= timeValue ? "danger" : nowMinute >= timeValue / 1.5 ? "warning" : "success"
     return (
-        <TradeItemRow className="mb-2" title={ t.order_id }>
-            <Col xs={ { span: t.type === "BUY" ? 5 : 4, offset: t.type === "BUY" ? 0 : 1 } } >
-                <Led className="d-inline-block" disabled={ t.cancelled } type="info" isOn={ isNotified } title={ "Indicator for trade observer"} />
-                { t.type }
-            </Col>
-            <Col xs={ 4 }>
-                <Bar market={ t.type === "MARKET" } cancelled={ t.cancelled } value={ t.executed_qty } target={ t.original_qty} />
-            </Col>
-            <Col xs={ 3 }>
-                <span className="small ms-4">
-                    { t.closed_at ? (
-                        <span className="text-black-50">
-                            Trade time { nowMinute }m{ nowSecond }s<br />
-                            { t.reason }
-                        </span>
-                    ) : (
-                        <>
-                            <span className={ `fw-bold text-${ textClass }`}>
-                                Running for { nowMinute }m{nowSecond}s
+        <TradeItemContainer className="mb-2">
+            <TradeItemRow title={ t.order_id }>
+                <Col xs={ { span: t.type === "BUY" ? 5 : 4, offset: t.type === "BUY" ? 0 : 1 } } >
+                    <Led className="d-inline-block" disabled={ t.cancelled } type="info" isOn={ isNotified } title={ "Indicator for trade observer"} />
+                    { t.type }
+                </Col>
+                <Col xs={ 4 }>
+                    <Bar market={ t.type === "MARKET" } cancelled={ t.cancelled } value={ t.executed_qty } target={ t.original_qty} />
+                </Col>
+                <Col xs={ 3 }>
+                    <span className="small ms-4">
+                        { t.closed_at ? (
+                            <span className="text-black-50">
+                                { nowMinute }m{ nowSecond }s<br />
+                                
                             </span>
-                        </>
-                    )}
-                </span>
-            </Col>
-        </TradeItemRow>
+                        ) : (
+                            <>
+                                <span className={ `fw-bold text-${ textClass }`}>
+                                    { nowMinute }m{nowSecond}s
+                                </span>
+                            </>
+                        )}
+                    </span>
+                </Col>
+            </TradeItemRow>
+            <Row className="caption">
+                <Col className="bg-light">
+                    { t.reason }
+                </Col>
+            </Row>
+        </TradeItemContainer>
     )
 }
 
