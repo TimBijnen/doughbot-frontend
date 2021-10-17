@@ -31,9 +31,9 @@ const Page = () => {
     if ( isLoading ) {
         return <div>Loading</div>
     }
-
-    const percentage = ( sentiment.total.sell / ( sentiment.total.sell + sentiment.total.market ) * 100 ).toFixed( 2 )
+    
     if ( sentiment ) {
+        const percentage = ( sentiment.total.sell / ( sentiment.total.sell + sentiment.total.market ) * 100 ).toFixed( 2 )
         return (
                 <div className="w-100">
                     <div className="d-flex">
