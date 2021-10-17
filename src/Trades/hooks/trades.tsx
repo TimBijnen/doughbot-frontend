@@ -25,10 +25,10 @@ const useTrades = () => {
     const getTrades = async () => {
         try {
             dispatch( { type: actions.LOAD, data: { items: [] } } )
-            const { data } = await axios.get( `/api/trades/statistics` )
-            dispatch( { type: actions.SET_DATA, data: { items: data.data } } )
+            // const { data } = await axios.get( `/api/trades/statistics` )
+            // dispatch( { type: actions.SET_DATA, data: { items: data.data } } )
             const { data: sentiment } = await axios.get( `/api/reporting/sentiment-trades` )
-            dispatch( { type: actions.SET_DATA, data: { items: data.data, sentiment: sentiment.sentiment } } )
+            dispatch( { type: actions.SET_DATA, data: { sentiment: sentiment.sentiment } } )
         } catch ( error: any ) {
         }
     }
