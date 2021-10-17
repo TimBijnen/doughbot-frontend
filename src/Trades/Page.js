@@ -28,7 +28,7 @@ const Leds = ( ( { a, b, c, type, secondary } ) => type >= 0 ? (
 ))
 
 const Page = () => {
-    const [ selectedInterval, setSelectedInterval ] = useState( "year" )
+    const [ selectedInterval, setSelectedInterval ] = useState( "hour" )
     const [ selectedDate, setSelectedDate ] = useState( { start: moment().subtract( 1, selectedInterval ), end: moment() } )
     const [ { sentiment, isLoading } ] = useTrades( selectedDate )
     if ( isLoading ) {
@@ -91,8 +91,8 @@ const Page = () => {
                                 <option value="hour">Hour</option>
                                 <option value="day">Day</option>
                                 <option value="week">Week</option>
-                                <option value="month">Month</option>
-                                <option value="year">Year</option>
+                                {/* <option value="month">Month</option>
+                                <option value="year">Year</option> */}
                             </Form.Select>
                         </Col>
                     </Row>
@@ -168,36 +168,6 @@ const Page = () => {
                                 ) ) }
                     </tbody>
                     </Table>
-                    {/* <Table>
-                        <thead>
-                            <th>
-                                Sentiment
-                            </th>
-                            <th>
-                                Sell
-                            </th>
-                            <th>
-                                Market
-                            </th>
-                            <th>
-                                Total
-                            </th>
-                            <th>
-                                Percentage
-                            </th>
-                        </thead>
-                        <tbody>
-                            { new Array(12).fill(1).map( ( a, i ) => (
-                                <tr>
-                                    <td><Leds secondary type={ i }/></td>
-                                    <td>{ sentiment.total.sell }</td>
-                                    <td>{ sentiment.total.market }</td>
-                                    <td>{ sentiment.total.sell + sentiment.total.market }</td>
-                                    <td>{ ( sentiment.total.sell / (sentiment.total.sell + sentiment.total.market) * 100 ).toFixed( 2 ) } %</td>
-                                </tr>
-                            ) ) }
-                        </tbody>
-                    </Table> */}
                     <hr />
                     <Container fluid>
                         <Row>
