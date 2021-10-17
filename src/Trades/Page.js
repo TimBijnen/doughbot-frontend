@@ -28,8 +28,8 @@ const Leds = ( ( { a, b, c, type, secondary } ) => type >= 0 ? (
 ))
 
 const Page = () => {
-    const [ selectedInterval, setSelectedInterval ] = useState( "day" )
-    const [ selectedDate, setSelectedDate ] = useState( { start: moment().subtract( 1, "day" ), end: moment() } )
+    const [ selectedInterval, setSelectedInterval ] = useState( "year" )
+    const [ selectedDate, setSelectedDate ] = useState( { start: moment().subtract( 1, selectedInterval ), end: moment() } )
     const [ { sentiment, isLoading } ] = useTrades( selectedDate )
     if ( isLoading ) {
         return <div>Loading</div>
@@ -37,9 +37,7 @@ const Page = () => {
 
     const setDate = ( type ) => {
         let nextDate
-        if ( selectedInterval === "all" ) {
-            nextDate = { start: moment(0), end: moment() }
-        } else if ( type === "before" ) {
+        if ( type === "before" ) {
             nextDate = {
                 start: selectedDate.start.subtract(1, selectedInterval),
                 end: selectedDate.end.subtract(1, selectedInterval),
@@ -63,7 +61,7 @@ const Page = () => {
     const selectInterval = (i) => {
         const type = i.target.value
         const nextDate = {
-            start: type === "all" ? moment() : moment( selectedDate.end ).subtract(1, type),
+            start: moment( selectedDate.end ).subtract(1, type),
             end: selectedDate.end,
         }
         setSelectedInterval( type )
@@ -71,7 +69,9 @@ const Page = () => {
     }
     
     if ( sentiment ) {
+        // sentiment.total = { sell: 2, buys:1, market:1}
         const percentage = ( sentiment.total.sell / ( sentiment.total.sell + sentiment.total.market ) * 100 ).toFixed( 2 )
+        const uncertainPercentage = percentage - ( sentiment.total.sell / ( sentiment.total.sell + sentiment.total.market + sentiment.total.active ) * 100 ).toFixed( 2 )
         return (
             <div className="w-100">
                     <Row>
@@ -93,7 +93,6 @@ const Page = () => {
                                 <option value="week">Week</option>
                                 <option value="month">Month</option>
                                 <option value="year">Year</option>
-                                <option value="all">All time</option>
                             </Form.Select>
                         </Col>
                     </Row>
@@ -101,16 +100,25 @@ const Page = () => {
                     <hr />
 
                     <div className="d-flex">
-                        <div className="w-100">
-                            Total orders: {sentiment.total.sell + sentiment.total.market}<br />
+                        <div className="">
+                            Total cancelled buy orders: { sentiment.total.buys }<br />
+                            Total active orders: { sentiment.total.active }<br />
+                            <hr />
+                            Total success orders: {sentiment.total.sell + sentiment.total.market}<br />
                             Total sell orders: {sentiment.total.sell}<br />
                             Total market orders: {sentiment.total.market}<br />
                         </div>
-                        <div className={`float-end p-3 fw-bold ${ percentage < 60 ? "text-danger" : percentage < 80 ? "text-warning" : "text-success" } `} style={ { fontSize: "2rem" } }>
-                            { percentage }%
-                        </div>
-                    </div>
 
+                            <div className="ms-auto text-end">
+                        <div className={`fw-bold ${ percentage < 60 ? "text-danger" : percentage < 80 ? "text-warning" : "text-success" } `} style={ { fontSize: "2rem" } }>
+                                { percentage }%
+                        </div>
+                        <div className={`ms-auto fw-bold ${ uncertainPercentage > 25 ? "text-danger" : uncertainPercentage > 10 ? "text-warning" : "text-success" } `} style={ { fontSize: "1.25rem" } }>
+                                 { `- ${uncertainPercentage}%` }
+                        </div>
+                            </div>
+                    </div>
+                    <hr />
                     Sell orders 
                         <Table>
                             <thead>
