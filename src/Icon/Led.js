@@ -3,12 +3,11 @@ const style = {
     width: 12,
     minWidth: 12,
     height: 12,
-    margin: 'auto 4px auto auto',
     border: '2px solid white',
 }
 
 const Led = ( { isOn, title, disabled, type = "success", ...props } ) => {
-    let className = `bg-${ isOn ? type : "danger" } ${ props.className }`
+    let className = `bg-${ isOn ? type : "danger" } ${ props.className } d-inline-block`
 
     return disabled ? null :(
         <div { ...props } title={ title } style={ style } className={ className } />

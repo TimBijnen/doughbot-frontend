@@ -1,9 +1,9 @@
 import { Card, Col, Badge } from "react-bootstrap"
 
-const TradeInfo = ( { symbol, orders } ) => {
-    const active = Object.entries(orders).reduce( ( result, [cid, trades] ) => result + (trades.length === 1 ? 1 : 0), 0)
-    const sell = Object.entries(orders).reduce( ( result, [cid, trades] ) => result + (trades.length === 2 ? 1 : 0), 0)
-    const market = Object.entries(orders).reduce( ( result, [cid, trades] ) => result + (trades.length === 3 ? 1 : 0), 0)
+const TradeInfo = ( { symbol, sell, market } ) => {
+    // const active = Object.entries(orders).reduce( ( result, [cid, trades] ) => result + (trades.length === 1 ? 1 : 0), 0)
+    // const sell = Object.entries(orders).reduce( ( result, [cid, trades] ) => result + (trades.length === 2 ? 1 : 0), 0)
+    // const market = Object.entries(orders).reduce( ( result, [cid, trades] ) => result + (trades.length === 3 ? 1 : 0), 0)
     let bg = "secondary"
     // if ( sell + market === 0 ) {
     //     return null
@@ -28,7 +28,7 @@ const TradeInfo = ( { symbol, orders } ) => {
         <Card>
     <div className="d-inline-block mb-2">
         <b>{ symbol } ( { (( sell / ( sell + market ) * 100 ) || 0).toFixed( 2 ) }% )</b><Badge bg={ bg } className="float-end">{ sell + market }</Badge><br />
-        Active: { active }<br />
+        {/* Active: { active }<br /> */}
         Sell: { sell }<br />
         Market: { market }<br />
     </div>

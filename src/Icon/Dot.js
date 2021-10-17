@@ -8,8 +8,13 @@ const style = {
 }
 
 const Dot = ( { type = "secondary", ...props } ) => {
-    let className = `${ props.className } d-inline-block bg-${ type }`
-
+    let _type = type
+    if ( props.isOn ) {
+        _type = "success"
+    } else if ( props.isOn === false ) {
+        _type = "danger"
+    }
+    let className = `${ props.className } d-inline-block bg-${ _type }`
     return (
         <div { ...props } style={ style } className={ className } />
     )
