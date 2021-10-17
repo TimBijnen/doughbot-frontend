@@ -3,12 +3,20 @@ import { Table, Container, Row } from "react-bootstrap"
 import { Dot } from "../Icon"
 import TradeInfo from "./Info"
 
-const Leds = ( ( { a, b, c, type } ) => type >= 0 ? (
-    <div>
-        <Dot isOn={ type % 2 === 1 }/>
-        <Dot isOn={ parseInt(type / 2) % 2 === 1 }/>
-        <Dot isOn={ parseInt(type / 4) % 2 === 1 }/>
-    </div>
+const Leds = ( ( { a, b, c, type, secondary } ) => type >= 0 ? (
+    secondary ? (
+        <div>
+            <Dot isOn={ type % 2 === 1 ? type >= 6 : undefined }/>
+            <Dot isOn={ parseInt(type / 2) % 2 === 1 ? type >= 6 : undefined }/>
+            <Dot isOn={ parseInt(type / 4) % 2 === 1 ? type >= 6 : undefined }/>
+        </div>
+    ) : (
+        <div>
+            <Dot isOn={ type % 2 === 1 }/>
+            <Dot isOn={ parseInt(type / 2) % 2 === 1 }/>
+            <Dot isOn={ parseInt(type / 4) % 2 === 1 }/>
+        </div>
+    ) 
 ): (
     <div>
         <Dot isOn={ a }/>
@@ -19,58 +27,26 @@ const Leds = ( ( { a, b, c, type } ) => type >= 0 ? (
 
 const Page = () => {
     const [ { sentiment, isLoading } ] = useTrades()
-    // const grouped = {}
+
     if ( isLoading ) {
         return <div>Loading</div>
     }
-    
-    // const perCandle = {}
-    // items.forEach( ( i ) => {
-    //     if ( !perCandle[ i.candle_id ] ) {
-    //         perCandle[ i.candle_id ] = []
-    //     }
-    //     if ( !grouped[ i.symbol ] ) {
-    //         grouped[ i.symbol ] = {}
-    //     }
-    //     if ( !grouped[ i.symbol ][ i.candle_id ] ) {
-    //         grouped[ i.symbol ][ i.candle_id ] = []
-    //     } 
-    //     grouped[ i.symbol ][ i.candle_id ] = [ ...grouped[ i.symbol ][ i.candle_id ], i ]
-    //     perCandle[ i.candle_id ] = [ ...perCandle[ i.candle_id ], i ]
-    // } )
-    // const symbols = Object.entries(grouped)
-    // const _items = Object.entries( perCandle ).reduce( ( result, [ candle_id, item ] ) => [ ...result, { candle_id, type: item[item.length - 1].type, one_h: item[0].one_h, four_h: item[0].four_h, twofour_h: item[0].twofour_h } ], [] ) 
-    
-    // const amtOfSellOrders = _items.filter( ( i ) => i.type === "SELL" ).length
-    // const amtOfMarketOrders = _items.filter( ( i ) => i.type === "MARKET" ).length
-    // const amtOfOrders = amtOfMarketOrders + amtOfSellOrders
-    
-    // const amtOfSellOrdersNone = _items.filter( ( i ) => i.type === "SELL" && i.one_h < 100 && i.four_h < 100 && i.twofour_h < 100 ).length
-    // const amtOfSellOrders1h = _items.filter( ( i ) => i.type === "SELL" && i.one_h >= 100 && i.four_h < 100 && i.twofour_h < 100 ).length
-    // const amtOfSellOrders4h = _items.filter( ( i ) => i.type === "SELL" && i.one_h < 100 && i.four_h >= 100 && i.twofour_h < 100 ).length
-    // const amtOfSellOrders24h = _items.filter( ( i ) => i.type === "SELL" && i.one_h < 100 && i.four_h < 100 && i.twofour_h >= 100 ).length
 
-    // const amtOfSellOrders1h4h = _items.filter( ( i ) => i.type === "SELL" && i.one_h >= 100 && i.four_h >= 100 && i.twofour_h < 100 ).length
-    // const amtOfSellOrders1h24h = _items.filter( ( i ) => i.type === "SELL" && i.one_h >= 100 && i.four_h < 100 && i.twofour_h >= 100 ).length
-    // const amtOfSellOrders4h24h = _items.filter( ( i ) => i.type === "SELL" && i.one_h < 100 && i.four_h >= 100 && i.twofour_h >= 100 ).length
-    // const amtOfSellOrders1h4h24h = _items.filter( ( i ) => i.type === "SELL" && i.one_h >= 100 && i.four_h >= 100 && i.twofour_h >= 100 ).length
-    
-    
-    // const amtOfMarketOrdersNone = _items.filter( ( i ) => i.type === "MARKET" && i.one_h < 100 && i.four_h < 100 && i.twofour_h < 100 ).length
-    // const amtOfMarketOrders1h = _items.filter( ( i ) => i.type === "MARKET" && i.one_h >= 100 && i.four_h < 100 && i.twofour_h < 100 ).length
-    // const amtOfMarketOrders4h = _items.filter( ( i ) => i.type === "MARKET" && i.one_h < 100 && i.four_h >= 100 && i.twofour_h < 100 ).length
-    // const amtOfMarketOrders24h = _items.filter( ( i ) => i.type === "MARKET" && i.one_h < 100 && i.four_h < 100 && i.twofour_h >= 100 ).length
-    // const amtOfMarketOrders1h4h = _items.filter( ( i ) => i.type === "MARKET" && i.one_h >= 100 && i.four_h >= 100 && i.twofour_h < 100 ).length
-    // const amtOfMarketOrders1h24h = _items.filter( ( i ) => i.type === "MARKET" && i.one_h >= 100 && i.four_h < 100 && i.twofour_h >= 100 ).length
-    // const amtOfMarketOrders4h24h = _items.filter( ( i ) => i.type === "MARKET" && i.one_h < 100 && i.four_h >= 100 && i.twofour_h >= 100 ).length
-    // const amtOfMarketOrders1h4h24h = _items.filter( ( i ) => i.type === "MARKET" && i.one_h >= 100 && i.four_h >= 100 && i.twofour_h >= 100 ).length
-    
+    const percentage = ( sentiment.total.sell / ( sentiment.total.sell + sentiment.total.market ) * 100 ).toFixed( 2 )
     if ( sentiment ) {
         return (
                 <div className="w-100">
-                    Total orders: {sentiment.total.sell + sentiment.total.market}<br />
-                    Total sell orders: {sentiment.total.sell}<br />
-                    Total market orders: {sentiment.total.market}<br />
+                    <div className="d-flex">
+                        <div className="w-100">
+                            Total orders: {sentiment.total.sell + sentiment.total.market}<br />
+                            Total sell orders: {sentiment.total.sell}<br />
+                            Total market orders: {sentiment.total.market}<br />
+                        </div>
+                        <div className={`float-end p-3 fw-bold ${ percentage < 60 ? "text-danger" : percentage < 80 ? "text-warning" : "text-success" } `} style={ { fontSize: "2rem" } }>
+                            { percentage }%
+                        </div>
+                    </div>
+
                     Sell orders 
                         <Table>
                             <thead>
@@ -91,28 +67,57 @@ const Page = () => {
                                 </th>
                             </thead>
                             <tbody>
-                    { sentiment.types.map( ( s, i ) => (
-                                <tr>
-                                    <td>
-                                        <Leds type={ i }/>
-                                    </td>
-                                    <td>
-                                        { s.sell } 
-                                    </td>
-                                    <td>
-                                        { s.market } 
-                                    </td>
-                                    <td>
-                                        { s.total } 
-                                    </td>
-                                    <td>
-                                        { ( s.sell / s.total * 100 ).toFixed( 2 ) } %
-                                    </td>
-                                </tr>
-                            
-                    ) ) }
+                                { sentiment.types.map( ( s, i ) => (
+                                    <tr>
+                                        <td>
+                                            <Leds type={ i }/>
+                                        </td>
+                                        <td>
+                                            { s.sell } 
+                                        </td>
+                                        <td>
+                                            { s.market } 
+                                        </td>
+                                        <td>
+                                            { s.total } 
+                                        </td>
+                                        <td>
+                                            { ( s.sell / s.total * 100 ).toFixed( 2 ) } %
+                                        </td>
+                                    </tr>
+                                ) ) }
                     </tbody>
                     </Table>
+                    {/* <Table>
+                        <thead>
+                            <th>
+                                Sentiment
+                            </th>
+                            <th>
+                                Sell
+                            </th>
+                            <th>
+                                Market
+                            </th>
+                            <th>
+                                Total
+                            </th>
+                            <th>
+                                Percentage
+                            </th>
+                        </thead>
+                        <tbody>
+                            { new Array(12).fill(1).map( ( a, i ) => (
+                                <tr>
+                                    <td><Leds secondary type={ i }/></td>
+                                    <td>{ sentiment.total.sell }</td>
+                                    <td>{ sentiment.total.market }</td>
+                                    <td>{ sentiment.total.sell + sentiment.total.market }</td>
+                                    <td>{ ( sentiment.total.sell / (sentiment.total.sell + sentiment.total.market) * 100 ).toFixed( 2 ) } %</td>
+                                </tr>
+                            ) ) }
+                        </tbody>
+                    </Table> */}
                     <hr />
                     <Container fluid>
                         <Row>
