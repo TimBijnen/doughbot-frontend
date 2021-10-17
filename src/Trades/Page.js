@@ -67,10 +67,11 @@ const Page = () => {
                                 </th>
                             </thead>
                             <tbody>
-                                { sentiment.types.map( ( s, i ) => (
+                                { sentiment.types.sort(( a , b ) => isNaN(a.sell / a.market) ? -1 : isNaN(b.sell / b.market) ? -1 : a.sell / a.market > b.sell / b.market ? -1 : 1).map( ( s, i ) => (
                                     <tr>
                                         <td>
-                                            <Leds type={ i }/>
+                                            <Leds type={ s.type }/>
+                                            { s.type}
                                         </td>
                                         <td>
                                             { s.sell } 
