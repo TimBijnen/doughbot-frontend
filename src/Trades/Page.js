@@ -30,7 +30,7 @@ const Leds = ( ( { a, b, c, type, secondary } ) => type >= 0 ? (
 const Page = () => {
     const [ selectedInterval, setSelectedInterval ] = useState( "day" )
     const [ selectedDate, setSelectedDate ] = useState( { start: moment().subtract( 1, "day" ), end: moment() } )
-    const [ { sentiment, isLoading }, { getTrades } ] = useTrades( selectedDate )
+    const [ { sentiment, isLoading } ] = useTrades( selectedDate )
     if ( isLoading ) {
         return <div>Loading</div>
     }
