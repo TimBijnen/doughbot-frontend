@@ -59,9 +59,15 @@ const Page = () => {
             setSelectedDate( nextDate )
         }
     }
-
+    
     const selectInterval = (i) => {
-        setSelectedInterval( i.target.value )
+        const type = i.target.value
+        const nextDate = {
+            start: type === "all" ? moment() : moment( selectedDate.end ).subtract(1, type),
+            end: selectedDate.end,
+        }
+        setSelectedInterval( type )
+        setSelectedDate( nextDate )
     }
     
     if ( sentiment ) {
@@ -75,11 +81,12 @@ const Page = () => {
                             { console.log(selectedDate.end.diff(moment().add(1, selectedInterval)) > 0)}
                             <Button disabled={ selectedDate.end.diff(moment().add(1, selectedInterval)) > 0 } onClick={ () => setDate( "after" ) }>{ ">" }</Button>
                         </Col>
-                        <Col xs={ 3 }>
-                            { selectedDate.start.format("DD-MM-YYYY HH:mm" ) } <br />
+                        <Col xs={ 6 }>
+                            { selectedDate.start.format("DD-MM-YYYY HH:mm" ) }
+                            {" <--> "}
                             { selectedDate.end.format("DD-MM-YYYY HH:mm" ) }
                         </Col>
-                        <Col xs={ 6 }>
+                        <Col xs={ 3 }>
                             <Form.Select value={ selectedInterval } aria-label="Default select example" onChange={ selectInterval }>
                                 <option value="hour">Hour</option>
                                 <option value="day">Day</option>
