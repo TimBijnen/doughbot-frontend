@@ -18,7 +18,7 @@ const Leds = ( ( { a, b, c, type } ) => type >= 0 ? (
 ))
 
 const Page = () => {
-    const [ { items, sentiment, isLoading } ] = useTrades()
+    const [ { sentiment, isLoading } ] = useTrades()
     // const grouped = {}
     if ( isLoading ) {
         return <div>Loading</div>
