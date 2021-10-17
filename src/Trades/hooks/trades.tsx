@@ -19,23 +19,25 @@ const reducer = ( state: any, { type, data }: any ) => {
     }
 }
 
-const useTrades = () => {
+const useTrades = ( date: any ) => {
     const [ state, dispatch ] = useReducer(reducer, { items: [] })
     
-    const getTrades = async () => {
+    const getTrades = async ( date: any ) => {
         try {
             dispatch( { type: actions.LOAD, data: { items: [] } } )
-            // const { data } = await axios.get( `/api/trades/statistics` )
-            // dispatch( { type: actions.SET_DATA, data: { items: data.data } } )
-            const { data: sentiment } = await axios.get( `/api/reporting/sentiment-trades` )
+            let { start, end } = date
+            start = start.format("YYYY-MM-DD HH:mm")
+            end = end.format("YYYY-MM-DD HH:mm")
+            console.log(start, end)
+            const { data: sentiment } = await axios.get( `/api/reporting/sentiment-trades?start_date=${ start }&end_date=${ end }` )
             dispatch( { type: actions.SET_DATA, data: { sentiment: sentiment.sentiment } } )
         } catch ( error: any ) {
         }
     }
 
     useEffect( () => {
-        getTrades()
-    }, [])
+        getTrades( date )
+    }, [ date ])
 
     return [ state, { getTrades }]
   }

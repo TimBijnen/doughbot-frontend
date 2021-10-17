@@ -1,7 +1,9 @@
+import { useState } from "react"
 import useTrades from "./hooks/trades"
-import { Table, Container, Row } from "react-bootstrap"
+import { Form, Button, Table, Container, Row, Col } from "react-bootstrap"
 import { Dot } from "../Icon"
 import TradeInfo from "./Info"
+import moment from "moment"
 
 const Leds = ( ( { a, b, c, type, secondary } ) => type >= 0 ? (
     secondary ? (
@@ -26,16 +28,71 @@ const Leds = ( ( { a, b, c, type, secondary } ) => type >= 0 ? (
 ))
 
 const Page = () => {
-    const [ { sentiment, isLoading } ] = useTrades()
-
+    const [ selectedInterval, setSelectedInterval ] = useState( "day" )
+    const [ selectedDate, setSelectedDate ] = useState( { start: moment().subtract( 1, "day" ), end: moment() } )
+    const [ { sentiment, isLoading }, { getTrades } ] = useTrades( selectedDate )
     if ( isLoading ) {
         return <div>Loading</div>
+    }
+
+    const setDate = ( type ) => {
+        let nextDate
+        if ( selectedInterval === "all" ) {
+            nextDate = { start: moment(0), end: moment() }
+        } else if ( type === "before" ) {
+            nextDate = {
+                start: selectedDate.start.subtract(1, selectedInterval),
+                end: selectedDate.end.subtract(1, selectedInterval),
+            }
+        } else if ( type === "today" ) {
+            nextDate = {
+                start: moment().subtract(1, selectedInterval),
+                end: moment(),
+            }
+        } else if ( type === "after" ) {
+            nextDate = {
+                start: selectedDate.start.add(1, selectedInterval),
+                end: selectedDate.end.add(1, selectedInterval),
+            }
+        }
+        if ( nextDate ) {
+            setSelectedDate( nextDate )
+        }
+    }
+
+    const selectInterval = (i) => {
+        setSelectedInterval( i.target.value )
     }
     
     if ( sentiment ) {
         const percentage = ( sentiment.total.sell / ( sentiment.total.sell + sentiment.total.market ) * 100 ).toFixed( 2 )
         return (
-                <div className="w-100">
+            <div className="w-100">
+                    <Row>
+                        <Col xs={ 3 }>
+                            <Button onClick={ () => setDate( "before" ) }>{ "<" }</Button>
+                            <Button onClick={ () => setDate( "today" ) }>Today</Button>
+                            { console.log(selectedDate.end.diff(moment().add(1, selectedInterval)) > 0)}
+                            <Button disabled={ selectedDate.end.diff(moment().add(1, selectedInterval)) > 0 } onClick={ () => setDate( "after" ) }>{ ">" }</Button>
+                        </Col>
+                        <Col xs={ 3 }>
+                            { selectedDate.start.format("DD-MM-YYYY HH:mm" ) } <br />
+                            { selectedDate.end.format("DD-MM-YYYY HH:mm" ) }
+                        </Col>
+                        <Col xs={ 6 }>
+                            <Form.Select value={ selectedInterval } aria-label="Default select example" onChange={ selectInterval }>
+                                <option value="hour">Hour</option>
+                                <option value="day">Day</option>
+                                <option value="week">Week</option>
+                                <option value="month">Month</option>
+                                <option value="year">Year</option>
+                                <option value="all">All time</option>
+                            </Form.Select>
+                        </Col>
+                    </Row>
+
+                    <hr />
+
                     <div className="d-flex">
                         <div className="w-100">
                             Total orders: {sentiment.total.sell + sentiment.total.market}<br />
@@ -50,24 +107,26 @@ const Page = () => {
                     Sell orders 
                         <Table>
                             <thead>
-                                <th>
-                                    Sentiment
-                                </th>
-                                <th>
-                                    Score
-                                </th>
-                                <th>
-                                    Sell
-                                </th>
-                                <th>
-                                    Market
-                                </th>
-                                <th>
-                                    Total
-                                </th>
-                                <th>
-                                    Percentage
-                                </th>
+                                <tr>
+                                    <th>
+                                        Sentiment
+                                    </th>
+                                    <th>
+                                        Score
+                                    </th>
+                                    <th>
+                                        Sell
+                                    </th>
+                                    <th>
+                                        Market
+                                    </th>
+                                    <th>
+                                        Total
+                                    </th>
+                                    <th>
+                                        Percentage
+                                    </th>
+                                </tr>
                             </thead>
                             <tbody>
                                 { sentiment.types.sort(( a , b ) => (a.sell / a.market || 0) >= (b.sell / b.market || 0) ? -1 : 1).map( ( s, i ) => (
