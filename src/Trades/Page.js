@@ -116,7 +116,7 @@ const Page = () => {
                     <hr />
                     <Container fluid>
                         <Row>
-                                { sentiment.coins.map( ( coin ) => (
+                                { sentiment.coins.sort( ( a, b ) => a.total > b.total ? -1 : 1).map( ( coin ) => (
                                     <TradeInfo symbol={ coin.symbol } sell={ coin.sell } market={ coin.market } />
                                 ) ) }
                         </Row>
