@@ -28,7 +28,7 @@ const useOversold = () => {
     const getOversoldData = async () => {
         try {
             dispatch( { type: actions.LOAD, data: { items: [] } } )
-            const { data } = await axios.get( `${ API?.replace("5000", "5001") }/oversold` )
+            const { data } = await axios.get( `${ API?.replace("5000", "5001") }/oversold`, {withCredentials: true} )
             const { data: trades } = await axios.get( `${ API }/trades` )
             dispatch( { type: actions.SET_DATA, data: { items: data.data, trades: trades.data, updateTime: moment.now() } } )
         } catch ( error: any ) {
