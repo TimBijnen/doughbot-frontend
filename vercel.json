@@ -2,19 +2,19 @@
     "rewrites": [
         {
             "source": "/api/:path*",
-            "destination": "https://api.deontwikkelplaats.nl/api/:path*"
+            "destination": "https://doughbot.eindhovenintelligence.nl/:path*"
         },
         {
             "source": "/api/:path*/",
-            "destination": "https://api.deontwikkelplaats.nl/api/:path*"
+            "destination": "https://doughbot.eindhovenintelligence.nl/api/:path*"
         },
         {
             "source": "/socket.io/:path*",
-            "destination": "https://api.deontwikkelplaats.nl/socket.io/:path*"
+            "destination": "https://doughbot.eindhovenintelligence.nl/socket.io/:path*"
         },
         {
             "source": "/socket.io/:path*/",
-            "destination": "https://api.deontwikkelplaats.nl/socket.io/:path*"
+            "destination": "https://doughbot.eindhovenintelligence.nl/socket.io/:path*"
         }
     ]
 }
