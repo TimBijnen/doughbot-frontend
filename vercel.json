@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/:path*",
-            "destination": "https://doughbot.eindhovenintelligence.nl/:path*"
+            "destination": "https://doughbot.eindhovenintelligence.nl/api/:path*"
         },
         {
             "source": "/api/:path*/",
