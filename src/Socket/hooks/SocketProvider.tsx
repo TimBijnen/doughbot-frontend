@@ -30,7 +30,7 @@ function SocketProvider( { children }: any ) {
     // const [ socket, setSocket ] = useState()
 
     useEffect(() => {
-        const socket = socketIOClient("https://api.deontwikkelplaats.nl/");
+        const socket = socketIOClient();
         socket.on("log", data => {
             const appearance = ['error', 'info', 'success', 'warning'].includes( data.status ) ? data.status : "info"
             addToast(`${data.coin} ${data.details}`, { appearance, autoDismiss: true })

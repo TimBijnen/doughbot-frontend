@@ -2,14 +2,14 @@ import { Container } from "react-bootstrap"
 import useSettings from "./hooks/settings"
 import Setting from "./Setting"
 
-const Settings = ( { setIsTraderActive } ) => {
+const Settings = ( { /*setIsTraderActive*/ } ) => {
     const [ { settings, isLoading }, { updateSetting } ] = useSettings()
     
     // setIsTraderActive(settings.find( ( { key, value } ) => (key === "trader_active" && value) ))
 
     const update = (label, value) => {
         updateSetting(label, value)
-        setIsTraderActive( value )
+        // setIsTraderActive( value )
     }
 
     if ( isLoading ) {
