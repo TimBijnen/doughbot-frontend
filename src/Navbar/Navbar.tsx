@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Container, Navbar } from "react-bootstrap"
+import { Button, Container, Navbar } from "react-bootstrap"
 import Sentiment from "../Sentiment"
 import { useSettings } from "../Settings"
 import { useAuth } from "../Auth"
@@ -18,6 +18,7 @@ const Nav = () => {
                 <Container>
                     <Navbar.Brand>Doughbot</Navbar.Brand>
                     <Timer />
+                    <Button onClick={ () => localStorage.removeItem("user") }>Logout</Button>
                 </Container>
             </Navbar>
             <Sentiment authorized={ !!user } />
