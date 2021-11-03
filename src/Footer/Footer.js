@@ -1,5 +1,5 @@
 import FooterItem from "./Item"
-import { TradesIcon, CoinIcon, LogIcon, WalletIcon, SettingsIcon } from "../Icon"
+import { HomeIcon, TradesIcon, CoinIcon, LogIcon, WalletIcon, SettingsIcon } from "../Icon"
 import { useAuth } from "../Auth"
 
 
@@ -10,6 +10,9 @@ const Footer = () => {
         <footer className="d-flex shadow-lg">
             { user && (
                 <>
+                    <FooterItem link="/">
+                        <HomeIcon />
+                    </FooterItem>
                     <FooterItem link="/oversold">
                         <CoinIcon />
                     </FooterItem>

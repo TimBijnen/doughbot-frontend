@@ -12,7 +12,11 @@ const ItemLine = ( { coin, id, has_trades, bollinger_percentage, should_trade } 
     const [ isShowingTradeModal, setIsShowingTradeModal ] = useState()
     const showConfirm = () => should_trade && setIsShowingTradeModal( !isShowingTradeModal )
     const makeTrade = async () => {
-        const { data } = await axios.post(`${ API }/trades/new`, { coin, candle_id: id})
+        if ( bollinger_percentage / 2 + 0.5 < 1 || bollinger_percentage / 2 + 0.5 > 3) {
+            console.log("Error")
+            return
+        } 
+        const { data } = await axios.post(`${ API }/trades/new`, { coin, candle_id: id, percentage: (bollinger_percentage / 2 + 0.5).toFixed(2) })
         addToast( data.message, { appearance: data.status, autoDismiss: true })
         showConfirm()
     }

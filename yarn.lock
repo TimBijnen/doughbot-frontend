@@ -1624,6 +1624,11 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@openfonts/b612-mono_latin@^1.44.3":
+  version "1.44.3"
+  resolved "https://registry.yarnpkg.com/@openfonts/b612-mono_latin/-/b612-mono_latin-1.44.3.tgz#875de9c9561b628ae06557a2b8ec44d677c053bc"
+  integrity sha512-gzzdWB3EZTpYGieq79U8MhaDMrWRDbGMRHLObtRggDllLZNylIJ8C0DXOWCYsTUnorvd540kBblXorVQpFCGAw==
+
 "@pmmmwh/react-refresh-webpack-plugin@0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.3.tgz#1eec460596d200c0236bf195b078a5d1df89b766"
