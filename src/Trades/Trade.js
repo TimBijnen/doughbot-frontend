@@ -7,27 +7,28 @@ import moment from "moment"
 import TradeOrder from "./Order"
 import PriceIndicator from "./PriceIndicator"
 import { preProcessFile } from "typescript"
+import Chart from "../Chart"
 
-const Trade = () => {
+const Trade = ( props ) => {
     const [ { connected, socket } ] = useSocket()
     const [ isNotified, setIsNotified ] = useState( false )
-    const [ currentState, setCurrentState ] = useState({})
-    
+    // const [ currentState, setCurrentState ] = useState({})
+    const currentState = props
     useEffect( () => {
-        let timer
+        // let timer
         const onNotify = ( data ) => {
-            // if ( data.order_id === t.order_id ) {
-            clearTimeout( timer )
-            setIsNotified( true )
-            console.log(data)
-            setCurrentState(data)
-            timer = setTimeout( () => {
-                setIsNotified( false )
-            }, 600 )
-            // }
+        //     // if ( data.order_id === t.order_id ) {
+        //     clearTimeout( timer )
+            // setIsNotified( true )
+        //     console.log(data)
+            // setCurrentState(data)
+        //     timer = setTimeout( () => {
+        //         setIsNotified( false )
+        //     }, 600 )
+        //     // }
         }
         if ( connected ) {
-            socket.on("notify_client", onNotify )
+            // socket.on("notify_client", onNotify )
             return () => { socket.off( "notify_client" )}
         }
     }, [ connected, socket ])
@@ -39,7 +40,7 @@ const Trade = () => {
     // const nowSecond = now % 60
     const buyPercentage = ( parseFloat(currentState.buy_price / currentState.price_now * 100 - 100 ) || 0 ).toFixed( 4 ) 
     const sellPercentage = ( parseFloat(currentState.price_now / currentState.sell_price * 100 - 100 ) || 0 ).toFixed( 4 ) 
-    const { prices = {} } = currentState
+    const { prices = {}, last_prices = [] } = currentState
     const price_now = prices.n || prices.s
     const price_levels = [
         { 'label': "Break even", 'value': prices.be },
@@ -51,12 +52,21 @@ const Trade = () => {
     return (
         <Container>
             <Row>
+                <Col xs={4}>
+                    <div>Break even price { prices.be }</div>
+                    <div>Amount of buy orders { currentState.b_orders }</div>
+                    <div>buy value { currentState.total_buy_value }</div>
+                    <div>Amount of sell orders { currentState.s_orders }</div>
+                    <div>sell value { currentState.total_sell_value }</div>
+                </Col>
+                <Col xs={8}>
+                    <Chart prices={ last_prices } levels={ price_levels } />
+                </Col>
+            </Row>
+            <Row>
                 <Col xs={12}>
                     <Card>
-                        <Badge>{ currentState.symbol }
-                        
-                        <Led className="d-inline-block" type="info" isOn={ isNotified } title={ "Indicator for trade observer"} />
-                        </Badge>
+                        <Badge>{ currentState.symbol } { moment().format("HH:mm:ss")}</Badge>
                         <Table className="small" style={{ fontFamily: 'var(--bs-font-monospace)' }}>
                             <thead>
                                 <th>Buy price</th>
@@ -82,10 +92,7 @@ const Trade = () => {
                         </Table>
                         <PriceIndicator levels={price_levels} value={ price_now } />
                         
-                        <div>Break even price { prices.be }</div>
-                        <div>Amount of buy orders { currentState.b_orders }</div>
-                        <div>Amount of sell orders { currentState.s_orders }</div>
-                        { (currentState.orders || []).filter((o)=>o.status).map( ( o ) => (
+                        { (currentState.orders || []).filter((o)=>o.status != "IDLE").map( ( o ) => (
                             <TradeOrder { ...o } />
                         ) ) }
                         

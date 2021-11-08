@@ -24,29 +24,7 @@ const TradeItemContainer = styled.div`
 `
 
 const TradeItem = ( t: any ) => {
-    const [ { connected, socket } ] = useSocket()
-    const [ isNotified, setIsNotified ] = useState( false )
-    
-    
-    useEffect( () => {
-        // let timer: any
-        const onNotify = ( data: any ) => {
-            if ( data.order_id === t.order_id ) {
-                // clearTimeout( timer )
-                setIsNotified( true )
-                // timer = setTimeout( () => {
-                //     setIsNotified( false )
-                // }, 600 )
-            }
-        }
-        if ( connected ) {
-            socket.on("notify_client", onNotify )
-            return () => { socket.off( "notify_client" )}
-        }
-    }, [ connected, socket, t.order_id ])
-
     const startTime = moment.utc( t.transactTime )
-    console.log(startTime.format(), t.transactTime)
     const closeTime = t.closed_at ? moment( t.closed_at ) : moment()
     const now = closeTime.diff(startTime, 'seconds')
     const nowMinute = Math.floor(now / 60)
@@ -59,8 +37,8 @@ const TradeItem = ( t: any ) => {
         <TradeItemContainer className="mb-2">
             <TradeItemRow title={ t.order_id }>
                 <Col xs={ { span: t.side === "BUY" ? 5 : 4, offset: t.side === "BUY" ? 0 : 1 } } >
-                    <Led className="d-inline-block" disabled={ cancelled } type="info" isOn={ isNotified } title={ "Indicator for trade observer"} />
-                    { t.side }
+                    <Led className="d-inline-block" disabled={ cancelled } type="info" isOn={ true } title={ "Indicator for trade observer"} />
+                    { t.side } { t.type } 
                 </Col>
                 <Col xs={ 4 }>
                     <Bar market={ t.side === "MARKET" } cancelled={ cancelled } value={ t.executed_qty } target={ t.original_qty} />

@@ -29,7 +29,7 @@ const BarAppend = styled.div`
 `
 
 const Bar = ( { value, target, cancelled, market } ) => {
-    const isFilled = value === target
+    const isFilled = value === target && value > 0
     const type = isFilled ? market ? "warning" : "success" : cancelled ? "danger" : "info"
     let width
     let text

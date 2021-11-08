@@ -1,9 +1,9 @@
-import { Trade } from "../Trades"
+import { Trades } from "../Trades"
 
 const Dashboard = () => {
     return (
         <div className="pt-2">
-            <Trade />
+            <Trades />
         </div>
     )
 }

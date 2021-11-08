@@ -47,7 +47,7 @@ const PriceIndicator = ( { levels, value } ) => {
     
     return (
         <IndicatorBar className="border">
-            { sorted.map( (l) => (
+            { sorted.filter( ( { value } ) => value > 0 ).map( ( l ) => (
                 <Stroke bg={ l.bg } left={getLeft(l.value)}>
                     <StrokeLabel>{ l.label }</StrokeLabel>
                 </Stroke>
