@@ -40,7 +40,7 @@ const Trades = () => {
             <Container>
                 <Row>
                     { trades.map( ([s, t]) => (
-                        <Col xs={12} md={6} lg={4}>
+                        <Col xs={12} md={6} lg={6}>
                             <Trade { ...t } />
                         </Col>
                     ) ) }
