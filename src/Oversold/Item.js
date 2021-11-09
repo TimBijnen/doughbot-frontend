@@ -17,10 +17,10 @@ const ItemLine = ( { coin, id, has_trades, bollinger_percentage, should_trade } 
             return
         } 
         const { data } = await axios.post(`${ API }/trades/new`, { coin, candle_id: id, percentage: bollinger_percentage })
-        const { data: d } = await axios.post(`${ API }/trades/new`, { 'coin': "RUNEBTC", candle_id: id, percentage: bollinger_percentage })
-        await axios.post(`${ API }/trades/new`, { 'coin': "BADGERBTC", candle_id: id, percentage: bollinger_percentage })
+        // const { data: d } = await axios.post(`${ API }/trades/new`, { 'coin': "RUNEBTC", candle_id: id, percentage: bollinger_percentage })
+        // await axios.post(`${ API }/trades/new`, { 'coin': "BADGERBTC", candle_id: id, percentage: bollinger_percentage })
         addToast( data.message, { appearance: data.status, autoDismiss: true })
-        addToast( d.message, { appearance: d.status, autoDismiss: true })
+        // addToast( d.message, { appearance: d.status, autoDismiss: true })
         showConfirm()
     }
 
