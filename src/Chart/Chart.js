@@ -14,7 +14,7 @@ const ChartComponent = ( { prices, levels } ) => {
             },
             ...lines
         ],
-        [priceData]
+        [priceData, lines]
     )
  
     const axes = React.useMemo(

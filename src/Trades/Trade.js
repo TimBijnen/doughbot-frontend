@@ -1,37 +1,13 @@
 import { Container, Card, Row, Col, Badge, Table } from "react-bootstrap"
-import { useState, useEffect } from "react"
-import { useSocket } from "../Socket"
-import { Bar, Led } from "../Icon"
-import styled from "styled-components"
 import moment from "moment"
 import TradeOrder from "./Order"
 import PriceIndicator from "./PriceIndicator"
-import { preProcessFile } from "typescript"
 import Chart from "../Chart"
 
 const Trade = ( props ) => {
-    const [ { connected, socket } ] = useSocket()
-    const [ isNotified, setIsNotified ] = useState( false )
     // const [ currentState, setCurrentState ] = useState({})
     const currentState = props
-    useEffect( () => {
-        // let timer
-        const onNotify = ( data ) => {
-        //     // if ( data.order_id === t.order_id ) {
-        //     clearTimeout( timer )
-            // setIsNotified( true )
-        //     console.log(data)
-            // setCurrentState(data)
-        //     timer = setTimeout( () => {
-        //         setIsNotified( false )
-        //     }, 600 )
-        //     // }
-        }
-        if ( connected ) {
-            // socket.on("notify_client", onNotify )
-            return () => { socket.off( "notify_client" )}
-        }
-    }, [ connected, socket ])
+    
 
     // const startTime = moment( t.created_at )
     // const closeTime = t.closed_at ? moment( t.closed_at ) : moment()
@@ -92,7 +68,7 @@ const Trade = ( props ) => {
                         </Table>
                         <PriceIndicator levels={price_levels} value={ price_now } />
                         
-                        { (currentState.orders || []).filter((o)=>o.status != "IDLE").map( ( o ) => (
+                        { (currentState.orders || []).filter((o)=>o.status !== "IDLE").map( ( o ) => (
                             <TradeOrder { ...o } />
                         ) ) }
                         

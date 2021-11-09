@@ -1,6 +1,4 @@
 import { Row, Col } from "react-bootstrap"
-import { useState, useEffect } from "react"
-import { useSocket } from "../Socket"
 import { Bar, Led } from "../Icon"
 import styled from "styled-components"
 import moment from "moment"

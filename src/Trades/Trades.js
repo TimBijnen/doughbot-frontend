@@ -1,18 +1,11 @@
-import { Container, Card, Row, Col, Badge, Table } from "react-bootstrap"
+import { Container, Row, Col } from "react-bootstrap"
 import { useState, useEffect } from "react"
 import { useSocket } from "../Socket"
 import Trade from "./Trade"
-import styled from "styled-components"
-import moment from "moment"
-import TradeOrder from "./Order"
-import PriceIndicator from "./PriceIndicator"
-import { preProcessFile } from "typescript"
-import Chart from "../Chart"
 
 const Trades = () => {
 
     const [ { connected, socket } ] = useSocket()
-    const [ isNotified, setIsNotified ] = useState( false )
     const [ currentState, setCurrentState ] = useState({})
     useEffect( () => {
         // let timer

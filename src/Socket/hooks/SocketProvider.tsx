@@ -32,7 +32,7 @@ function SocketProvider( { children }: any ) {
     useEffect(() => {
         const socket = socketIOClient();
         socket.on("log", data => {
-            const appearance = ['error', 'info', 'success', 'warning'].includes( data.status ) ? data.status : "info"
+            // const appearance = ['error', 'info', 'success', 'warning'].includes( data.status ) ? data.status : "info"
             // addToast(`${data.coin} ${data.details}`, { appearance, autoDismiss: true })
         });
         socket.on("connect", () => {
