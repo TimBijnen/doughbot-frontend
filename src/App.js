@@ -11,6 +11,7 @@ import { ToastProvider } from "react-toast-notifications";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Audio from "./Audio"
 import Settings from "./Settings"
+import Sirb from "./Sirb"
 
 const appStyle = {
     display: "grid",
@@ -40,6 +41,7 @@ const App = () => {
                                     <Route exact path="/" component={ Dashboard } />
                                     <Route exact path="/wallet" component={ Wallet } />
                                     <Route exact path="/oversold" component={ Oversold } />
+                                    <Route exact path="/sirb" component={ Sirb } />
                                     <Route exact path="/log" component={ Log } />
                                     <Route exact path="/trades" component={ Trades } />
                                     <Route exact path="/settings" component={ Settings } />

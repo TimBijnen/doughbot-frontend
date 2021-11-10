@@ -7,33 +7,31 @@ const Trades = () => {
 
     const [ { connected, socket } ] = useSocket()
     const [ currentState, setCurrentState ] = useState({})
+    const [ execution, setExecution ] = useState({})
     useEffect( () => {
-        // let timer
         const onNotify = ( data ) => {
-        //     // if ( data.order_id === t.order_id ) {
-        //     clearTimeout( timer )
-            // setIsNotified( true )
-        //     console.log(data)
             setCurrentState( { ...currentState, [ data.symbol ]: data } )
-        //     timer = setTimeout( () => {
-        //         setIsNotified( false )
-        //     }, 600 )
-        //     // }
         }
+        // const onExecute = ( data ) => {
+        //     setExecution( { ...execution, [ data.symbol ]: data.details } )
+        // }
+
         if ( connected ) {
             socket.on("notify_client", onNotify )
+            // socket.on("did_execute_client", onExecute )
             return () => { socket.off( "notify_client" )}
         }
     } )
 
     const trades = Object.entries( currentState )
+    // const executions = Object.entries( execution )
     // debugger
     return (
         <>
             <Container>
                 <Row>
                     { trades.map( ([s, t]) => (
-                        <Col xs={12} md={6} lg={6}>
+                        <Col xs={12}>
                             <Trade { ...t } />
                         </Col>
                     ) ) }

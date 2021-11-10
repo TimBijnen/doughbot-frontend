@@ -3,14 +3,14 @@ import moment from "moment"
 import TradeOrder from "./Order"
 import PriceIndicator from "./PriceIndicator"
 import Chart from "../Chart"
-
+import TradeLog from './Log'
 const Trade = ( props ) => {
     // const [ currentState, setCurrentState ] = useState({})
     const currentState = props
     
 
-    // const startTime = moment( t.created_at )
-    // const closeTime = t.closed_at ? moment( t.closed_at ) : moment()
+    const startTime = moment.unix( currentState.start_time / 1000 )
+    const closeTime = currentState.closed_at ? moment( currentState.closed_at ) : moment()
     // const now = closeTime.diff(startTime, 'seconds')
     // const nowMinute = Math.floor(now / 60)
     // const nowSecond = now % 60
@@ -29,6 +29,7 @@ const Trade = ( props ) => {
         <Container>
             <Row>
                 <Col xs={4}>
+                    <div>{startTime.format("HH:mm:ss")} {closeTime.format("HH:mm:ss")}</div>
                     <div>Break even price { prices.be }</div>
                     <div>Amount of buy orders { currentState.b_orders }</div>
                     <div>buy value { currentState.total_buy_value }</div>
@@ -40,9 +41,12 @@ const Trade = ( props ) => {
                 </Col>
             </Row>
             <Row>
-                <Col xs={12}>
+                <Col xs={4}>
+                    <TradeLog symbol={ currentState.symbol } />
+                </Col>
+                <Col xs={8}>
                     <Card>
-                        <Badge>{ currentState.symbol } { moment().format("HH:mm:ss")}</Badge>
+                        <Badge bg={currentState.total_bought_coins === currentState.total_sold_coins ? "success" : "info"}>{ currentState.symbol } { moment().format("HH:mm:ss")}</Badge>
                         <Table className="small" style={{ fontFamily: 'var(--bs-font-monospace)' }}>
                             <thead>
                                 <th>Buy price</th>
@@ -68,7 +72,7 @@ const Trade = ( props ) => {
                         </Table>
                         <PriceIndicator levels={price_levels} value={ price_now } />
                         
-                        { (currentState.orders || []).filter((o)=>o.status !== "IDLE").map( ( o ) => (
+                        { (currentState.orders || []).filter((o)=>o.status !== "IDLE").sort( ( a, b ) => a.transactTime > b.transactTime ? 1 : -1).map( ( o ) => (
                             <TradeOrder { ...o } />
                         ) ) }
                         

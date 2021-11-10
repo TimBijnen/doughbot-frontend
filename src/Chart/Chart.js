@@ -3,7 +3,7 @@ import { Chart } from 'react-charts'
  
 const createChartLine = ( data ) => data.map( ( d, i ) => [ i, d ] )
 
-const ChartComponent = ( { prices, levels } ) => {
+const ChartComponent = ( { prices=[], levels=[], height=200 } ) => {
     const priceData = createChartLine( prices )
     const lines = levels.filter( ( d ) => d.value > 0 ).map( ( d ) => ( { ...d, data: [ [ 0, d.value ], [ 29, d.value] ] } ) )
     const data = React.useMemo(
@@ -26,7 +26,7 @@ const ChartComponent = ( { prices, levels } ) => {
     )
  
     return (
-        <div style={{height: 200}}>
+        <div style={{height: height}}>
             <Chart data={data} axes={axes} />
         </div>
     )

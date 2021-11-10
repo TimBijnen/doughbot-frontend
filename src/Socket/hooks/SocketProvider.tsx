@@ -31,10 +31,6 @@ function SocketProvider( { children }: any ) {
 
     useEffect(() => {
         const socket = socketIOClient();
-        socket.on("log", data => {
-            // const appearance = ['error', 'info', 'success', 'warning'].includes( data.status ) ? data.status : "info"
-            // addToast(`${data.coin} ${data.details}`, { appearance, autoDismiss: true })
-        });
         socket.on("connect", () => {
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
         });

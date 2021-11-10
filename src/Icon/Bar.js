@@ -41,14 +41,14 @@ const Bar = ( { value, target, cancelled, market } ) => {
         width = 100
     } else {
         width = value / target * 100
-        text = `${ value || 0 } / ${ target } (${parseInt(value / target * 100, 10)}%)`
+        text = `${ (value || 0) } / ${ target } (${parseInt(value / target * 100, 2)}%)`
     }
 
     return (
         <Container className="d-flex h-100">
             <BarContainer type={ type }>
                 <BarInner className="d-flex" width={ width } type={ type }>
-                    <div className="m-auto">
+                    <div className="m-auto small">
                         { text}
                     </div>
                 </BarInner>

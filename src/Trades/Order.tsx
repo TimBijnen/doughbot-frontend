@@ -46,7 +46,6 @@ const TradeItem = ( t: any ) => {
                         { t.closed_at ? (
                             <span className="text-black-50">
                                 { nowMinute }m{ nowSecond }s<br />
-                                
                             </span>
                         ) : (
                             <>
