@@ -4,7 +4,7 @@ import { useSocket } from "../Socket"
 import Asset from '../Asset'
 import moment from "moment"
 import { ChartSirb } from "../Chart"
-
+import { BinanceChart } from "../Chart"
 
 const Assets = ( { symbol } ) => {
     const [ { connected, socket } ] = useSocket()
@@ -20,21 +20,29 @@ const Assets = ( { symbol } ) => {
             return () => { socket.off( "sirb_client" )}
         }
     }, [ onSirb ] )
-
+    const avg = Object.entries( data ).reduce( ( b, [ k, v ] ) => b + v.avg_value, 0) / Object.entries( data ).length
+    const levels = [
+        {'value': avg * 0.98},
+        {'value': avg},
+        {'value': avg * 1.02},
+    ]
+    const sorted = Object.entries( data ).sort( ( [ ka, va ], [ kb, vb ] ) => va.avg_value < vb.avg_value ? 1 : -1 )
+    if ( sorted.length < 1 ) {
+        return null
+    }
+    const assets = sorted.map( ( [ k, v ] ) => v.asset )
     return (
-        <Col xs={ 12 }>
-                
-            { Object.entries( data ).sort( ( [ _, av ], [ x, bv ] ) => av.avg_value > bv.avg_value ? -1 : 1).map( ( [ k, v ] ) => (
-                <Row>
-                    <Col xs={ 2 }>
-                        <Asset { ...v } />
-                    </Col>
-                    <Col xs={8}>
-                        <ChartSirb height={100} nextPrice={ v.avg_value } levels={ [] }/>
-                    </Col>        
-                </Row>
-            ) ) }
-        </Col>        
+        <>
+            <Col xs={ 2 }>
+                { sorted.map( ( [ k, v ] ) => (
+                    <Asset key={ k } { ...v } />
+                ) ) }
+            </Col>        
+            <Col xs={9}>
+                <BinanceChart tickers={ assets } />
+                <ChartSirb assets={ sorted } />
+            </Col>
+        </>
     )
 }
 

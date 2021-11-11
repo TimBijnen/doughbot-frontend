@@ -4,28 +4,25 @@ import { useSocket } from "../Socket"
 import Trade from "./Trade"
 
 const Trades = () => {
-
     const [ { connected, socket } ] = useSocket()
     const [ currentState, setCurrentState ] = useState({})
-    const [ execution, setExecution ] = useState({})
     useEffect( () => {
         const onNotify = ( data ) => {
-            setCurrentState( { ...currentState, [ data.symbol ]: data } )
+            if ( data.module === 'doughbot_simulator' ) {
+                
+            } else {
+                setCurrentState( { [ data.symbol ]: data } )
+            }
         }
-        // const onExecute = ( data ) => {
-        //     setExecution( { ...execution, [ data.symbol ]: data.details } )
-        // }
 
         if ( connected ) {
             socket.on("notify_client", onNotify )
-            // socket.on("did_execute_client", onExecute )
             return () => { socket.off( "notify_client" )}
         }
     } )
 
     const trades = Object.entries( currentState )
-    // const executions = Object.entries( execution )
-    // debugger
+
     return (
         <>
             <Container>

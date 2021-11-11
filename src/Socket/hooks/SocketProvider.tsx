@@ -22,21 +22,21 @@ const reducer = ( state: any, { type, data }: any ) => {
 }
 
 const SocketContext = createContext<any|undefined>( undefined )
+const socket = socketIOClient();
 
 function SocketProvider( { children }: any ) {
     const [ state, dispatch ] = useReducer( reducer, initialReducerState )
     const value = { state, dispatch }
-    const { addToast } = useToasts()
+    // const { addToast } = useToasts()
     // const [ socket, setSocket ] = useState()
 
     useEffect(() => {
-        const socket = socketIOClient();
         socket.on("connect", () => {
+            console.log("notify")
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
         });
-        // setSocket( socket )
         return () => { socket.disconnect() }
-    }, [ addToast ]);
+    }, [  ]);
 
 
 

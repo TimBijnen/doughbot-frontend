@@ -18,15 +18,15 @@ const Log = ( { symbol } ) => {
             // }
             let nextLog = {}
             let nextEntry = data
-            if ( lastEntry.details == data.details ) {
-                amount = 3
-                // nextEntry = { ...log[ lastEntry.time ][ 0 ], amount }
-                nextLog = { ...log, [ lastEntry.time ]: [ { ...log[ lastEntry.time ][ 0 ], amount } ] }
-            } else {
+            // if ( lastEntry.details == data.details ) {
+            //     amount = 3
+            //     // nextEntry = { ...log[ lastEntry.time ][ 0 ], amount }
+            //     nextLog = { ...log, [ lastEntry.time ]: [ { ...log[ lastEntry.time ][ 0 ], amount } ] }
+            // } else {
                 nextEntry = { ...data, time }
                 setLastEntry( nextEntry )
                 nextLog = { ...log, [ time ]: [ data, ...( log[ time ] || [ { amount: 1 } ] ) ] }
-            }
+            // }
             if ( nextEntry.details === "Stop" ) {
                 setLog( {} )
             }
@@ -41,7 +41,7 @@ const Log = ( { symbol } ) => {
     }, [ onExecute ] )
 
     return (
-        <>
+        <div style={{maxHeight: 400, overflow: 'scroll'}}>
             { Object.entries( log ).sort( ( [ta], [tb] ) => ta > tb ? -1 : 1 ).map( ( [ t, l ], i ) => (
                 <div className="small">
                     <div><Badge>{ moment.unix( t ).format( "HH:mm:ss" ) }</Badge></div>
@@ -50,7 +50,7 @@ const Log = ( { symbol } ) => {
                     ) ) ) }
                 </div>
             ) ) }
-        </>
+        </div>
     )
 }
 

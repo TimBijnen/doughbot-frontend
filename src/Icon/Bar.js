@@ -26,6 +26,9 @@ const BarInner = styled.div`
 const BarAppend = styled.div`
     min-width: 40px;
     text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `
 
 const Bar = ( { value, target, cancelled, market } ) => {

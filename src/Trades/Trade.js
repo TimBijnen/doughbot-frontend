@@ -4,6 +4,9 @@ import TradeOrder from "./Order"
 import PriceIndicator from "./PriceIndicator"
 import Chart from "../Chart"
 import TradeLog from './Log'
+import TradeActions from "./Actions"
+
+
 const Trade = ( props ) => {
     // const [ currentState, setCurrentState ] = useState({})
     const currentState = props
@@ -26,7 +29,9 @@ const Trade = ( props ) => {
         { 'label': "Sell", 'value': prices.s, bg: 'success' },
     ]
     return (
+                    <Card>
         <Container>
+<TradeActions prices={ currentState.prices } />
             <Row>
                 <Col xs={4}>
                     <div>{startTime.format("HH:mm:ss")} {closeTime.format("HH:mm:ss")}</div>
@@ -37,6 +42,20 @@ const Trade = ( props ) => {
                     <div>sell value { currentState.total_sell_value }</div>
                 </Col>
                 <Col xs={8}>
+                    <div className="d-flex">
+                        <div className="me-2">
+                            <Badge bg={currentState.total_bought_coins === currentState.total_sold_coins ? "success" : "info"}>{ currentState.symbol } { moment().format("HH:mm:ss")}</Badge>
+                        </div>
+                        <div className="small w-100">
+                            { `Buy: ${ prices.b || 0 }`}
+                            { ' ' }
+                            { `Sell: ${ prices.s || 0 }`}
+                        </div>
+                        <div className="float-end text-nowrap">
+                            <Badge variant={ 'outline' } bg={ currentState.buy_active ? "success" : "secondary" }>BUY</Badge>
+                            <Badge bg={ currentState.sell_active ? "success" : "secondary" }>SELL</Badge>
+                        </div>
+                    </div>
                     <Chart prices={ last_prices } levels={ price_levels } />
                 </Col>
             </Row>
@@ -45,41 +64,16 @@ const Trade = ( props ) => {
                     <TradeLog symbol={ currentState.symbol } />
                 </Col>
                 <Col xs={8}>
-                    <Card>
-                        <Badge bg={currentState.total_bought_coins === currentState.total_sold_coins ? "success" : "info"}>{ currentState.symbol } { moment().format("HH:mm:ss")}</Badge>
-                        <Table className="small" style={{ fontFamily: 'var(--bs-font-monospace)' }}>
-                            <thead>
-                                <th>Buy price</th>
-                                {/* <th>Diff</th> */}
-                                <th className="text-center">Current price</th>
-                                {/* <th>Diff</th> */}
-                                <th>Sell price</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="text-end">
-                                        <div><span className="float-start">₿</span>{ prices.b || 0 }</div>
-                                        <div><span className="float-start">%</span>{ buyPercentage || 0 }</div>
-                                    </td>
-                                    {/* <td></td> */}
-                                    <td className="text-center">{ price_now }</td>
-                                    <td className="text-start">
-                                        <div>{ prices.s }<span className="float-end">₿</span></div>
-                                        <div>{ sellPercentage }<span className="float-end">%</span></div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </Table>
                         <PriceIndicator levels={price_levels} value={ price_now } />
                         
                         { (currentState.orders || []).filter((o)=>o.status !== "IDLE").sort( ( a, b ) => a.transactTime > b.transactTime ? 1 : -1).map( ( o ) => (
                             <TradeOrder { ...o } />
                         ) ) }
                         
-                    </Card>
                 </Col>
             </Row>
         </Container>
+                    </Card>
     )
 }
 

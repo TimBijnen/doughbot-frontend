@@ -12,6 +12,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Audio from "./Audio"
 import Settings from "./Settings"
 import Sirb from "./Sirb"
+import Simulations from "./Simulations"
+
 
 const appStyle = {
     display: "grid",
@@ -45,6 +47,7 @@ const App = () => {
                                     <Route exact path="/log" component={ Log } />
                                     <Route exact path="/trades" component={ Trades } />
                                     <Route exact path="/settings" component={ Settings } />
+                                    <Route path="/simulations" component={ Simulations } />
                                 </div>
                             <Footer />
                         </Router>

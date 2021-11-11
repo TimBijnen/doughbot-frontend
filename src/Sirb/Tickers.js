@@ -7,7 +7,7 @@ const Sirb = ( { symbol } ) => {
     const [ { connected, socket } ] = useSocket()
     const [ data, setData ] = useState( {} )
     const onSirbTicker = ( d ) => {
-        setData( { ...data, [d.symbol]: d } )
+        setData( { ...data, [ d.symbol ]: d } )
     }
     useEffect( () => {
         if ( connected ) {

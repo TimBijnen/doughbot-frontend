@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useSocket } from "../Socket"
 import Tickers from "./Tickers"
 import Assets from "./Assets"
+import { BinanceChart } from "../Chart"
 
 const Sirb = ( { symbol } ) => {
     const [ { connected, socket } ] = useSocket()
@@ -18,11 +19,17 @@ const Sirb = ( { symbol } ) => {
         }
     }, [ onSirb ] )
 
+
     return (
         <>
             <Tickers />
             <hr />
-            <Assets />
+            <Container fluid>
+                <Row>
+                    <Assets />
+                </Row>
+
+            </Container>
         </>
     )
 }

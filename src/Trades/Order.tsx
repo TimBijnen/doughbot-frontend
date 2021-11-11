@@ -22,8 +22,8 @@ const TradeItemContainer = styled.div`
 `
 
 const TradeItem = ( t: any ) => {
-    const startTime = moment.utc( t.transactTime )
-    const closeTime = t.closed_at ? moment( t.closed_at ) : moment()
+    const startTime = moment.unix( t.transactTime / 1000 )
+    const closeTime = t.closed_at ? moment.unix( t.closed_at ) : moment()
     const now = closeTime.diff(startTime, 'seconds')
     const nowMinute = Math.floor(now / 60)
     const nowSecond = now % 60
@@ -32,13 +32,12 @@ const TradeItem = ( t: any ) => {
     const textClass = nowMinute >= timeValue ? "danger" : nowMinute >= timeValue / 1.5 ? "warning" : "success"
     const cancelled = t.status === "CANCELLED"
     return (
-        <TradeItemContainer className="mb-2">
+        <TradeItemContainer className="mb-2 small">
             <TradeItemRow title={ t.order_id }>
-                <Col xs={ { span: t.side === "BUY" ? 5 : 4, offset: t.side === "BUY" ? 0 : 1 } } >
-                    <Led className="d-inline-block" disabled={ cancelled } type="info" isOn={ true } title={ "Indicator for trade observer"} />
-                    { t.side } { t.type } 
+                <Col xs={ 2 } >
+                    { t.side } { t.type }
                 </Col>
-                <Col xs={ 4 }>
+                <Col xs={ 7 }>
                     <Bar market={ t.side === "MARKET" } cancelled={ cancelled } value={ t.executed_qty } target={ t.original_qty} />
                 </Col>
                 <Col xs={ 3 }>
