@@ -1,4 +1,4 @@
-import { Card, Badge } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import styled from "styled-components"
 
 const AssetName = styled.div`

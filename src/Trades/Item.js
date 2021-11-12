@@ -23,14 +23,14 @@ const TradeItemContainer = styled.div`
     }
 `
 
-const TradeItem = ( t: any ) => {
+const TradeItem = ( t ) => {
     const [ { connected, socket } ] = useSocket()
     const [ isNotified, setIsNotified ] = useState( false )
     
     
     useEffect( () => {
-        let timer: any
-        const onNotify = ( data: any ) => {
+        let timer
+        const onNotify = ( data ) => {
             if ( data.order_id === t.order_id ) {
                 clearTimeout( timer )
                 setIsNotified( true )

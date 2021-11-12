@@ -1,28 +1,17 @@
-import { useState, useEffect } from "react";
-import TradeViewChart from "react-crypto-chart";
-import styled from "styled-components"
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios"
 import Chart from "../Chart";
 import { Button } from "react-bootstrap";
-const TradeViewContainer = styled.div`
-.container {
-    height: 200px
-}
-`
+
 const SirbSimulator = () => {
     const [ focussed, setFocussed ] = useState( [] )
     const [ compared, setCompared ] = useState( [] )
     const [ tickers, setTickers ] = useState( [] )
     const [ loading, setLoading ] = useState( 0 )
     const [ currentTicker, setCurrentTicker ] = useState()
-    const loadTickers = async () => {
-        // debugger
-        setLoading( true )
-        const { data } = await axios.get(`https://api.binance.com/api/v3/ticker/bookTicker`)
-        setTickers( data.map( ( d ) => d.symbol ).filter( d => d.endsWith( "BTC") ) )
-        setLoading( false )
-    }
-    const loadFocussed = async (symbol) => {
+    // const 
+    const [ toggle, setToggle ] = useState()
+    const loadFocussed = useCallback( async (symbol) => {
         if ( !symbol || loading ) {
             return
         }
@@ -30,8 +19,16 @@ const SirbSimulator = () => {
         const { data } = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${ symbol }&interval=1m`)
         setFocussed( data.map( ( d ) => [ d[ 0 ], d[ 4 ] ] ) )
         setLoading( false )
-    }
-    const loadCompared = async (symbol) => {
+    }, [ loading ])
+    const loadTickers = useCallback( async () => {
+        // debugger
+        setLoading( true )
+        const { data } = await axios.get(`https://api.binance.com/api/v3/ticker/bookTicker`)
+        setTickers( data.map( ( d ) => d.symbol ).filter( d => d.endsWith( "BTC") ) )
+        setLoading( false )
+        // loadFocussed()
+    }, [  ])
+    const loadCompared = useCallback( async (symbol) => {
         if ( !symbol || loading ) {
             return
         }
@@ -39,25 +36,30 @@ const SirbSimulator = () => {
         const { data } = await axios.get(`https://api.binance.com/api/v3/klines?symbol=${ symbol }&interval=1m`)
         setCompared( data.map( ( d ) => [ d[ 0 ], d[ 4 ] ] ) )
         setLoading( false )
-    }
+    }, [ loading ])
+
     useEffect( () => {
-        if ( !loading && tickers.length == 0 ) {
-            loadFocussed( "BTCUSDT" )
-            loadTickers( "USDT")
+        if ( !loading && tickers.length === 0 ) {
+            loadTickers()
+            
         }
         return () => {} 
-    }, [ tickers ] )
-    useEffect( () => {
-        loadNext()
-    }, [ tickers ] )
-    const loadNext = () => {
-        const ticker = tickers.pop()
-        // loadFocussed( "BTCUSDT" )
-        if ( ticker ) {
-            loadCompared( ticker )
-            setCurrentTicker( ticker )
+    }, [ tickers, loading, loadTickers ] )
+    const loadNext = useCallback(() => {
+        let nt = tickers[ Math.round(Math.random() * tickers.length) - 1 || 0 ]
+        while ( nt === currentTicker ) {
+            nt = tickers[ Math.round(Math.random() * tickers.length) - 1 ]
         }
-    }
+        if ( nt ) {
+            if ( toggle ) {
+                loadFocussed( nt )
+            } else {
+                loadCompared( nt )
+            }
+            setToggle( !toggle )
+            setCurrentTicker( nt )
+        }
+    }, [ toggle, currentTicker, tickers, loadFocussed, loadCompared ])
     if ( compared.length === 0 || focussed.length === 0 ) {
         return <Button onClick={ loadNext }>Start</Button>
     }
@@ -87,19 +89,24 @@ const SirbSimulator = () => {
         diff[ f[ 0 ] ] = { ...diff[ f[ 0 ] ], compared: f[ 1 ] }
     } )
     let first
-    let signals
+    let signals = true
+    const _diff_f = []
+    const _diff_c = []
     const _diff = Object.entries( diff ).map( ( [ k, v ] ) => {
         if ( !first ) {
             first = k
         }
         if ( v.focussed && v.compared ) {
-            // const _v = v.focussed / f_high - 1
-            const _v = v.compared / c_high - 1
-            // const _v = v.compared / c_high - v.focussed / f_high
+            const _vf = v.focussed / f_high - 1
+            const _vc = v.compared / c_high - 1
+            const _v = (_vf + _vc)/2
+            _diff_f.push( [ k - first, _vf ] )
+            _diff_c.push( [ k - first, _vc ] )
             // console.log()
             signals = signals || _v < -0.2 || _v > 0.2
             return [ k - first, _v ]
         }
+        return null
     } ).filter( ( a ) => a )
     if ( signals && tickers.length > 0 ) {
         console.log(currentTicker)
@@ -115,7 +122,7 @@ const SirbSimulator = () => {
             </h4>
             { compared && signals && (
             <>
-            <Chart zeroLine data={ _diff } />
+            <Chart zeroLine datas={ [_diff, _diff_f, _diff_c] } />
             { signals && "!!"}
             <Chart data={ compared.map( ( ( [ k, v ] ) => [k - compared[ 0 ][ 0 ], v ] ) ) } />
                 </>

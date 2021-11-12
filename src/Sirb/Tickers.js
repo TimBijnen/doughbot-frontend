@@ -1,20 +1,18 @@
-import { Badge, Container, Row, Col } from "react-bootstrap"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useSocket } from "../Socket"
-import moment from "moment"
 
 const Sirb = ( { symbol } ) => {
     const [ { connected, socket } ] = useSocket()
     const [ data, setData ] = useState( {} )
-    const onSirbTicker = ( d ) => {
-        setData( { ...data, [ d.symbol ]: d } )
-    }
+    const onSirbTicker = useCallback( ( d ) => {
+        setData( ( _data ) => ( { ..._data, [ d.symbol ]: d } ) )
+    }, [ setData ] )
     useEffect( () => {
         if ( connected ) {
             socket.on("sirb_ticker_client", onSirbTicker )
             return () => { socket.off( "sirb_ticker_client" )}
         }
-    }, [ onSirbTicker ] )
+    }, [ onSirbTicker, connected, socket ] )
 
     return (
         <div className="d-flex small">

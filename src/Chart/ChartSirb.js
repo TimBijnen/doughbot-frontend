@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Chart } from 'react-charts'
 import moment from 'moment'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 
-const Overlay = styled.div`
-position: absolute;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-opacity: 0.1;
-`
+// const Overlay = styled.div`
+// position: absolute;
+// left: 50%;
+// top: 50%;
+// transform: translate(-50%, -50%);
+// opacity: 0.1;
+// `
 
 const getCorrectedIndex = ( i, data ) => i + ( 120 - data.length )
 const createChartLine = ( data=[], b=[] ) => [
@@ -19,10 +19,10 @@ const createChartLine = ( data=[], b=[] ) => [
 ]
 
 const ChartComponent = ( { assets=[], closed=false, nextPrice=null, prices=[], levels=[], height=200 } ) => {
-    const [ closedPrices, setClosedPrices ] = useState([])
-    const [ _prices, _setPrices ] = useState( prices )
+    const [ closedPrices ] = useState([])
+    const [ _prices ] = useState( prices )
     // const [ _nextPrice, setNextPrice ] = useState( nextPrice )
-    const [ previousMinute, setPreviousMinute ] = useState()
+    // const [ previousMinute ] = useState()
     const [ assetPrices, setAssetPrices ] = useState( {} )
     // useEffect(() => {
     //     const minute = parseInt(moment().unix() / 30, 10) * 30
@@ -48,22 +48,22 @@ const ChartComponent = ( { assets=[], closed=false, nextPrice=null, prices=[], l
                 if ( _assets[ a.asset ][ 0 ]?.avg_value !== a.avg_value ) {
                     const timestamp = moment().unix()
                     const e = _assets[ a.asset ].length - 1
-                    const s = e >= 30 ? e - 30 : 0
+                    // const s = e >= 30 ? e - 30 : 0
                     const na = e < 30 ? _assets[ a.asset ] : [..._assets[ a.asset ].slice( 1, 29 )]
                     _assets[ a.asset ] = [ ...na, { ...a, timestamp } ]
                 }
             } )
             setAssetPrices( () => _assets )
         }
-    }, [ assets, previousMinute ] )
+    }, [ assets, assetPrices ] )
     const priceData = createChartLine( closedPrices, _prices )
     let pd = {}
     priceData.forEach( _pd => pd[ _pd.asset ] = [ ...( pd[ _pd.asset ] || [] ), _pd ])
-    const lines = levels.filter( ( d ) => d.value > 0 ).map( ( d ) => ( { ...d, data: [ [ 0, d.value ], [ closedPrices.length + 1, d.value] ] } ) )
+    // const lines = levels.filter( ( d ) => d.value > 0 ).map( ( d ) => ( { ...d, data: [ [ 0, d.value ], [ closedPrices.length + 1, d.value] ] } ) )
     console.log(assetPrices)
     const data = React.useMemo(
         () => Object.entries( assetPrices ).map( ( [ k, v ] ) => ( { label: k, data: v.map( ( { avg_value }, i ) => [ i, avg_value ] ) } ) ),
-        [assetPrices, lines]
+        [assetPrices]
     )
  
     const axes = React.useMemo(

@@ -3,8 +3,8 @@ import { Chart } from 'react-charts'
  
 const createChartLine = ( data ) => data.map( ( d, i ) => [ i, d ] )
 
-const ChartComponent = ( { zeroLine, prices=[], levels=[], height=200, data } ) => {
-    const priceData = data || createChartLine( prices )
+const ChartComponent = ( { zeroLine, prices=[], levels=[], height=200, data, datas=[] } ) => {
+    const priceData = datas[ 0 ] || data || createChartLine( prices )
     const lines = levels.filter( ( d ) => d.value > 0 ).map( ( d ) => ( { ...d, data: [ [ 0, d.value ], [ 29, d.value] ] } ) )
     const zline = React.useMemo( () => {
         if ( zeroLine ) {
@@ -35,22 +35,22 @@ const ChartComponent = ( { zeroLine, prices=[], levels=[], height=200, data } ) 
         () => [
             {
                 label: 'Price',
-                data: priceData
+                data: datas[ 0 ] || priceData
+            },
+            {
+                label: 'Price',
+                data: datas[ 1 ] || priceData
+            },
+            {
+                label: 'Price',
+                data: datas[ 2 ] || priceData
             },
             ...lines,
             ...zline,
         ],
-        [priceData, lines, zline]
+        [priceData, lines, zline, datas]
     )
-    // const x = React.useMemo(
-    //     () => [
-    //         { label: "", data: focussed },
-    //         { data: compared },
-    //         { data: diff }
-    //     ],
-    //     [ focussed, compared, diff]
-    // )
- 
+  
     const axes = React.useMemo(
         () => [
             { primary: true, type: 'linear', position: 'bottom' },

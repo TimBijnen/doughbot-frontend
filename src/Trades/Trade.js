@@ -1,4 +1,4 @@
-import { Container, Card, Row, Col, Badge, Table } from "react-bootstrap"
+import { Container, Card, Row, Col, Badge } from "react-bootstrap"
 import moment from "moment"
 import TradeOrder from "./Order"
 import PriceIndicator from "./PriceIndicator"
@@ -17,8 +17,8 @@ const Trade = ( props ) => {
     // const now = closeTime.diff(startTime, 'seconds')
     // const nowMinute = Math.floor(now / 60)
     // const nowSecond = now % 60
-    const buyPercentage = ( parseFloat(currentState.buy_price / currentState.price_now * 100 - 100 ) || 0 ).toFixed( 4 ) 
-    const sellPercentage = ( parseFloat(currentState.price_now / currentState.sell_price * 100 - 100 ) || 0 ).toFixed( 4 ) 
+    // const buyPercentage = ( parseFloat(currentState.buy_price / currentState.price_now * 100 - 100 ) || 0 ).toFixed( 4 ) 
+    // const sellPercentage = ( parseFloat(currentState.price_now / currentState.sell_price * 100 - 100 ) || 0 ).toFixed( 4 ) 
     const { prices = {}, last_prices = [] } = currentState
     const price_now = prices.n || prices.s
     const price_levels = [

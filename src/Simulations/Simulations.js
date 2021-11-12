@@ -1,5 +1,4 @@
 import { Link, Route } from "react-router-dom"
-import { Tabs, Tab } from "react-bootstrap"
 import DoughbotSimulator from "./Doughbot"
 import SirbSimulator from "./Sirb"
 

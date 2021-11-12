@@ -8,6 +8,7 @@ const Trades = () => {
     const [ currentState, setCurrentState ] = useState({})
     useEffect( () => {
         const onNotify = ( data ) => {
+            console.log(data)
             if ( data.module === 'doughbot_simulator' ) {
                 
             } else {
@@ -19,7 +20,7 @@ const Trades = () => {
             socket.on("notify_client", onNotify )
             return () => { socket.off( "notify_client" )}
         }
-    } )
+    }, [ connected, socket ] )
 
     const trades = Object.entries( currentState )
 

@@ -1,5 +1,5 @@
-import { Button, Container, Col, Row } from "react-bootstrap"
-import { Trades } from "../Trades"
+import { Button } from "react-bootstrap"
+// import { Trades } from "../Trades"
 import axios from 'axios'
 import { useState } from "react"
 
@@ -12,6 +12,9 @@ const TradeActions = ( { prices = {} } ) => {
     const [ runner, setRunner ] = useState()
     const startTrade = () => {
         axios.post( `${ API }/simulations`, { 'module': 'doughbot', 'action': 'start' } )
+    }
+    const stopTrade = () => {
+        axios.post( `${ API }/simulations`, { 'module': 'doughbot', 'action': 'stop' } )
     }
     const action = ( action, target, amount ) => {
         if ( action === "speed" ) {
@@ -46,7 +49,7 @@ const TradeActions = ( { prices = {} } ) => {
     return (
         <div className="d-flex">
             <Button size="sm" onClick={ startTrade }>Start simulations</Button>
-            <Button size="sm">Stop simulations</Button>
+            <Button size="sm" onClick={ stopTrade }>Stop simulations</Button>
             <div>Actions</div>
             <Button size="sm" disabled={ !prices.s } onClick={ () => action( 'set_price', 'sell' ) }>Sell price</Button>
             <Button size="sm" disabled={ !prices.b } onClick={ () => action( 'set_price', 'buy' ) }>Buy price</Button>

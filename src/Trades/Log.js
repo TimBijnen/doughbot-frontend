@@ -1,47 +1,46 @@
-import { Badge, Container, Row, Col } from "react-bootstrap"
-import { useState, useEffect } from "react"
+import { Badge } from "react-bootstrap"
+import { useState, useEffect, useCallback } from "react"
 import { useSocket } from "../Socket"
-import Trade from "./Trade"
 import moment from "moment"
 
 const Log = ( { symbol } ) => {
     const [ { connected, socket } ] = useSocket()
     const [ log, setLog ] = useState( {} )
-    const [ lastEntry, setLastEntry ] = useState( {} )
-
-    const onExecute = ( data ) => {
-        if ( data.symbol == symbol ) {
-            let amount = 1
+    const [ amtOfBuyFetches, setAmtOfBuyFetches ] = useState( 0 )
+    const [ amtOfSellFetches, setAmtOfSellFetches ] = useState( 0 )
+    const [ amtOfUpdates, setAmtOfUpdates ] = useState( 0 )
+    const onExecute = useCallback( ( data ) => {
+        if ( data.symbol === symbol ) {
             const time = moment().unix()
-            // if ( !log[ time ] ) {
-            //     setLog( { [ time ]: [], ...log } )
-            // }
             let nextLog = {}
             let nextEntry = data
-            // if ( lastEntry.details == data.details ) {
-            //     amount = 3
-            //     // nextEntry = { ...log[ lastEntry.time ][ 0 ], amount }
-            //     nextLog = { ...log, [ lastEntry.time ]: [ { ...log[ lastEntry.time ][ 0 ], amount } ] }
-            // } else {
+            if ( data.details === "Update order" ) {
+                setAmtOfUpdates( ( a ) => a + 1 )
+            } else if ( data.details === "Fetch BUY order" ) {
+                setAmtOfBuyFetches( ( a ) => a + 1 )
+            } else if ( data.details === "Fetch SELL order" ) {
+                setAmtOfSellFetches( ( a ) => a + 1 )
+            } else if ( nextEntry.details === "Stop" ) {
+                // setLog( {} )
+            } else {
                 nextEntry = { ...data, time }
-                setLastEntry( nextEntry )
                 nextLog = { ...log, [ time ]: [ data, ...( log[ time ] || [ { amount: 1 } ] ) ] }
-            // }
-            if ( nextEntry.details === "Stop" ) {
-                setLog( {} )
+                setLog( nextLog )
             }
-            setLog( nextLog )
         }
-    }
+    }, [ setLog, symbol, log ] )
     useEffect( () => {
         if ( connected ) {
             socket.on("did_execute_client", onExecute )
             return () => { socket.off( "did_execute_client" )}
         }
-    }, [ onExecute ] )
+    }, [ onExecute, connected, socket ] )
 
     return (
         <div style={{maxHeight: 400, overflow: 'scroll'}}>
+            <Badge>Sell fetches { amtOfSellFetches }</Badge>
+            <Badge>Buy fetches { amtOfBuyFetches }</Badge>
+            <Badge>Updates { amtOfUpdates }</Badge>
             { Object.entries( log ).sort( ( [ta], [tb] ) => ta > tb ? -1 : 1 ).map( ( [ t, l ], i ) => (
                 <div className="small">
                     <div><Badge>{ moment.unix( t ).format( "HH:mm:ss" ) }</Badge></div>

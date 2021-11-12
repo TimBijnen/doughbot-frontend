@@ -1,5 +1,5 @@
 import { createContext, useReducer, useEffect } from 'react'
-import { useToasts } from "react-toast-notifications"
+// import { useToasts } from "react-toast-notifications"
 import socketIOClient from "socket.io-client";
 
 export const actions = {
@@ -9,7 +9,7 @@ export const actions = {
 
 const initialReducerState = { connected: false }
 
-const reducer = ( state: any, { type, data }: any ) => {
+const reducer = ( state, { type, data } ) => {
     switch (type) {
         case actions.LOAD:
             return { ...state, ...data, isLoading: true }
@@ -21,18 +21,17 @@ const reducer = ( state: any, { type, data }: any ) => {
     }
 }
 
-const SocketContext = createContext<any|undefined>( undefined )
-const socket = socketIOClient();
+const SocketContext = createContext( undefined )
 
-function SocketProvider( { children }: any ) {
+const socket = socketIOClient("ws://localhost:5000");
+function SocketProvider( { children } ) {
     const [ state, dispatch ] = useReducer( reducer, initialReducerState )
     const value = { state, dispatch }
     // const { addToast } = useToasts()
-    // const [ socket, setSocket ] = useState()
 
     useEffect(() => {
         socket.on("connect", () => {
-            console.log("notify")
+            console.log("Connect")
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
         });
         return () => { socket.disconnect() }
