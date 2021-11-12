@@ -23,7 +23,7 @@ const reducer = ( state, { type, data } ) => {
 
 const SocketContext = createContext( undefined )
 
-const socket = socketIOClient("ws://localhost:5000");
+const socket = socketIOClient("ws://doughbot.eindhovenintelligence.nl");
 function SocketProvider( { children } ) {
     const [ state, dispatch ] = useReducer( reducer, initialReducerState )
     const value = { state, dispatch }
