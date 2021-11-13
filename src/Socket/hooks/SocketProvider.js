@@ -24,7 +24,9 @@ const reducer = ( state, { type, data } ) => {
 const SocketContext = createContext( undefined )
 
 // const socket = socketIOClient("wss://doughbot.eindhovenintelligence.nl/socket.io");
-const socket = socketIOClient( { transports: [ 'websocket' ] } );
+// const socket = socketIOClient( "localhost:5000", { transports: [ "websocket" ] } )
+const socket = socketIOClient( "doughbot.eindhovenintelligence.nl", { transports: [ "websocket" ] } )
+// const socket = socketIOClient( { transports: [ 'websocket' ], rememberUpgrade: false } );
 function SocketProvider( { children } ) {
     const [ state, dispatch ] = useReducer( reducer, initialReducerState )
     const value = { state, dispatch }

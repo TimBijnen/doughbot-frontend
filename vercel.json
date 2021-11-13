@@ -7,6 +7,14 @@
         {
             "source": "/api/:path*/",
             "destination": "https://doughbot.eindhovenintelligence.nl/api/:path*"
+        },
+        {
+            "source": "/socket.io/:path*",
+            "destination": "https://doughbot.eindhovenintelligence.nl/socket.io/:path*"
+        },
+        {
+            "source": "/socket.io/:path*/",
+            "destination": "https://doughbot.eindhovenintelligence.nl/socket.io/:path*"
         }
     ]
 }
