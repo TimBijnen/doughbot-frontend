@@ -10,11 +10,11 @@
         },
         {
             "source": "/socket.io/:path*",
-            "destination": "wss://doughbot.eindhovenintelligence.nl/socket.io/:path*"
+            "destination": "https://doughbot.eindhovenintelligence.nl/socket.io/:path*"
         },
         {
             "source": "/socket.io/:path*/",
-            "destination": "wss://doughbot.eindhovenintelligence.nl/socket.io/:path*"
+            "destination": "https://doughbot.eindhovenintelligence.nl/socket.io/:path*"
         }
     ]
 }
