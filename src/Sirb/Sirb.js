@@ -7,6 +7,7 @@ const Sirb = () => {
         <>
             <Tickers />
             <hr />
+            
             <Container fluid>
                 <Row>
                     <Assets />

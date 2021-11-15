@@ -3,21 +3,27 @@ import { useState, useEffect, useCallback } from "react"
 import { useSocket } from "../Socket"
 import Asset from '../Asset'
 import { BinanceChart } from "../Chart"
+import { useToasts } from "react-toast-notifications"
 
 const Assets = () => {
     const [ { connected, socket } ] = useSocket()
     const [ data, setData ] = useState( {} )
+    const { addToast } = useToasts()
     const onSirb = useCallback( ( d ) => {
         if ( d.asset ) {
             setData( ( _data ) => ( { ..._data, [d.asset.asset]: d.asset } ) ) 
         }
     }, [ setData ] )
+    const onSirbNotify = useCallback( ( d ) => {
+        addToast( d.message, { appearance: "info", autoDismiss: false } )
+    }, [ addToast ] )
     useEffect( () => {
         if ( connected ) {
             socket.on("sirb_client", onSirb )
+            socket.on("sirb_notify_client", onSirbNotify )
             return () => { socket.off( "sirb_client" )}
         }
-    }, [ onSirb, connected, socket ] )
+    }, [ onSirb, connected, socket, onSirbNotify ] )
     // const avg = Object.entries( data ).reduce( ( b, [ k, v ] ) => b + v.avg_value, 0) / Object.entries( data ).length
     const sorted = Object.entries( data ).sort( ( [ ka, va ], [ kb, vb ] ) => va.avg_value < vb.avg_value ? 1 : -1 )
     if ( sorted.length < 1 ) {
@@ -27,6 +33,8 @@ const Assets = () => {
     return (
         <>
             <Col xs={ 2 }>
+                Total: {sorted.reduce( ( a, [ k, v ] ) => a + v.avg_value, 0 ) }
+                Total percentage: {sorted.reduce( ( a, [ k, v ] ) => a + v.avg_percentage, 0 ) }
                 { sorted.map( ( [ k, v ] ) => (
                     <Asset key={ k } { ...v } />
                 ) ) }

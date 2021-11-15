@@ -8,7 +8,7 @@ import Timer from "./Timer"
 const Nav = () => {
     const [ { isTraderActive: ita } ] = useSettings()
     const [ isTraderActive, setIsTraderActive ] = useState<boolean>( ita )
-    const [ { user }, ] = useAuth()
+    const [ { user }, { logout }] = useAuth()
     
     useEffect( () => setIsTraderActive( ita ), [ ita ] )
 
@@ -18,7 +18,7 @@ const Nav = () => {
                 <Container>
                     <Navbar.Brand>Doughbot</Navbar.Brand>
                     <Timer />
-                    <Button onClick={ () => localStorage.removeItem("user") }>Logout</Button>
+                    <Button onClick={ logout }>Logout</Button>
                 </Container>
             </Navbar>
             <Sentiment authorized={ !!user } />
