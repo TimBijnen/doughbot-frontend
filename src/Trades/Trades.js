@@ -15,7 +15,7 @@ const Trades = () => {
         if ( data.module === 'doughbot_simulator' ) {
             
         } else {
-            setCurrentState( { ...data, [ data.symbol ]: data } )
+            setCurrentState( { ...currentState, [ data.symbol ]: data } )
         }
     }
 
