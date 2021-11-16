@@ -37,10 +37,10 @@ function SocketProvider( { children } ) {
             console.log(response)
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
         });
-        // socket.on("connect", (response) => {
-        //     console.log("Connect", response)
-        //     dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
-        // });
+        socket.on("connect", (response) => {
+            console.log("Connect", response)
+            dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
+        });
         return () => { 
             console.log("disconnect")
             socket.disconnect()
