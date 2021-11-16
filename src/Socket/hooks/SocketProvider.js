@@ -33,14 +33,14 @@ function SocketProvider( { children } ) {
     useEffect(() => {
         const socket = socketIOClient( "doughbot.eindhovenintelligence.nl", { transports: [ "websocket" ] } )
         // const socket = socketIOClient( "http://localhost:5000", { transports: [ "websocket" ] } )
-        // socket.on("user_authenticated", (response) => {
-        //     console.log(response)
-        //     dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
-        // });
-        socket.on("connect", (response) => {
-            console.log("Connect", response)
+        socket.on("user_authenticated", (response) => {
+            console.log(response)
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
         });
+        // socket.on("connect", (response) => {
+        //     console.log("Connect", response)
+        //     dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
+        // });
         return () => { 
             console.log("disconnect")
             socket.disconnect()
