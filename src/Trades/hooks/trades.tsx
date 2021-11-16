@@ -34,11 +34,22 @@ const useTrades = ( date: any ) => {
         }
     }
 
+    const getSettings = async () => {
+        const { data } = await axios.get( `/api/trades/settings` )
+        dispatch( { type: actions.SET_DATA, data: { settings: data.settings } } )
+    }
+    
+    const toggleActive = async () => {
+        const { data } = await axios.post( `/api/trades/settings`, { is_active: !state.settings?.is_active } )
+        dispatch( { type: actions.SET_DATA, data: { settings: data.settings } } )
+    }
+
     useEffect( () => {
+        getSettings()
         getTrades( date )
     }, [ date ])
 
-    return [ state, { getTrades }]
+    return [ state, { getTrades, toggleActive }]
   }
 
 export default useTrades

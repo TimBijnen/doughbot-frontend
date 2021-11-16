@@ -1,7 +1,7 @@
 import { createContext, useReducer, useEffect } from 'react'
 // import { useToasts } from "react-toast-notifications"
 import socketIOClient from "socket.io-client";
-import { useAuth } from '../../Auth';
+// import { useAuth } from '../../Auth';
 
 
 export const actions = {
@@ -25,7 +25,7 @@ const reducer = ( state, { type, data } ) => {
 
 const SocketContext = createContext( undefined )
 
-const socket = socketIOClient( "localhost:5000", { transports: [ "websocket" ] } )
+const socket = socketIOClient( "http://localhost:5000", { transports: [ "websocket" ] } )
 // const socket = socketIOClient( "doughbot.eindhovenintelligence.nl", { transports: [ "websocket" ] } )
 function SocketProvider( { children } ) {
     const [ state, dispatch ] = useReducer( reducer, initialReducerState )
@@ -33,7 +33,11 @@ function SocketProvider( { children } ) {
     // const { addToast } = useToasts()
 
     useEffect(() => {
-        socket.on("user_authenticated", (response) => {
+        // socket.on("user_authenticated", (response) => {
+        //     console.log(response)
+        //     dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
+        // });
+        socket.on("connect", (response) => {
             console.log(response)
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
         });

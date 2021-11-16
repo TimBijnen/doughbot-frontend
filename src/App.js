@@ -30,9 +30,9 @@ const oversoldContainer = {
 const App = () => {
     return (
         <ToastProvider>
-            <SocketProvider>
-                <div className="App" style={ appStyle }>
-                    <AuthProvider>
+            <AuthProvider>
+                <SocketProvider>
+                    <div className="App" style={ appStyle }>
                         <Router>
                             <AuthBlocker />
                             <Audio />
@@ -51,9 +51,9 @@ const App = () => {
                                 </div>
                             <Footer />
                         </Router>
-                    </AuthProvider>
-                </div>
-            </SocketProvider>
+                    </div>
+                </SocketProvider>
+            </AuthProvider>
         </ToastProvider>
     )
 }

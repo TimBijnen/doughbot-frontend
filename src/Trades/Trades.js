@@ -1,14 +1,17 @@
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Col, Button } from "react-bootstrap"
 import { useState, useEffect } from "react"
 import { useSocket } from "../Socket"
 import Trade from "./Trade"
+// import axios from "axios"
+import useTrades from "./hooks/trades"
 
 const Trades = () => {
-    const [ { connected, socket } ] = useSocket()
+    const [ { socket } ] = useSocket()
+    const [ state, { toggleActive } ] = useTrades()
     const [ currentState, setCurrentState ] = useState({})
-    // useEffect( () => {
+    
+    
     const onNotify = ( data ) => {
-        console.log(data)
         if ( data.module === 'doughbot_simulator' ) {
             
         } else {
@@ -16,11 +19,11 @@ const Trades = () => {
         }
     }
 
-    if ( socket ) {
-        console.log("Listen notigy")
-        socket.on("notify_client", onNotify )
-    }
     useEffect( () => {
+        if ( socket ) {
+            console.log("Listen notigy")
+            socket.on("notify_client", onNotify )
+        }
         if ( socket ) {
             return () => { socket.off( "notify_client" )}
         }
@@ -31,6 +34,11 @@ const Trades = () => {
     return (
         <>
             <Container>
+                <Row>
+                    <Col xs={12}>
+                        <Button onClick={ toggleActive }>{ state.settings?.is_active ? "Deactivate trader" : "Activate trader" }</Button>
+                    </Col>
+                </Row>
                 <Row>
                     { trades.map( ([s, t]) => (
                         <Col xs={12}>
