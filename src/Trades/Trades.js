@@ -21,13 +21,14 @@ const Trades = () => {
 
     useEffect( () => {
         if ( socket ) {
-            console.log("Listen notigy")
-            socket.on("notify_client", onNotify )
+            if ( socket.connected ) {
+                socket.on("notify_client", onNotify )
+            }
+            if ( socket.connected ) {
+                return () => { socket.off( "notify_client" )}
+            }
         }
-        if ( socket ) {
-            return () => { socket.off( "notify_client" )}
-        }
-    }, [ socket, onNotify ] )
+    }, [ socket, socket?.connected, onNotify ] )
 
     const trades = Object.entries( currentState )
 

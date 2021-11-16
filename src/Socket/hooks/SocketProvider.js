@@ -1,7 +1,5 @@
 import { createContext, useReducer, useEffect } from 'react'
-// import { useToasts } from "react-toast-notifications"
 import socketIOClient from "socket.io-client";
-// import { useAuth } from '../../Auth';
 
 
 export const actions = {
@@ -9,7 +7,9 @@ export const actions = {
     SET_DATA: "SET_DATA",
 };
 
+
 const initialReducerState = { connected: false }
+
 
 const reducer = ( state, { type, data } ) => {
     switch (type) {
@@ -25,23 +25,26 @@ const reducer = ( state, { type, data } ) => {
 
 const SocketContext = createContext( undefined )
 
-// const socket = socketIOClient( "http://localhost:5000", { transports: [ "websocket" ] } )
-const socket = socketIOClient( "doughbot.eindhovenintelligence.nl", { transports: [ "websocket" ] } )
+// const socket = socketIOClient( "doughbot.eindhovenintelligence.nl", { transports: [ "websocket" ] } )
 function SocketProvider( { children } ) {
     const [ state, dispatch ] = useReducer( reducer, initialReducerState )
     const value = { state, dispatch }
     // const { addToast } = useToasts()
-
+    
     useEffect(() => {
+        const socket = socketIOClient( "http://localhost:5000", { transports: [ "websocket" ] } )
         // socket.on("user_authenticated", (response) => {
         //     console.log(response)
         //     dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
         // });
         socket.on("connect", (response) => {
-            console.log(response)
+            console.log("Connect", response)
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
         });
-        return () => { socket.disconnect() }
+        return () => { 
+            console.log("disconnect")
+            socket.disconnect()
+        }
     }, [  ]);
 
 
