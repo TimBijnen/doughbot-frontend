@@ -25,14 +25,14 @@ const reducer = ( state, { type, data } ) => {
 
 const SocketContext = createContext( undefined )
 
-// const socket = socketIOClient( "doughbot.eindhovenintelligence.nl", { transports: [ "websocket" ] } )
 function SocketProvider( { children } ) {
     const [ state, dispatch ] = useReducer( reducer, initialReducerState )
     const value = { state, dispatch }
     // const { addToast } = useToasts()
     
     useEffect(() => {
-        const socket = socketIOClient( "http://localhost:5000", { transports: [ "websocket" ] } )
+        const socket = socketIOClient( "doughbot.eindhovenintelligence.nl", { transports: [ "websocket" ] } )
+        // const socket = socketIOClient( "http://localhost:5000", { transports: [ "websocket" ] } )
         // socket.on("user_authenticated", (response) => {
         //     console.log(response)
         //     dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
