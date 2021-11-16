@@ -1,5 +1,5 @@
 import { Container, Row, Col, Button } from "react-bootstrap"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useSocket } from "../Socket"
 import Trade from "./Trade"
 // import axios from "axios"
@@ -11,13 +11,13 @@ const Trades = () => {
     const [ currentState, setCurrentState ] = useState({})
     
     
-    const onNotify = ( data ) => {
+    const onNotify = useCallback( ( data ) => {
         if ( data.module === 'doughbot_simulator' ) {
             
         } else {
-            setCurrentState( { ...currentState, [ data.symbol ]: data } )
+            setCurrentState( currentState => ( { ...currentState, [ data.symbol ]: data } ) )
         }
-    }
+    }, [] )
 
     useEffect( () => {
         if ( socket ) {
@@ -27,7 +27,7 @@ const Trades = () => {
         if ( socket ) {
             return () => { socket.off( "notify_client" )}
         }
-    }, [ socket ] )
+    }, [ socket, onNotify ] )
 
     const trades = Object.entries( currentState )
 
