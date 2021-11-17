@@ -17,7 +17,7 @@ const Sentiment = ( { authorized }: any ) => {
     const data = [
         { label: "1h", value: sentiment.one_h },
         { label: "4h", value: sentiment.four_h },
-        { label: "24h", value: sentiment.one_d },
+        { label: "24h", value: sentiment.twofour_h },
     ]
     return (
         <div className="d-flex">

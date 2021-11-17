@@ -25,11 +25,12 @@ const useTrades = ( date: any ) => {
     const getTrades = async ( date: any ) => {
         try {
             dispatch( { type: actions.LOAD, data: { items: [] } } )
-            let { start, end } = date
-            start = moment.utc( start ).format("YYYY-MM-DD HH:mm")
-            end = moment.utc( end ).format("YYYY-MM-DD HH:mm")
-            const { data: sentiment } = await axios.get( `/api/reporting/sentiment-trades?start_date=${ start }&end_date=${ end }` )
-            dispatch( { type: actions.SET_DATA, data: { sentiment: sentiment.sentiment } } )
+            // let { start, end } = date
+            // start = moment.utc( start ).format("YYYY-MM-DD HH:mm")
+            // end = moment.utc( end ).format("YYYY-MM-DD HH:mm")
+            // const { data: sentiment } = await axios.get( `/api/reporting/sentiment-trades?start_date=${ start }&end_date=${ end }` )
+            const { data } = await axios.get( `api/trades`)
+            dispatch( { type: actions.SET_DATA, data: { trades: data } } )
         } catch ( error: any ) {
         }
     }
