@@ -2,7 +2,7 @@ import { Table, Button } from "react-bootstrap"
 import useWallet from "./hooks/wallet"
 
 const Wallet = () => {
-    const [ state, { getAccountData, createSellOrder } ] = useWallet()
+    const [ state, { getAccountData } ] = useWallet()
 
     return (
         <div>
