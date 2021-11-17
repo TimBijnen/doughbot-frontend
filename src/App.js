@@ -13,11 +13,12 @@ import Audio from "./Audio"
 import Settings from "./Settings"
 import Sirb from "./Sirb"
 import Simulations from "./Simulations"
+import Sentiment from "./Sentiment"
 
 
 const appStyle = {
     display: "grid",
-    gridTemplateRows: "auto auto 1fr auto",
+    gridTemplateRows: "10px 56px 48px auto 32px",
     height: "100vh",
 }
 
@@ -38,18 +39,19 @@ const App = () => {
                             <Audio />
                             <Socket />
                             <Navbar />
-                                <Route path="/login" component={ Login } />
-                                <div style={ oversoldContainer }>
-                                    <Route exact path="/" component={ Dashboard } />
-                                    <Route exact path="/wallet" component={ Wallet } />
-                                    <Route exact path="/oversold" component={ Oversold } />
-                                    <Route exact path="/sirb" component={ Sirb } />
-                                    <Route exact path="/log" component={ Log } />
-                                    <Route exact path="/trades" component={ Trades } />
-                                    <Route exact path="/settings" component={ Settings } />
-                                    <Route path="/simulations" component={ Simulations } />
-                                </div>
                             <Footer />
+                            <Route path="/login" component={ Login } />
+                            <div style={ oversoldContainer }>
+                                <Route exact path="/" component={ Dashboard } />
+                                <Route exact path="/wallet" component={ Wallet } />
+                                <Route exact path="/oversold" component={ Oversold } />
+                                <Route exact path="/sirb" component={ Sirb } />
+                                <Route exact path="/log" component={ Log } />
+                                <Route exact path="/trades" component={ Trades } />
+                                <Route exact path="/settings" component={ Settings } />
+                                <Route path="/simulations" component={ Simulations } />
+                            </div>
+                            <Sentiment />
                         </Router>
                     </div>
                 </SocketProvider>

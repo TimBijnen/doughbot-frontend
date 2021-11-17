@@ -32,7 +32,7 @@ const TradeItem = ( t: any ) => {
                 <Col xs={ 2 } className="small">
                     { t.side } { t.type }
                 </Col>
-                <Col xs={ 7 }>
+                <Col xs={ 8 }>
                     <Bar
                         market={ t.side === "MARKET" }
                         cancelled={ cancelled }
@@ -40,7 +40,7 @@ const TradeItem = ( t: any ) => {
                         target={ t.original_qty}
                     />
                 </Col>
-                <Col xs={ 3 }>
+                <Col xs={ 2 }>
                     <span className="small float-end">
                         <Time start={ startTime } end={ closeTime } />
                     </span>

@@ -24,7 +24,7 @@ const BarInner = styled.div`
 `
 
 const BarAppend = styled.div`
-    min-width: 40px;
+    min-width: 80px;
     text-align: right;
     white-space: nowrap;
     overflow: hidden;

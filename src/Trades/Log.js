@@ -37,7 +37,7 @@ const Log = ( { symbol } ) => {
     }, [ onExecute, connected, socket ] )
 
     return (
-        <div style={{maxHeight: 400, overflow: 'scroll'}}>
+        <div style={{maxHeight: 200, overflow: 'scroll'}}>
             <Badge>Sell fetches { amtOfSellFetches }</Badge>
             <Badge>Buy fetches { amtOfBuyFetches }</Badge>
             <Badge>Updates { amtOfUpdates }</Badge>

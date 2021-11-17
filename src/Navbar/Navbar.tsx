@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Button, Container, Navbar } from "react-bootstrap"
-import Sentiment from "../Sentiment"
+// import Sentiment from "../Sentiment"
 import { useSettings } from "../Settings"
 import { useAuth } from "../Auth"
 import Timer from "./Timer"
@@ -8,7 +8,7 @@ import Timer from "./Timer"
 const Nav = () => {
     const [ { isTraderActive: ita } ] = useSettings()
     const [ isTraderActive, setIsTraderActive ] = useState<boolean>( ita )
-    const [ { user }, { logout }] = useAuth()
+    const [ , { logout }] = useAuth()
     
     useEffect( () => setIsTraderActive( ita ), [ ita ] )
 
@@ -21,7 +21,6 @@ const Nav = () => {
                     <Button onClick={ logout }>Logout</Button>
                 </Container>
             </Navbar>
-            <Sentiment authorized={ !!user } />
         </div>
     )
 }

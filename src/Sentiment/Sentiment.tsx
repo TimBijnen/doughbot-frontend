@@ -1,6 +1,6 @@
 import Indicator from "./Indicator"
 import useSentiment from "./hooks/sentiment"
-import { LockIcon } from "../Icon"
+// import { LockIcon } from "../Icon"
 
 const Sentiment = ( { authorized }: any ) => {
     const [{ sentiment, isLoading }] = useSentiment()
@@ -8,9 +8,9 @@ const Sentiment = ( { authorized }: any ) => {
     if ( isLoading ) {
         return <div className="text-center" style={ { lineHeight: "32px" } }>Loading</div>
     }
-    if ( !authorized ) {
-        return <div className="text-center" style={ { lineHeight: "32px" } }><LockIcon /></div>
-    }
+    // if ( !authorized ) {
+    //     return <div className="text-center" style={ { lineHeight: "32px" } }><LockIcon /></div>
+    // }
     if ( !sentiment ) {
         return <div>No data</div>
     }

@@ -24,7 +24,7 @@ const useTrades = ( date: any ) => {
     const getTrades = async ( date: any ) => {
         try {
             dispatch( { type: actions.LOAD, data: { trades: [] } } )
-            const { data } = await axios.get( `api/trades`)
+            const { data } = await axios.get( `/api/trades`)
             dispatch( { type: actions.SET_DATA, data: { trades: data.data } } )
         } catch ( error: any ) {
             console.log(error)

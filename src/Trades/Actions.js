@@ -5,7 +5,7 @@ import { useState } from "react"
 
 const API = process.env.REACT_APP_API_URL
 
-const TradeActions = ( { prices = {} } ) => {
+const TradeActions = ( { prices = {}, isFinished = false } ) => {
     const [ sellFill, setSellFill ] = useState( 0 )
     const [ buyFill, setBuyFill ] = useState( 0 )
     const [ speed, setSpeed ] = useState( 1 )
@@ -16,7 +16,7 @@ const TradeActions = ( { prices = {} } ) => {
     const stopTrade = () => {
         axios.post( `${ API }/simulations`, { 'module': 'doughbot', 'action': 'stop' } )
     }
-    const action = ( action, target, amount ) => {
+    const action = ( action, target="", amount="" ) => {
         if ( action === "speed" ) {
             if ( amount > 5 ) {
                 amount = 1
@@ -58,6 +58,7 @@ const TradeActions = ( { prices = {} } ) => {
             <Button size="sm" onClick={ () => setFilled( 'buy' ) }>Fill buy ({ buyFill }%)</Button>
             <Button size="sm" onClick={ () => setFilled( 'sell' ) }>Fill sell ({ sellFill }%)</Button>
             <Button size="sm" onClick={ () => action( 'speed', 'prices', speed + 1 ) }>Speed {speed}</Button>
+            <Button size="sm" disabled={ !isFinished } onClick={ () => action( 'store_simulation' ) }>Store</Button>
         </div>
     )
 }

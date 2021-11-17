@@ -23,6 +23,7 @@ const Trades = ( { simulationMode } ) => {
         if ( socket ) {
             if ( socket.connected ) {
                 socket.on("notify_client", onNotify )
+                socket.emit("get_doughbot_trader_status")
             }
             if ( socket.connected ) {
                 return () => { socket.off( "notify_client" )}

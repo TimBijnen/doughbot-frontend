@@ -21,7 +21,8 @@ const Trade = ( { simulationMode, ...props } ) => {
         { 'label': "buy", 'value': prices.b || prices.bp, bg: 'info' },
         { 'label': "sell", 'value': prices.s, bg: 'success' },
     ]
-    const isFinished = currentState.total_bought_coins === currentState.total_sold_coins
+    console.log(currentState.total_bought_coins === currentState.total_sold_coins)
+    const isFinished = (currentState.total_bought_coins === currentState.total_sold_coins) && currentState.total_bought_coins > 0
     return (
         <Card>
             <Card.Header>
@@ -30,7 +31,7 @@ const Trade = ( { simulationMode, ...props } ) => {
                 <Badge className="float-end" bg={ isFinished ? "success" : "info" }>{ moment().format( "HH:mm:ss" ) }</Badge>
             </Card.Header>
             <Container>
-                { simulationMode && <TradeActions prices={ currentState.prices } /> }
+                { simulationMode && <TradeActions prices={ currentState.prices } isFinished={ isFinished }/> }
                 <Row>
                     <Col xs={4}>
                         <TradeLog symbol={ currentState.symbol } />
