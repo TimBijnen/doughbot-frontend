@@ -44,7 +44,7 @@ const Bar = ( { value, target, cancelled, market } ) => {
         width = 100
     } else {
         width = value / target * 100
-        text = `${ (value || 0) } / ${ target } (${parseInt(value / target * 100, 2)}%)`
+        text = `${ parseInt( value / target * 10000, 10 ) / 100 }%`
     }
 
     return (
@@ -57,7 +57,7 @@ const Bar = ( { value, target, cancelled, market } ) => {
                 </BarInner>
             </BarContainer>
             <BarAppend className="m-auto">
-                { value || 0 } / { target }
+                { value.toFixed(2) || 0 } / { target.toFixed(2) }
             </BarAppend>
         </Container>
     )

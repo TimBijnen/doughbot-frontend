@@ -1,6 +1,8 @@
 import React from 'react'
 import { Chart } from 'react-charts'
  
+
+
 const createChartLine = ( data ) => data.map( ( d, i ) => [ i, d ] )
 
 const ChartComponent = ( { zeroLine, prices=[], levels=[], height=200, data, datas=[] } ) => {
@@ -31,20 +33,38 @@ const ChartComponent = ( { zeroLine, prices=[], levels=[], height=200, data, dat
         }
         return []
     }, [ priceData, zeroLine ] )
+    
+    
+    const getSeriesStyle = React.useCallback((series) => {
+        const colorPalette = {
+          break_even: "var(--bs-secondary)",
+          cancel: "var(--bs-danger)",
+          rebuy: "var(--bs-warning)",
+          buy: "var(--bs-info)",
+          sell: "var(--bs-success)",
+        };
+    
+        return {
+          stroke: colorPalette[series.label],
+          fill: colorPalette[series.label],
+        };
+    }, []);
+
+
     const d = React.useMemo(
         () => [
             {
                 label: 'Price',
                 data: datas[ 0 ] || priceData
             },
-            {
-                label: 'Price',
-                data: datas[ 1 ] || priceData
-            },
-            {
-                label: 'Price',
-                data: datas[ 2 ] || priceData
-            },
+            // {
+            //     label: 'Price',
+            //     data: datas[ 1 ] || priceData
+            // },
+            // {
+            //     label: 'Price',
+            //     data: datas[ 2 ] || priceData
+            // },
             ...lines,
             ...zline,
         ],
@@ -61,7 +81,7 @@ const ChartComponent = ( { zeroLine, prices=[], levels=[], height=200, data, dat
  
     return (
         <div style={{height: height}}>
-            <Chart data={d} axes={axes} />
+            <Chart data={d} axes={axes} getSeriesStyle={getSeriesStyle}/>
         </div>
     )
 }

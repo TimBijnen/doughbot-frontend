@@ -1,6 +1,5 @@
 import { useEffect, useReducer } from 'react'
 import axios from "axios"
-import moment from "moment"
 
 const actions = {
     LOAD: "LOAD",
@@ -20,18 +19,15 @@ const reducer = ( state: any, { type, data }: any ) => {
 }
 
 const useTrades = ( date: any ) => {
-    const [ state, dispatch ] = useReducer(reducer, { items: [] })
+    const [ state, dispatch ] = useReducer(reducer, { trades: [] })
     
     const getTrades = async ( date: any ) => {
         try {
-            dispatch( { type: actions.LOAD, data: { items: [] } } )
-            // let { start, end } = date
-            // start = moment.utc( start ).format("YYYY-MM-DD HH:mm")
-            // end = moment.utc( end ).format("YYYY-MM-DD HH:mm")
-            // const { data: sentiment } = await axios.get( `/api/reporting/sentiment-trades?start_date=${ start }&end_date=${ end }` )
+            dispatch( { type: actions.LOAD, data: { trades: [] } } )
             const { data } = await axios.get( `api/trades`)
-            dispatch( { type: actions.SET_DATA, data: { trades: data } } )
+            dispatch( { type: actions.SET_DATA, data: { trades: data.data } } )
         } catch ( error: any ) {
+            console.log(error)
         }
     }
 

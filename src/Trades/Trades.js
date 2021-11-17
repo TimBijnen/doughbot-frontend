@@ -5,7 +5,7 @@ import Trade from "./Trade"
 // import axios from "axios"
 import useTrades from "./hooks/trades"
 
-const Trades = () => {
+const Trades = ( { simulationMode } ) => {
     const [ { socket } ] = useSocket()
     const [ state, { toggleActive } ] = useTrades()
     const [ currentState, setCurrentState ] = useState({})
@@ -33,22 +33,20 @@ const Trades = () => {
     const trades = Object.entries( currentState )
 
     return (
-        <>
-            <Container>
-                <Row>
+        <Container>
+            <Row>
+                <Col xs={12}>
+                    <Button onClick={ toggleActive }>{ state.settings?.is_active ? "Deactivate trader" : "Activate trader" }</Button>
+                </Col>
+            </Row>
+            <Row>
+                { trades.map( ([s, t]) => (
                     <Col xs={12}>
-                        <Button onClick={ toggleActive }>{ state.settings?.is_active ? "Deactivate trader" : "Activate trader" }</Button>
+                        <Trade { ...t } simulationMode={ simulationMode } />
                     </Col>
-                </Row>
-                <Row>
-                    { trades.map( ([s, t]) => (
-                        <Col xs={12}>
-                            <Trade { ...t } />
-                        </Col>
-                    ) ) }
-                </Row>
-            </Container>
-        </>
+                ) ) }
+            </Row>
+        </Container>
     )
 }
 

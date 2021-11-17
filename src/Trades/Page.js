@@ -30,9 +30,35 @@ const Leds = ( ( { a, b, c, type, secondary } ) => type >= 0 ? (
 const Page = () => {
     const [ selectedInterval, setSelectedInterval ] = useState( "hour" )
     const [ selectedDate, setSelectedDate ] = useState( { start: moment().subtract( 1, selectedInterval ), end: moment() } )
-    const [ { sentiment, isLoading } ] = useTrades( selectedDate )
+    const [ { trades, sentiment, isLoading } ] = useTrades( selectedDate )
     if ( isLoading ) {
         return <div>Loading</div>
+    }
+    if ( trades ) {
+        return (
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Start time</th>
+                        <th>Symbol</th>
+                        <th>Buys</th>
+                        <th>Sells</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { trades.map( ( t ) => (
+                        <tr>
+                            <td>{ t.created_at }</td>
+                            <td>{ t.symbol }</td>
+                            <td>{ t.total_buy_value }</td>
+                            <td>{ t.total_sell_value }</td>
+                            <td>{ t.total_sell_value - t.total_buy_value }</td>
+                        </tr>
+                    ) ) }
+                </tbody>
+            </Table>
+        )
     }
 
     const setDate = ( type ) => {
