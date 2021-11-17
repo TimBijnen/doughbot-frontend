@@ -34,11 +34,11 @@ const Wallet = () => {
                             <td>
                                 { a.locked }
                             </td>
-                            <td>
+                            {/* <td>
                                 <Button variant="secondary" onClick={ () => createSellOrder( a.asset ) }>
                                     Sell
                                 </Button>
-                            </td>
+                            </td> */}
                         </tr>
                     ) ) }
                     </tbody>
