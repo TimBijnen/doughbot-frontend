@@ -1,4 +1,4 @@
-import { Container, Card, Row, Col, Badge } from "react-bootstrap"
+import { Container, Card, Row, Col, Badge, Button } from "react-bootstrap"
 import moment from "moment"
 import TradeOrder from "./Order"
 import PriceIndicator from "./PriceIndicator"
@@ -8,7 +8,7 @@ import TradeActions from "./Actions"
 import { Time } from "../Components"
 import Price from "./components/Price"
 
-const Trade = ( { simulationMode, ...props } ) => {
+const Trade = ( { simulationMode, restartTrader, index, ...props } ) => {
     const currentState = props
     const startTime = moment.unix( currentState.start_time / 1000 )
     const closeTime = currentState.closed_at ? moment( currentState.closed_at ) : moment()
@@ -27,6 +27,11 @@ const Trade = ( { simulationMode, ...props } ) => {
         <Card>
             <Card.Header>
                 { currentState.symbol } 
+                <div className="w-100">
+                    <Button onClick={ () => restartTrader( index ) }>
+                        Restart
+                    </Button>
+                </div>
                 <Time className="float-end" start={ startTime } end={ closeTime } />
                 <Badge className="float-end" bg={ isFinished ? "success" : "info" }>{ moment().format( "HH:mm:ss" ) }</Badge>
             </Card.Header>

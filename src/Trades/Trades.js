@@ -19,6 +19,10 @@ const Trades = ( { simulationMode } ) => {
         }
     }, [] )
 
+    const restartTrader = (index) => {
+        socket.emit("restart_trader", index)
+    }
+
     useEffect( () => {
         if ( socket ) {
             if ( socket.connected ) {
@@ -41,9 +45,9 @@ const Trades = ( { simulationMode } ) => {
                 </Col>
             </Row>
             <Row>
-                { trades.map( ([s, t]) => (
+                { trades.map( ([s, t], i) => (
                     <Col xs={12}>
-                        <Trade { ...t } simulationMode={ simulationMode } />
+                        <Trade { ...t } index={ i } restartTrader={ restartTrader } simulationMode={ simulationMode } />
                     </Col>
                 ) ) }
             </Row>

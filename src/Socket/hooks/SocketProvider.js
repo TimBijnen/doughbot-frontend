@@ -31,8 +31,8 @@ function SocketProvider( { children } ) {
     // const { addToast } = useToasts()
     
     useEffect(() => {
-        const socket = socketIOClient( "doughbot.eindhovenintelligence.nl", { transports: [ "websocket" ] } )
-        // const socket = socketIOClient( "http://localhost:5000", { transports: [ "websocket" ] } )
+        // const socket = socketIOClient( "doughbot.eindhovenintelligence.nl", { transports: [ "websocket" ] } )
+        const socket = socketIOClient( "http://localhost:5000", { transports: [ "websocket" ] } )
         socket.on("user_authenticated", (response) => {
             console.log(response)
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
