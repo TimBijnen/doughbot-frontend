@@ -6,44 +6,39 @@ const Wallet = () => {
 
     return (
         <div>
+            <div>
                 <div>
-                    <div>
-                        Wallet info
-                        <Button onClick={ getAccountData }>
-                            { state.isLoading ? "Loading..." : "Reload" }
-                        </Button>
-                    </div>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Asset</th>
-                                <th>Free</th>
-                                <th>Locked</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                    { state.items.map( ( a ) => (
-                        <tr key={ a.asset }>
-                            <td>
-                                { a.asset }
-                            </td>
-                            <td>
-                                { a.free }
-                            </td>
-                            <td>
-                                { a.locked }
-                            </td>
-                            {/* <td>
-                                <Button variant="secondary" onClick={ () => createSellOrder( a.asset ) }>
-                                    Sell
-                                </Button>
-                            </td> */}
-                        </tr>
-                    ) ) }
-                    </tbody>
-                    </Table>
+                    Wallet info
+                    <Button onClick={ getAccountData }>
+                        { state.isLoading ? "Loading..." : "Reload" }
+                    </Button>
                 </div>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Free</th>
+                            <th>Locked</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { state.items.map( ( a ) => (
+                            <tr key={ a.asset }>
+                                <td>
+                                    { a.asset }
+                                </td>
+                                <td>
+                                    { a.free }
+                                </td>
+                                <td>
+                                    { a.locked }
+                                </td>
+                            </tr>
+                        ) ) }
+                    </tbody>
+                </Table>
+            </div>
         </div>
     )
 }

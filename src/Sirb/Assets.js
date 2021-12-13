@@ -42,8 +42,8 @@ const Assets = () => {
     return (
         <>
             <Col xs={ 2 }>
-                Total: {sorted.reduce( ( a, [ k, v ] ) => a + v.avg_value, 0 ) }
-                Total percentage: {sorted.reduce( ( a, [ k, v ] ) => a + v.avg_percentage, 0 ) }
+                Total: {sorted.reduce( ( a, [ k, v ] ) => a + v.avg_value, 0 ).toFixed(2) }<br />
+                Total percentage: {sorted.reduce( ( a, [ k, v ] ) => a + v.avg_percentage, 0 ).toFixed(2) }
                 { sorted.map( ( [ k, v ] ) => (
                     <Asset key={ k } { ...v } />
                 ) ) }
