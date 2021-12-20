@@ -40,6 +40,7 @@ const Page = () => {
             <Table>
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Start time</th>
                         <th>Symbol</th>
                         <th>Buys</th>
@@ -49,15 +50,20 @@ const Page = () => {
                 </thead>
                 <tbody>
                     { trades.map( ( t ) => (
-                        <Link to={ `/trades/${ t.id }` }>
-                            <tr>
-                                <td>{ t.created_at }</td>
-                                <td>{ t.symbol }</td>
-                                <td>{ t.total_buy_value }</td>
-                                <td>{ t.total_sell_value }</td>
-                                <td>{ t.total_sell_value - t.total_buy_value }</td>
-                            </tr>
-                        </Link>
+                        <tr>
+                            <td>    
+                                <Link to={ `/trades/${ t.id }` }>
+                                    <Button>
+                                        { t.id }
+                                    </Button>
+                                </Link>
+                            <td>{ t.created_at }</td>
+                            </td>
+                            <td>{ t.symbol }</td>
+                            <td>{ t.total_buy_value }</td>
+                            <td>{ t.total_sell_value }</td>
+                            <td>{ t.total_sell_value - t.total_buy_value }</td>
+                        </tr>
                     ) ) }
                 </tbody>
             </Table>
