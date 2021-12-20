@@ -14,6 +14,7 @@ const TradePage = () => {
     useEffect(() => {
         async function loadData() {
             const { data } = await axios.get( `${ API }/trades/${ id }` )
+            // const data = {"data":{"buy_orders":3,"candle_id":null,"closed_at":"2021-12-20 05:20:24","created_at":"Mon, 20 Dec 2021 05:20:24 GMT","id":22,"sell_orders":5,"sentiment_1h":99.75978994245189,"sentiment_24h":98.57596656632644,"sentiment_4h":99.88279888813801,"start_time":"2021-12-20 00:13:08","symbol":"BELBTC","total_bought_coins":32.6,"total_buy_value":0.0009909,"total_sell_value":0,"total_sold_coins":32.6}}
             setTrade( data.data )
             const { start_time, closed_at } = data.data
             const st = moment(start_time, "yyyy-MM-DD hh:mm:ss").subtract(10, 'minutes').format("yyyy-MM-DD hh:mm")
@@ -25,6 +26,8 @@ const TradePage = () => {
                 hour1.push( sdata.data[ i ].one_h )
                 hour4.push( sdata.data[ i ].four_h )
             }
+            // const m = moment
+            // debugger
             setSentiment( [ hour1, hour4 ] )
         }
         loadData()
@@ -36,7 +39,8 @@ const TradePage = () => {
             <hr />
             <ul>
                 <li>Symbol: { trade.symbol }</li>
-                <li>Created at: { trade.created_at }</li>
+                <li>Start time: { trade.start_time }</li>
+                <li>End time: { trade.closed_at }</li>
                 <li>Buy orders: { trade.buy_orders }</li>
                 <li>Sell orders: { trade.sell_orders }</li>
                 <li>Sentiment 1h: { trade.sentiment_1h }</li>
