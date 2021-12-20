@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
+import moment from "moment"
 
 const API = process.env.REACT_APP_API_URL
 
@@ -23,11 +24,18 @@ const API = process.env.REACT_APP_API_URL
 const TradePage = () => {
     const { id } = useParams();
     const [ trade, setTrade ] = useState( {} )
+    const [ sentiment, setSentiment ] = useState( [] )
 
     useEffect(() => {
         async function loadData() {
             const { data } = await axios.get( `${ API }/trades/${ id }` )
             setTrade( data.data )
+            const { start_time, closed_at } = data.data
+            const st = moment(start_time, "yyyy-MM-DD hh:mm:ss").subtract(10, 'minutes').format("yyyy-MM-DD hh:mm")
+            const ca = moment(closed_at, "yyyy-MM-DD hh:mm:ss").add(10, 'minutes').format("yyyy-MM-DD hh:mm")
+            const { data: sdata } = await axios.get( `${ API }/sentiment?from=${ st }&to=${ ca }` )
+            console.log(sdata)
+            setSentiment( sdata.data )
         }
         loadData()
     }, [ id ])
@@ -48,6 +56,9 @@ const TradePage = () => {
                 <li>Total buy value: { trade.total_buy_value }</li>
                 <li>Total sell value: { trade.total_sell_value }</li>
             </ul>
+            <div>
+                { sentiment.length }
+            </div>
         </div>
     )
 }
