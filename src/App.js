@@ -5,6 +5,7 @@ import Log from "./Log"
 import Login, { AuthProvider, AuthBlocker} from "./Auth"
 import Footer from "./Footer"
 import Trades from "./Trades"
+import TradePage from "./Trades/Trade/Page"
 import Dashboard from "./Dashboard"
 import Socket, { SocketProvider } from "./Socket"
 import { ToastProvider } from "react-toast-notifications";
@@ -48,6 +49,7 @@ const App = () => {
                                 <Route exact path="/sirb" component={ Sirb } />
                                 <Route exact path="/log" component={ Log } />
                                 <Route exact path="/trades" component={ Trades } />
+                                <Route exact path="/trades/:id" component={ TradePage } />
                                 <Route exact path="/settings" component={ Settings } />
                                 <Route path="/simulations" component={ Simulations } />
                             </div>

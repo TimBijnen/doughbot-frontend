@@ -4,6 +4,7 @@ import { Form, Button, Table, Container, Row, Col } from "react-bootstrap"
 import { Dot } from "../Icon"
 import TradeInfo from "./Info"
 import moment from "moment"
+import { Link } from "react-router-dom"
 
 const Leds = ( ( { a, b, c, type, secondary } ) => type >= 0 ? (
     secondary ? (
@@ -48,13 +49,15 @@ const Page = () => {
                 </thead>
                 <tbody>
                     { trades.map( ( t ) => (
-                        <tr>
-                            <td>{ t.created_at }</td>
-                            <td>{ t.symbol }</td>
-                            <td>{ t.total_buy_value }</td>
-                            <td>{ t.total_sell_value }</td>
-                            <td>{ t.total_sell_value - t.total_buy_value }</td>
-                        </tr>
+                        <Link to={ `/trades/${ t.id }` }>
+                            <tr>
+                                <td>{ t.created_at }</td>
+                                <td>{ t.symbol }</td>
+                                <td>{ t.total_buy_value }</td>
+                                <td>{ t.total_sell_value }</td>
+                                <td>{ t.total_sell_value - t.total_buy_value }</td>
+                            </tr>
+                        </Link>
                     ) ) }
                 </tbody>
             </Table>
