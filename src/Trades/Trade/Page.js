@@ -1,4 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useEffect } from "react"
+import { useParams } from "react-router-dom"
+import axios from "axios"
+
+const API = process.env.REACT_APP_API_URL
 
 const trade = {
     "buy_orders": 2,
@@ -18,6 +22,14 @@ const trade = {
 
 const TradePage = () => {
     const { id } = useParams();
+    
+    useEffect(() => {
+        async function loadData() {
+            const { data } = await axios.get( `${ API }/trades/${ id }` )
+            console.log(data)
+        }
+        loadData()
+    }, [ id ])
 
     return (
         <div>

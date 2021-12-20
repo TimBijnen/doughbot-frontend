@@ -57,8 +57,8 @@ const Page = () => {
                                         { t.id }
                                     </Button>
                                 </Link>
-                            <td>{ t.created_at }</td>
                             </td>
+                            <td>{ t.created_at }</td>
                             <td>{ t.symbol }</td>
                             <td>{ t.total_buy_value }</td>
                             <td>{ t.total_sell_value }</td>
