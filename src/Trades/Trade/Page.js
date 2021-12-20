@@ -2,24 +2,9 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import moment from "moment"
+import SentimentChartComponent from "../../Chart/Sentiment"
 
 const API = process.env.REACT_APP_API_URL
-
-// const trade = {
-//     "buy_orders": 2,
-//     "candle_id": null,
-//     "created_at": "Sun, 19 Dec 2021 09:25:07 GMT",
-//     "id": 1,
-//     "sell_orders": 2,
-//     "sentiment_1h": 99.80223254985493,
-//     "sentiment_24h": 101.79285957749812,
-//     "sentiment_4h": 99.84041778614629,
-//     "symbol": "KMDBTC",
-//     "total_bought_coins": 33.0,
-//     "total_buy_value": 0.00051255,
-//     "total_sell_value": 0,
-//     "total_sold_coins": 0.0
-// }
 
 const TradePage = () => {
     const { id } = useParams();
@@ -34,8 +19,13 @@ const TradePage = () => {
             const st = moment(start_time, "yyyy-MM-DD hh:mm:ss").subtract(10, 'minutes').format("yyyy-MM-DD hh:mm")
             const ca = moment(closed_at, "yyyy-MM-DD hh:mm:ss").add(10, 'minutes').format("yyyy-MM-DD hh:mm")
             const { data: sdata } = await axios.get( `${ API }/sentiment?from=${ st }&to=${ ca }` )
-            console.log(sdata)
-            setSentiment( sdata.data )
+            const hour1 = []
+            const hour4 = []
+            for ( let i = 0; i < sdata.data.length; i += 1 ) {
+                hour1.push( sdata.data[ i ].one_h )
+                hour4.push( sdata.data[ i ].four_h )
+            }
+            setSentiment( [ hour1, hour4 ] )
         }
         loadData()
     }, [ id ])
@@ -57,7 +47,7 @@ const TradePage = () => {
                 <li>Total sell value: { trade.total_sell_value }</li>
             </ul>
             <div>
-                { sentiment.length }
+                <SentimentChartComponent datas={ sentiment } />
             </div>
         </div>
     )
