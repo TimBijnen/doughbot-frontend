@@ -27,13 +27,7 @@ const Trade = ( { simulationMode, restartTrader, index, ...props } ) => {
         <Card>
             <Card.Header>
                 { currentState.symbol } 
-                <div className="w-100">
-                    <Button onClick={ () => restartTrader( index ) }>
-                        Restart
-                    </Button>
-                </div>
-                <Time className="float-end" start={ startTime } end={ closeTime } />
-                <Badge className="float-end" bg={ isFinished ? "success" : "info" }>{ moment().format( "HH:mm:ss" ) }</Badge>
+                <Badge className="float-end" bg={ isFinished ? "success" : "info" }><Time className="float-end" start={ startTime } end={ closeTime } /></Badge>
             </Card.Header>
             <Card.Body>
                 { simulationMode && <TradeActions prices={ currentState.prices } isFinished={ isFinished }/> }
