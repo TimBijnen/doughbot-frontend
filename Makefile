@@ -15,6 +15,10 @@ start:
 run:
 	yarn start
 
+
+local:
+	yarn start 
+
 #: test app
 test:
 	yarn test

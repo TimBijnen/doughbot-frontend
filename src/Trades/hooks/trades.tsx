@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from 'react'
 import axios from "axios"
+import { mockTrades } from "./mockdata"
 
 const actions = {
     LOAD: "LOAD",
@@ -24,8 +25,15 @@ const useTrades = ( date: any ) => {
     const getTrades = async ( date: any ) => {
         try {
             dispatch( { type: actions.LOAD, data: { trades: [] } } )
-            const { data } = await axios.get( `/api/trades`)
-            dispatch( { type: actions.SET_DATA, data: { trades: data.data } } )
+            let trades
+            if ( process.env.REACT_APP_USE_MOCK ) {
+                trades = mockTrades.data
+            } else {
+                const { data } = await axios.get( `/api/trades`)
+                trades = data.data
+            }
+            trades = trades.sort( () => -1 )
+            dispatch( { type: actions.SET_DATA, data: { trades } } )
         } catch ( error: any ) {
             console.log(error)
         }
