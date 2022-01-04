@@ -37,6 +37,11 @@ const Page = () => {
     }
     if ( trades ) {
         return (
+            <>
+            <div>
+                total
+                { trades.reduce( ( a, b ) => a + ( parseFloat( b.total_sell_value ) - parseFloat( b.total_buy_value ) ), 0 ) }
+            </div>
             <Table>
                 <thead>
                     <tr>
@@ -67,6 +72,7 @@ const Page = () => {
                     ) ) }
                 </tbody>
             </Table>
+            </>
         )
     }
 
