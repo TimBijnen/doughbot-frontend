@@ -14,10 +14,10 @@ const Indicator = ( { label, value }: indicator ) => {
     if ( !value ) {
         <div key={ label } title="indicator" style={ style } className="bg-secondary" />
     }
-    let isNegative = value < 100
+    let isNegative = value < 1
     let className = `text-white bg-${ isNegative ? "danger" : "success" }`
 
-    const displayValue = (value - 100).toFixed(4)
+    const displayValue = ( ( value - 1 ) * 100 ).toFixed(4)
     return (
         <div key={ label } title="indicator" style={ style } className={ className }>
             { label }
