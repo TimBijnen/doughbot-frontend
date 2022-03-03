@@ -19,7 +19,7 @@ const Footer = () => {
                     <FooterItem link="/wallet">
                         <WalletIcon />
                     </FooterItem>
-                    <FooterItem link="/sirb">
+                    {/* <FooterItem link="/sirb">
                         <Piggy />
                     </FooterItem>
                     <FooterItem link="/trades">
@@ -33,7 +33,7 @@ const Footer = () => {
                     </FooterItem>
                     <FooterItem link="/simulations">
                         <ProjectorIcon />
-                    </FooterItem>
+                    </FooterItem> */}
                 </>
             ) }
         </footer>

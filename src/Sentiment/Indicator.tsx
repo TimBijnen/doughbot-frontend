@@ -17,7 +17,7 @@ const Indicator = ( { label, value }: indicator ) => {
     let isNegative = value < 1
     let className = `text-white bg-${ isNegative ? "danger" : "success" }`
 
-    const displayValue = ( ( value - 1 ) * 100 ).toFixed(4)
+    const displayValue = ( value * 100 ).toFixed(4)
     return (
         <div key={ label } title="indicator" style={ style } className={ className }>
             { label }

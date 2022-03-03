@@ -6,7 +6,7 @@ import Login, { AuthProvider, AuthBlocker} from "./Auth"
 import Footer from "./Footer"
 import Trades from "./Trades"
 import TradePage from "./Trades/Trade/Page"
-import Dashboard from "./Dashboard"
+import Dashboard from "./pages/Dashboard"
 import Socket, { SocketProvider } from "./Socket"
 import { ToastProvider } from "react-toast-notifications";
 import { BrowserRouter as Router, Route } from "react-router-dom";
