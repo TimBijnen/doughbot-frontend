@@ -4,7 +4,7 @@ import Wallet from "./Wallet"
 import Log from "./Log"
 import Login, { AuthProvider, AuthBlocker} from "./Auth"
 import Footer from "./Footer"
-import Trades from "./Trades"
+import TradesPage from "./pages/Trades/Page"
 import TradePage from "./Trades/Trade/Page"
 import Dashboard from "./pages/Dashboard"
 import Socket, { SocketProvider } from "./Socket"
@@ -48,7 +48,7 @@ const App = () => {
                                 <Route exact path="/oversold" component={ Oversold } />
                                 <Route exact path="/sirb" component={ Sirb } />
                                 <Route exact path="/log" component={ Log } />
-                                <Route exact path="/trades" component={ Trades } />
+                                <Route exact path="/trades" component={ TradesPage } />
                                 <Route exact path="/trades/:id" component={ TradePage } />
                                 <Route exact path="/settings" component={ Settings } />
                                 <Route path="/simulations" component={ Simulations } />
