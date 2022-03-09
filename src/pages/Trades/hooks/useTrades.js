@@ -13,22 +13,12 @@ const useTrades = ( date ) => {
         console.log(data.data)
         dispatch( { type: baseActions.SET_DATA, data: { filters } } )
     }
-
-    const getTrades = async ( { startDate, dateRange, symbol } = {} ) => {
-        let queries = []
-        if ( startDate ) {
-            queries = [ ...queries, `start_date=${ startDate }` ]
-        }
-        if ( dateRange ) {
-            queries = [ ...queries, `date_range=${ dateRange }` ]
-        }
-        if ( symbol ) {
-            queries = [ ...queries, `symbol=${ symbol }` ]
-        }
+    
+    const getTrades = async ( search = {} ) => {
         try {
             dispatch( { type: baseActions.LOAD, data: { trades: [] } } )
             let trades
-            const { data } = await axios.get( `/api/trades?${ queries.join( "&" ) }`)
+            const { data } = await axios.get( `/api/trades?${ search.toString() }`)
             trades = data.data
             dispatch( { type: baseActions.SET_DATA, data: { trades } } )
         } catch ( error ) {
@@ -39,12 +29,10 @@ const useTrades = ( date ) => {
     useEffect( () => {
         getFilters()
     }, [] )
+
     useEffect( () => {
         const search = new URLSearchParams( location.search )
-        const startDate = search.get( 'start_date' )
-        const dateRange = search.get( 'date_range' )
-        const symbol = search.get( 'symbol' )
-        getTrades( { startDate, dateRange, symbol } )
+        getTrades( search )
     }, [ date, location.search ])
 
     return [ state, { getTrades } ]

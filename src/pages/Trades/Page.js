@@ -1,13 +1,18 @@
 import { useTrades } from "."
-import { CallStats, DataFilter } from "../../Components"
+import { Row } from "react-bootstrap"
+import { CallStats, Filter } from "../../Components"
 
 const TradesPage = () => {
     const [ { isLoading, error, trades, filters } ] = useTrades()
     
 
     return (
-        <>
-            <DataFilter filters={ filters } />
+        <>  
+            <Row>
+                { filters.map( ( filter ) => (
+                    <Filter { ...filter } />
+                ) ) }
+            </Row>
             <CallStats isLoading={ isLoading } error={ error }>
                 { trades.map( ( trade ) => (
                     <div>
