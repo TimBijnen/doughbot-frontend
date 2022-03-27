@@ -31,15 +31,16 @@ function SocketProvider( { children } ) {
     // const { addToast } = useToasts()
     
     useEffect(() => {
-        const socket = socketIOClient( REACT_APP_SOCKET_URL, { transports: [ "websocket" ] } )
-
-        socket.on("user_authenticated", (response) => {
-            console.log(response)
-            dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
-        });
+        const socket = socketIOClient( REACT_APP_SOCKET_URL, { transports: [ "websocket" ], auth: {name:"frontend"} })
+        console.log("create socket")
+// socket.on("notify_client", (a)=>console.log("TEST", a))
         socket.on("connect", (response) => {
             console.log("Connect", response)
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
+        });
+        socket.on("disconnect", (response) => {
+            console.log("disConnect", response)
+            dispatch( { type: actions.SET_DATA, data: { connected: false, socket } } )
         });
         return () => { 
             console.log("disconnect")

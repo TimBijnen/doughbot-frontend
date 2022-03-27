@@ -1,19 +1,19 @@
-import { Card, Row, Col, Badge } from "react-bootstrap"
+import { Card, Row, Col, Badge, Button } from "react-bootstrap"
 import moment from "moment"
 import TradeOrder from "./Order"
-import PriceIndicator from "./PriceIndicator"
 import Chart from "../Chart"
 import TradeLog from './Log'
 import TradeActions from "./Actions"
 import { Time } from "../Components"
 import Price from "./components/Price"
+import useTrade from "./hooks/useTrade"
 
 const Trade = ( { simulationMode, restartTrader, index, ...props } ) => {
+    const { liquidateTrade } = useTrade()
     const currentState = props
     const startTime = moment.unix( currentState.start_time / 1000 )
     const closeTime = currentState.closed_at ? moment( currentState.closed_at ) : moment()
     const { prices = {}, last_prices = [] } = currentState
-    const price_now = prices.n || prices.s
     const price_levels = [
         { 'label': "break_even", 'value': prices.be },
         { 'label': "cancel", 'value': prices.c, bg: 'danger' },
@@ -57,7 +57,8 @@ const Trade = ( { simulationMode, restartTrader, index, ...props } ) => {
                         <Price { ...prices } />
                     </Col>
                     <Col xs={8}>
-                        <PriceIndicator levels={price_levels} value={ price_now } />
+                        {/* <PriceIndicator levels={price_levels} value={ price_now } /> */}
+                        <Button onClick={ liquidateTrade }>Liquidate</Button>
                         
                         { (currentState.orders || []).filter((o)=>o.status !== "IDLE").sort( ( a, b ) => a.transactTime > b.transactTime ? 1 : -1).map( ( o ) => (
                             <TradeOrder { ...o } />
