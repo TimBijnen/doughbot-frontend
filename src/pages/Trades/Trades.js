@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button } from "react-bootstrap"
+import { Container, Row, Col } from "react-bootstrap"
 import { useState, useEffect, useCallback } from "react"
 import { useSocket } from "../../components/Socket"
 import TraderInfo  from "./components/TraderInfo"
@@ -22,9 +22,9 @@ const Trades = ( { simulationMode } ) => {
         socket.emit("restart_trader", index)
     }
 
-    const setActive = ( sid, active ) => {
-        axios.post(`/api/doughbot/traders/${sid}/${ active ? 'deactivate' : 'activate' }`)
-    }
+    // const setActive = ( sid, active ) => {
+    //     axios.post(`/api/doughbot/traders/${sid}/${ active ? 'deactivate' : 'activate' }`)
+    // }
 
     const onStatusUpdate = useCallback((status) => {
         setTraders(status)
@@ -37,7 +37,6 @@ const Trades = ( { simulationMode } ) => {
                 socket.on("notify_client", onNotify )
                 socket.on("traderhub_status", onStatusUpdate )
                 axios.get(`${process.env.REACT_APP_API_URL}/doughbot/traders`).then( ( { data } ) => onStatusUpdate( data ) )
-                // socket.emit("get_traderhub_status", onStatusUpdate)
             }
             if ( socket.connected ) {
                 return () => {

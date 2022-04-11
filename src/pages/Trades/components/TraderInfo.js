@@ -1,10 +1,10 @@
-import { Card, Row, Col, Button } from "react-bootstrap"
+import { Card, Col } from "react-bootstrap"
 import { Led } from "../../../components/Icon"
 import moment from "moment"
 
 const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time }) => {
     const cardBorder = active ? 'success' : 'warning'
-    const setActive = () => {}
+    // const setActive = () => {}
     return (
         <Col>
             <Card border={cardBorder}>

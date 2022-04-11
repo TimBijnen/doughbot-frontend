@@ -1,4 +1,4 @@
-import { Card, Row, Col, Badge, Button } from "react-bootstrap"
+import { Card, Row, Col, Badge } from "react-bootstrap"
 import moment from "moment"
 import TradeOrder from "./Order"
 import Chart from "../../components/Chart"
