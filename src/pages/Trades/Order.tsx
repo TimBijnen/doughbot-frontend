@@ -1,5 +1,5 @@
 import { Row, Col } from "react-bootstrap"
-import { Bar } from "../../__components/Icon"
+import { Bar } from "../../components/Icon"
 import styled from "styled-components"
 import moment from "moment"
 import { Time } from "./components"

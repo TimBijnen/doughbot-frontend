@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap"
 import { useState, useEffect, useCallback } from "react"
-import { useSocket } from "../../__components/Socket"
+import { useSocket } from "../../components/Socket"
 import TraderInfo  from "./components/TraderInfo"
 import Trade from "./Trade"
 import axios from "axios"

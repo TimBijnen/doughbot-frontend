@@ -1,7 +1,7 @@
 import { Row, Col } from "react-bootstrap"
 import { useState, useEffect } from "react"
-import { useSocket } from "../../__components/Socket"
-import { Bar, Led } from "../../__components/Icon"
+import { useSocket } from "../../components/Socket"
+import { Bar, Led } from "../../components/Icon"
 import styled from "styled-components"
 import moment from "moment"
 

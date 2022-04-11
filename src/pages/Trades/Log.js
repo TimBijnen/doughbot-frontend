@@ -1,6 +1,6 @@
 import { Badge } from "react-bootstrap"
 import { useState, useEffect, useCallback } from "react"
-import { useSocket } from "../../__components/Socket"
+import { useSocket } from "../../components/Socket"
 import moment from "moment"
 
 const Log = ( { symbol } ) => {

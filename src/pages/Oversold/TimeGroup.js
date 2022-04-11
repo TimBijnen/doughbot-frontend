@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Badge, Card, Container, Row, Col, Collapse } from "react-bootstrap"
 import OversoldItem from "./Item"
 import styled from "styled-components"
-import { Led } from '../../__components/Icon'
+import { Led } from '../../components/Icon'
 
 const StyledCard = styled( Card )`
     border-left: 8px solid var(--bs-${ ( { issentimentpositive } ) => issentimentpositive ? "success" : "danger" });
