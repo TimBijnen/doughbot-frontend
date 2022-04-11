@@ -1,13 +1,18 @@
-import { Card, Col } from "react-bootstrap"
+import { useState } from "react"
+import { Card, Col, Modal, Button } from "react-bootstrap"
 import { Led } from "../../../components/Icon"
 import moment from "moment"
+import axios from "axios"
 
 const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time }) => {
     const cardBorder = active ? 'success' : 'warning'
-    // const setActive = () => {}
+    const [ showDetailed, setShowDetailed ] = useState(false)
+    const setActive = () => {
+        axios.post(`${process.env.REACT_APP_API_URL}/doughbot/traders/${sid}/${active?"deactivate":"activate"}`)
+    }
     return (
         <Col>
-            <Card border={cardBorder}>
+            <Card border={cardBorder} onClick={ () => setShowDetailed(true) }>
                 <Card.Header style={ { display: "flex" } }>
                     <div style={{width: "100%"}}>
                         {id}
@@ -27,6 +32,17 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time }) 
                     </Card.Text>
                 </Card.Body>
             </Card>
+            <Modal show={showDetailed} close={() => setShowDetailed(false)}>
+                <Modal.Title>
+                    Ttel
+                </Modal.Title>
+                <Modal.Body>
+                    <Button onClick={ setActive }>
+                        { active ? "Deactivate" : "Activate" }
+                    </Button>
+                </Modal.Body>
+
+            </Modal>
         </Col>
     )
 }
