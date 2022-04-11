@@ -7,8 +7,8 @@ import axios from "axios"
 const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time }) => {
     const cardBorder = active ? 'success' : 'warning'
     const [ showDetailed, setShowDetailed ] = useState(false)
-    const setActive = () => {
-        axios.post(`${process.env.REACT_APP_API_URL}/doughbot/traders/${sid}/${active?"deactivate":"activate"}`)
+    const setActive = (a) => {
+        axios.post(`${process.env.REACT_APP_API_URL}/doughbot/traders/${sid}/${a?"activate":"deactivate"}`)
     }
     return (
         <Col>
@@ -32,15 +32,22 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time }) 
                     </Card.Text>
                 </Card.Body>
             </Card>
-            <Modal show={showDetailed} close={() => setShowDetailed(false)}>
-                <Modal.Title>
+            <Modal show={showDetailed}>
+                <Modal.Header closeButton onHide={() => setShowDetailed(false)}>
                     Ttel
-                </Modal.Title>
+                </Modal.Header>
                 <Modal.Body>
-                    <Button onClick={ setActive }>
-                        { active ? "Deactivate" : "Activate" }
-                    </Button>
+                    <p>{`Is ${ active ? '' : 'not' } active`}</p>
+                    <p>{`Is ${ connected ? '' : 'not' } connected`}</p>
                 </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={active ? 'success' : 'secondary'} onClick={ () => setActive(true) }>
+                        Activate
+                    </Button>
+                    <Button variant={!active ? 'warning' : 'secondary'} onClick={ () => setActive(false) }>
+                        Deactivate
+                    </Button>
+                </Modal.Footer>
 
             </Modal>
         </Col>
