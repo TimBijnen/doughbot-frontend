@@ -1,6 +1,6 @@
 import useTrades from "./hooks/useTrades"
 import { Row } from "react-bootstrap"
-import { CallStats, Filter } from "../../components"
+import { CallStats, Filter } from "../../__components"
 
 const TradesPage = () => {
     const [ { isLoading, error, trades, filters } ] = useTrades()

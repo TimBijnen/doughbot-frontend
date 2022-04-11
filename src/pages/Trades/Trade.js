@@ -1,9 +1,9 @@
 import { Card, Row, Col, Badge } from "react-bootstrap"
 import moment from "moment"
 import TradeOrder from "./Order"
-import Chart from "../../components/Chart"
+import Chart from "../../__components/Chart"
 import TradeLog from './Log'
-import { Time } from "../../components"
+import { Time } from "../../__components"
 import Price from "./components/Price"
 
 const Trade = ( { simulationMode, restartTrader, index, ...props } ) => {

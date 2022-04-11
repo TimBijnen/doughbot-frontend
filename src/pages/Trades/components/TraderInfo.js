@@ -1,5 +1,5 @@
 import { Card, Col } from "react-bootstrap"
-import { Led } from "../../../components/Icon"
+import { Led } from "../../../__components/Icon"
 import moment from "moment"
 
 const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time }) => {
