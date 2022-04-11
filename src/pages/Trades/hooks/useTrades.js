@@ -10,7 +10,6 @@ const useTrades = ( date ) => {
     const getFilters = async () => {
         const { data } = await axios.get( `/api/trades/filters`)
         const filters = data.data
-        console.log(data.data)
         dispatch( { type: baseActions.SET_DATA, data: { filters } } )
     }
     
@@ -19,7 +18,7 @@ const useTrades = ( date ) => {
             dispatch( { type: baseActions.LOAD, data: { trades: [] } } )
             let trades
             const { data } = await axios.get( `/api/trades?${ search.toString() }`)
-            trades = data.data
+            trades = data
             dispatch( { type: baseActions.SET_DATA, data: { trades } } )
         } catch ( error ) {
             console.log(error)

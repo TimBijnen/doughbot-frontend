@@ -1,4 +1,4 @@
-import { Trades } from "../../Trades"
+import { Trades } from "../Trades"
 
 const Dashboard = () => {
     return (

@@ -1,2 +1,5 @@
-export { default as TradesPage } from "./Page"
+export { default } from "./Page"
 export { default as useTrades } from "./hooks/useTrades"
+export { default as TradeItem } from "./Item"
+export { default as Trade } from "./Trade"
+export { default as Trades } from "./Trades"
