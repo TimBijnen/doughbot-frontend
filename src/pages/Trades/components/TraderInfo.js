@@ -3,7 +3,16 @@ import { Card, Col, Modal, Button } from "react-bootstrap"
 import { Led } from "../../../components/Icon"
 import moment from "moment"
 import axios from "axios"
-
+import styled from "styled-components"
+const AssetName = styled.div`
+    @keyframes blink {
+        from { color: var(--bs-info)}
+        20% { color: var(--bs-info)}
+        to { color: black }
+    }
+    animation: blink 0.5s;
+    font-weight: bold;
+`
 const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ...props }) => {
     const cardBorder = active ? 'success' : 'warning'
     const [ showDetailed, setShowDetailed ] = useState(false)
@@ -25,6 +34,13 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
                         <p style={{fontSize: 10}}>active</p>
                         <Led isOn={connected} />
                         <p style={{fontSize: 10}}>connected</p>
+                        <Led isOn={props.ordersFetched} />
+                        <p key={props.ordersFetched} style={{fontSize: 10}}>
+                        
+                            <AssetName>
+                                fetched orders {props.ordersFetched}
+                            </AssetName>
+                        </p>
                     </div>
                 </Card.Header>
                 <Card.Body>
@@ -53,6 +69,9 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
                     </Button>
                     <Button variant={parseInt(props.strategy_id, 10) === 2 ? 'success' : 'secondary'} onClick={ () => setStrategy(2) }>
                         2
+                    </Button>
+                    <Button variant={parseInt(props.strategy_id, 10) === 3 ? 'success' : 'secondary'} onClick={ () => setStrategy(3) }>
+                        3
                     </Button>
                 </Modal.Body>
                 <Modal.Footer>

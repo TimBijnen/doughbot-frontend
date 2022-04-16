@@ -1,3 +1,4 @@
+
 const style = {
     borderRadius: "50%",
     width: 12,
@@ -7,10 +8,9 @@ const style = {
 }
 
 const Led = ( { isOn, title, disabled, type = "success", ...props } ) => {
-    let className = `bg-${ isOn ? type : "danger" } ${ props.className } d-inline-block`
-
+    
     return disabled ? null :(
-        <div { ...props } title={ title } style={ style } className={ className } />
+        <div { ...props } title={ title } style={ style } className={ `bg-${ isOn ? type : "danger" } ${ props.className } d-inline-block` } />
     )
 }
 
