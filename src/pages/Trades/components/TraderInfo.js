@@ -31,8 +31,12 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
                     <Card.Text>
                         { status }
                         { symbol && ` - Trading ${ symbol }` }
-                        <p style={{fontSize: 10}}>{moment.unix(start_time).format()}</p>
-                        <p style={{fontSize: 10}}>{props.strategy_id}</p>
+                        <p style={{fontSize: 10}}>
+                            {moment.unix(start_time).format()}<br/>
+                            Strategy {props.strategy_id}<br/>
+                            Hub version {props.trader_hub_version}<br/>
+                            Trader version {props.trader_version}
+                        </p>
                     </Card.Text>
                 </Card.Body>
             </Card>
