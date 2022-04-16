@@ -18,7 +18,6 @@ const Trade = ( { simulationMode, restartTrader, index, ...props } ) => {
         { 'label': "buy", 'value': prices.b || prices.bp, bg: 'info' },
         { 'label': "sell", 'value': prices.s, bg: 'success' },
     ]
-    console.log(currentState.total_bought_coins === currentState.total_sold_coins)
     const isFinished = (currentState.total_bought_coins === currentState.total_sold_coins) && currentState.total_bought_coins > 0
     return (
         <Card>
@@ -50,6 +49,9 @@ const Trade = ( { simulationMode, restartTrader, index, ...props } ) => {
                 </Row>
                 <Row>
                     <Col xs={4} className="small">
+                        <div>
+                            Strategy: { props.strategy_id }
+                        </div>
                         <Price { ...prices } />
                     </Col>
                     <Col xs={8}>

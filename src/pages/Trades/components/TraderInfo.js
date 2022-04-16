@@ -4,11 +4,14 @@ import { Led } from "../../../components/Icon"
 import moment from "moment"
 import axios from "axios"
 
-const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time }) => {
+const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ...props }) => {
     const cardBorder = active ? 'success' : 'warning'
     const [ showDetailed, setShowDetailed ] = useState(false)
     const setActive = (a) => {
         axios.post(`${process.env.REACT_APP_API_URL}/doughbot/traders/${sid}/${a?"activate":"deactivate"}`)
+    }
+    const setStrategy = (i) => {
+        axios.post(`${process.env.REACT_APP_API_URL}/doughbot/traders/${sid}/select_strategy/${i}`)
     }
     return (
         <Col>
@@ -29,6 +32,7 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time }) 
                         { status }
                         { symbol && ` - Trading ${ symbol }` }
                         <p style={{fontSize: 10}}>{moment.unix(start_time).format()}</p>
+                        <p style={{fontSize: 10}}>{props.strategy_id}</p>
                     </Card.Text>
                 </Card.Body>
             </Card>
@@ -39,6 +43,12 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time }) 
                 <Modal.Body>
                     <p>{`Is ${ active ? '' : 'not' } active`}</p>
                     <p>{`Is ${ connected ? '' : 'not' } connected`}</p>
+                    <Button variant={parseInt(props.strategy_id, 10) === 1 ? 'success' : 'secondary'} onClick={ () => setStrategy(1) }>
+                        1
+                    </Button>
+                    <Button variant={parseInt(props.strategy_id, 10) === 2 ? 'success' : 'secondary'} onClick={ () => setStrategy(2) }>
+                        2
+                    </Button>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant={active ? 'success' : 'secondary'} onClick={ () => setActive(true) }>

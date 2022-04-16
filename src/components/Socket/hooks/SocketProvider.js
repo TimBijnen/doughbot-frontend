@@ -32,10 +32,6 @@ function SocketProvider( { children } ) {
     
     useEffect(() => {
         const socket = socketIOClient( REACT_APP_SOCKET_URL, { transports: [ "websocket" ], auth: {name:"frontend"} })
-        socket.emit("test")
-        // socket.emit("oversold", namespace)
-        console.log("create socket")
-// socket.on("notify_client", (a)=>console.log("TEST", a))
         socket.on("connect", (response) => {
             console.log("Connect", response)
             dispatch( { type: actions.SET_DATA, data: { connected: true, socket } } )
