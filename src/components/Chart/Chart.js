@@ -18,10 +18,10 @@ const ChartD3Component = ({data, levels}) => {
         return <div></div>
     }
     data = createChartLineD3(data)
-    // const yMinValue = d3.min(data, (d) => d.price)
-    const yMinValue = levels.find((v) => v.label === 'cancel').value
-    // const yMaxValue = d3.max(data, (d) => d.price)
-    const yMaxValue = levels.find((v) => v.label === 'sell').value || levels.find((v) => v.label === 'buy').value
+    const yMinValue = d3.min(data, (d) => d.price)
+    // const yMinValue = levels.find((v) => v.label === 'cancel').value
+    const yMaxValue = d3.max(data, (d) => d.price)
+    // const yMaxValue = levels.find((v) => v.label === 'sell').value || levels.find((v) => v.label === 'buy').value
     const getX = d3
     .scaleTime()
     .domain(d3.extent(data, (d) => d.date))
@@ -29,7 +29,7 @@ const ChartD3Component = ({data, levels}) => {
 
     const getY = d3
         .scaleLinear()
-        .domain([yMinValue * 1.00, yMaxValue * 1.01])
+        .domain([yMinValue * 1.00, yMaxValue * 1])
         .range([height, 0]);
 
     const linePath = d3
@@ -39,7 +39,7 @@ const ChartD3Component = ({data, levels}) => {
         .curve(d3.curveMonotoneX)(data);
 
 
-    const createFlatLine = (value, start=0, end=29) => {
+    const createFlatLine = (value, start=28, end=29) => {
         return d3
         .line()
         .x((d) => getX(d.date))
@@ -72,19 +72,19 @@ const ChartD3Component = ({data, levels}) => {
                 /> */}
                 {/* <path fill={color} d={areaPath} opacity={0.3} /> */}
                 { sellLevel && (
-                    <path strokeWidth={3} fill="none" stroke="var(--bs-success)" d={levelSell} />
+                    <path strokeWidth={20} fill="none" stroke="var(--bs-success)" d={levelSell} />
                 )}
                 { breakEvenLevel && (
-                    <path strokeWidth={3} fill="none" stroke="var(--bs-secondary)" d={levelBreakEven} />
+                    <path strokeWidth={20} fill="none" stroke="var(--bs-secondary)" d={levelBreakEven} />
                 )}
                 { buyLevel && (
-                    <path strokeWidth={3} fill="none" stroke="var(--bs-info)" d={levelBuy} />
+                    <path strokeWidth={20} fill="none" stroke="var(--bs-info)" d={levelBuy} />
                 ) }
                 { cancelLevel && (
-                    <path strokeWidth={5} fill="none" stroke="var(--bs-danger)" d={levelCancel} />
+                    <path strokeWidth={20} fill="none" stroke="var(--bs-danger)" d={levelCancel} />
                 ) }
                 { rebuyLevel && (
-                    <path strokeWidth={3} fill="none" stroke="var(--bs-warning)" d={levelRebuy} />
+                    <path strokeWidth={20} fill="none" stroke="var(--bs-warning)" d={levelRebuy} />
                 ) }
 
                 <path strokeWidth={6} fill="none" stroke="url(#PriceLine)"  d={linePath} />

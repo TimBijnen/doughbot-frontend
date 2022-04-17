@@ -58,48 +58,35 @@ const Trades = () => {
 
     return (
         <Container>
-            <ListGroup as="ul">
-                { activeTraders.map( (t, i) => (
-                    <>
-                    <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}/>
-                    <ListGroup.Item>
-                        <div style={{position: 'absolute'}}>
+            { activeTraders.length > 0 && (
+                <ListGroup as="ul">
+                    <h6 style={{marginTop: 8}}>Active traders</h6>
+                    { activeTraders.map( (t, i) => (
+                        <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}>
                             <Trade { ...currentState[t.id] } />
-                        </div>
-                    </ListGroup.Item>
-                    </>
-                ))}
-            </ListGroup>
-
-            <ListGroup>
-                { inactiveTraders.map( t => (
-                    <>
-                    <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}>
-                        
-                            <Trade { ...currentState[t.id] } />
-                        
                         </TraderInfo>
-                    {/* <div style={{marginBottom: 200}}>
-                    </div> */}
-                    </>
+                    ) ) }
+                </ListGroup>
+            )}
+
+            { inactiveTraders.length > 0 && (
+                <ListGroup>
+                <h6 style={{marginTop: 8}}>Deactivated traders</h6>
+                { inactiveTraders.map( t => (
+                    <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}>
+                        <Trade { ...currentState[t.id] } />
+                    </TraderInfo>
                 ))}
             </ListGroup>
-
-            <h4>Disconnected traders</h4>
+            ) }
+                { disconnectedTraders.length > 0 && (
             <ListGroup>
+                <h6 style={{marginTop: 8}}>Disconnected traders</h6>
                 { disconnectedTraders.map( t => (
                     <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}/>
                 ))}
             </ListGroup>
-            <Row>
-            </Row>
-            <Row>
-                {/* { trades.map( ([s, t], i) => (
-                    <Col xs={12}>
-                        
-                    </Col>
-                ) ) } */}
-            </Row>
+                ) }
         </Container>
     )
 }

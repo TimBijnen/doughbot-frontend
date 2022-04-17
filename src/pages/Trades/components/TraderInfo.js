@@ -39,36 +39,46 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
             key={start_time}
             as="li"
             variant={ connected ? "light" : "secondary"}
-            onClick={ () => !showDetailed && setShowDetailed(true) }
-            className="d-flex justify-content-between align-items-start"
+            onClick={ (e) => {
+                if ( !showDetailed ) {
+                    setShowDetailed(true)
+                }  
+                e.preventDefault()
+            } }
         >
-            <div className="ms-2 me-auto">
-                <div className="fw-bold">
-                    <Blinker key={props.ordersFetched}>{id}</Blinker>
+            <div>
+                <div className="d-flex justify-content-between align-items-start">
+                    <div className="ms-2 me-auto" style={{height: 60}}>
+                        <div className="fw-bold">
+                            <Blinker key={props.ordersFetched}>{id}</Blinker>
+                        </div>
+                    
+                        <div style={{fontSize: 10}}>
+                            <div style={{width: "100%", display: 'flex'}}>
+                                { status }
+                                { symbol && ` - Trading ${ symbol }` }
+                            </div>
+                        </div>
+                    </div>
+
+                    { connected ? (
+                        <Badge pill bg={activePillBg}>{ active ? 'active' : 'inactive'}</Badge>
+                    ) : (
+                        <Badge pill bg={connectedPillBg}>disconnected</Badge>
+                    ) }
                 </div>
-            
-                <div style={{fontSize: 10}}>
-                    <div style={{width: "100%", display: 'flex'}}>
-                        { status }
-                        { symbol && ` - Trading ${ symbol }` }
-                    </div>
-                    <div style={{width: "100%", display: 'flex'}}>
-                        <p style={{fontSize: 10}}>
-                            {moment.unix(start_time).format()}<br/>
-                            Strategy {props.strategy_id}<br/>
-                            Hub version {props.trader_hub_version}<br/>
-                            Trader version {props.trader_version}<br/>
-                            Trades started {props.trades_started}
-                        </p>
-                    </div>
+                <div style={{width: "100%"}}>
+                    <p className="m-0" style={{fontSize: 10}}>
+                        {`Strategy: ${props.strategy_id}`}
+                        {' | '}
+                        {`Trades started: ${props.trades_started}`}
+                        <br />
+                        {`Hub version: ${props.trader_hub_version}`}
+                        {' | '}
+                        {`Trader version: ${props.trader_version}}`}
+                    </p>
                 </div>
             </div>
-
-            { connected ? (
-                <Badge pill bg={activePillBg}>{ active ? 'active' : 'inactive'}</Badge>
-            ) : (
-                <Badge pill bg={connectedPillBg}>disconnected</Badge>
-            ) }
         {/* </ListGroup.Item>
         <ListGroup.Item >
             <div style={{width: "100%", display: 'flex'}}>
