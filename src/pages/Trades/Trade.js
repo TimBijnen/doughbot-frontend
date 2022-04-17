@@ -6,7 +6,7 @@ import TradeLog from './Log'
 import { Time } from "../../components"
 import Price from "./components/Price"
 
-const Trade = ( props ) => {
+const Trade = ( { simulationMode, restartTrader, index, ...props } ) => {
     const currentState = props
     const startTime = moment.unix( currentState.start_time / 1000 )
     const closeTime = currentState.closed_at ? moment( currentState.closed_at ) : moment()
@@ -19,9 +19,6 @@ const Trade = ( props ) => {
         { 'label': "sell", 'value': prices.s, bg: 'success' },
     ]
     const isFinished = (currentState.total_bought_coins === currentState.total_sold_coins) && currentState.total_bought_coins > 0
-    return (
-            <Chart data={ last_prices } levels={ price_levels } />
-    )
     return (
         <Card>
             <Card.Header>
@@ -47,6 +44,7 @@ const Trade = ( props ) => {
                                 <Badge bg={ currentState.sell_active ? "success" : "secondary" }>SELL</Badge>
                             </div>
                         </div>
+                        <Chart prices={ last_prices } levels={ price_levels } />
                     </Col>
                 </Row>
                 <Row>

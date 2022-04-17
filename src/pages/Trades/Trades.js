@@ -1,4 +1,4 @@
-import { ListGroup, Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Col } from "react-bootstrap"
 import { useState, useEffect, useCallback } from "react"
 import { useSocket } from "../../components/Socket"
 import TraderInfo  from "./components/TraderInfo"
@@ -50,58 +50,23 @@ const Trades = ( { simulationMode } ) => {
             }
         }
     }, [ socket, socket?.connected, onNotify, onStatusUpdate ] )
-    if ( !currentState ) {
-        return <div>Loading</div>
-    }
-    // debugger
-    const connectedTraders = traders.filter( ( a ) => a.connected ? a : null)
-    const disconnectedTraders = traders.filter( ( a ) => !a.connected ? a : null)
-    const activeTraders = connectedTraders.filter( ( a ) => a.active ? a : null)
-    const inactiveTraders = connectedTraders.filter( ( a ) => !a.active ? a : null)
+
+    const trades = Object.entries( currentState )
 
     return (
         <Container>
-            <ListGroup as="ul">
-                { activeTraders.map( (t, i) => (
-                    <>
-                    <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}/>
-                    <ListGroup.Item>
-                        <div style={{position: 'absolute'}}>
-                            <Trade { ...currentState[t.id] } />
-                        </div>
-                    </ListGroup.Item>
-                    </>
-                ))}
-            </ListGroup>
-
-            <ListGroup>
-                { inactiveTraders.map( t => (
-                    <>
-                    <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}>
-                        
-                            <Trade { ...currentState[t.id] } />
-                        
-                        </TraderInfo>
-                    {/* <div style={{marginBottom: 200}}>
-                    </div> */}
-                    </>
-                ))}
-            </ListGroup>
-
-            <h4>Disconnected traders</h4>
-            <ListGroup>
-                { disconnectedTraders.map( t => (
-                    <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}/>
-                ))}
-            </ListGroup>
             <Row>
+                { traders.map( t => (
+                    <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}/>
+                ))}
             </Row>
             <Row>
-                {/* { trades.map( ([s, t], i) => (
+                { trades.map( ([s, t], i) => (
                     <Col xs={12}>
                         
+                        <Trade { ...t } index={ i } restartTrader={ restartTrader } simulationMode={ simulationMode } />
                     </Col>
-                ) ) } */}
+                ) ) }
             </Row>
         </Container>
     )
