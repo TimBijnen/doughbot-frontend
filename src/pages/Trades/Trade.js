@@ -15,7 +15,7 @@ const Trade = ( props ) => {
     ]
     // const isFinished = (currentState.total_bought_coins === currentState.total_sold_coins) && currentState.total_bought_coins > 0
     return (
-            <Chart data={ last_prices } levels={ price_levels } />
+            <Chart width={240} height={100} data={ last_prices } levels={ price_levels } />
     )
     // return (
     //     <Card>

@@ -1,10 +1,22 @@
-const Time = ( { start, end } ) => {
+import moment from "moment"
+
+const Time = ( { start, end, startTimestamp } ) => {
+    if (!start) {
+        start = moment()
+    }
+    if (startTimestamp) {
+        start = moment.unix(startTimestamp)
+    }
+    if (!end) {
+        end = moment()
+    }
     const secondsDiff = end.diff(start, 'seconds')
-    const minutes = parseInt( secondsDiff / 60 )
     const seconds = secondsDiff % 60
+    const minutes = parseInt( secondsDiff / 60 ) % 60
+    const hours = parseInt( secondsDiff / 3600 ) 
     return (
         <div>
-            { minutes }m { seconds }s
+            {hours}h { minutes }m { seconds }s
         </div>
     )
 }

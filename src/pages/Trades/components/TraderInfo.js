@@ -2,21 +2,44 @@ import { useState } from "react"
 import { ListGroup, Badge, Modal, Button } from "react-bootstrap"
 import axios from "axios"
 import styled from "styled-components"
+import Time from "./Time"
+
 const Blinker = styled.div`
     @keyframes blink {
-        from { color: var(--bs-info) }
-        2% { color: var(--bs-primary) }
+        from {
+            color: var(--bs-info);
+            > .bg_primary {
+                background-color: var(--bs-info);
+            }
+        }
+        2% {
+            color: var(--bs-primary);
+            .bg_primary {
+                background-color: var(--bs-primary);
+            }
+        }
         10% { color: var(--bs-success) }
         35% { color: var(--bs-success) }
-        45% { color: var(--bs-light) }
-        55% { color: var(--bs-secondary) }
-        70% { color: var(--bs-warning)}
-        to { color: var(--bs-danger)}
+        to { 
+            color: var(--bs-secondary);
+            .bg_primary {
+                background-color: var(--bs-primary);
+            }
+        }
     }
+    animation-fill-mode: forwards;
     animation: blink 60s;
     color: var(--bs-danger);
     font-weight: bold;
-    margin: auto 16px auto 0;
+    
+    @keyframes blinkBadge {
+        from { color: white; font-weight: bold; }
+        50% { color: black; font-weight: bold; }
+    }
+    .badge {
+        animation: blinkBadge 1s;
+        animation-iteration-count: 4
+    }
 `
 
 const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ...props }) => {
@@ -29,82 +52,53 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
     }
 
     const connectedPillBg = connected ? 'success' : 'danger'
-    let activePillBg = active ? 'success' : 'warning'
-    if (!connected) {
-        activePillBg = 'secondary'
-    }
+    const activePillBg = (props.buy_active || props.sell_active) ? 'success' : 'secondary'
+    // const icbv = props.strategy.initial_btc_buy_value
+    // let totalBtcValue = icbv 
+    // if ( props.order_amt?.buy === 2 ) {
+    //     totalBtcValue *= 2.5
+    // }
+    // if ( props.order_amt?.buy === 3 ) {
+    //     totalBtcValue *= 2
+    // }
+    const sellOrders = props.orders?.filter( ( o ) => o.side === 'SELL' && o) || []
     return (
         <ListGroup.Item
             key={start_time}
             as="li"
-            variant={ connected ? "light" : "secondary"}
+            variant={ connected && active ? "light" : "secondary"}
             onClick={ (e) => {
-                if ( !showDetailed ) {
-                    setShowDetailed(true)
-                }  
+                !showDetailed && setShowDetailed( true )
                 e.preventDefault()
             } }
         >
             <div>
                 <div className="d-flex justify-content-between align-items-start">
                     <div className="ms-2 me-auto" style={{height: 60}}>
-                        <div className="fw-bold">
+                        <div className="fw-bold d-flex">
                             <Blinker key={props.ordersFetched}>{id}</Blinker>
                         </div>
                     
                         <div style={{fontSize: 10}}>
+                            <Badge pill bg={activePillBg}>
+
                             <div style={{width: "100%", display: 'flex'}}>
                                 { status }
                                 { symbol && ` - Trading ${ symbol }` }
                             </div>
+                            </Badge>
                         </div>
                     </div>
 
                     { connected ? (
-                        <Badge pill bg={activePillBg}>{ active ? 'active' : 'inactive'}</Badge>
+                        <Badge style={{fontSize: 10}} bg="secondary">
+                            {`Strategy ${ props.strategy_id }`}
+                        </Badge>
                     ) : (
                         <Badge pill bg={connectedPillBg}>disconnected</Badge>
                     ) }
                 </div>
-                <div style={{width: "100%"}}>
-                    <p className="m-0" style={{fontSize: 10}}>
-                        {`Strategy: ${props.strategy_id}`}
-                        {' | '}
-                        {`Trades started: ${props.trades_started}`}
-                        <br />
-                        {`Hub version: ${props.trader_hub_version}`}
-                        {' | '}
-                        {`Trader version: ${props.trader_version}}`}
-                    </p>
-                </div>
             </div>
-        {/* </ListGroup.Item>
-        <ListGroup.Item >
-            <div style={{width: "100%", display: 'flex'}}>
-                <div style={{width: "100%", display: 'flex'}}>
-                    {id}
-                </div>
-                </div>
-            </div> */}
-            {/* <Card border={cardBorder}>
-                <Card.Header style={ { display: "flex" } }>
-                    <div>
-                    </div>
-                </Card.Header>
-                <Card.Body>
-                    <Card.Text>
-                        { status }
-                        { symbol && ` - Trading ${ symbol }` }
-                        <p style={{fontSize: 10}}>
-                            {moment.unix(start_time).format()}<br/>
-                            Strategy {props.strategy_id}<br/>
-                            Hub version {props.trader_hub_version}<br/>
-                            Trader version {props.trader_version}<br/>
-                            Trades started {props.trades_started}
-                        </p>
-                    </Card.Text>
-                </Card.Body>
-            </Card> */}
             <Modal show={showDetailed}>
                 <Modal.Header closeButton onHide={(e) => setShowDetailed(false)}>
                     Ttel
@@ -121,6 +115,14 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
                     <Button variant={parseInt(props.strategy_id, 10) === 3 ? 'success' : 'secondary'} onClick={ () => setStrategy(3) }>
                         3
                     </Button>
+                    <div className="w-100 text-end"  style={{fontSize: 12}}>
+                        <Badge>
+                            {`Hub version: ${props.trader_hub_version}`}
+                        </Badge>
+                        <Badge>
+                            {`Trader version: ${props.trader_version}`}
+                        </Badge>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant={active ? 'success' : 'secondary'} onClick={ () => setActive(true) }>
@@ -133,11 +135,27 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
 
             </Modal>
 
-            <div style={{position: 'absolute', left:0, bottom:0, height: '100px', width: '100%'}}>
-                <div style={{margin: 'auto'}}>
-                    {props.children}
+            { props.children ? (
+                <div style={{display: 'flex', position: 'absolute', left:0, bottom:0, height: '100px', width: '100%'}}>
+                    <div className="ms-auto mt-auto">
+                        {props.children}
+                    </div>
+                </div>
+            ) : null }
+            { props.orders?.length > 0 && (
+
+            <div className="ms-2" style={{fontSize: 12}}>
+                <Time startTimestamp={ start_time } />
+                <div className="d-flex">
+                    <Blinker key={ `badge_buys_${id}_${props.orders?.length - sellOrders?.length }`}>
+                        <Badge>Buys { props.orders?.length - sellOrders?.length }</Badge>
+                    </Blinker>
+                    <Blinker key={ `badge_sell_${id}_${sellOrders?.length }`}>
+                        <Badge>Sells { sellOrders?.length }</Badge>
+                    </Blinker>
                 </div>
             </div>
+            )}
         </ListGroup.Item>
     )
 }
