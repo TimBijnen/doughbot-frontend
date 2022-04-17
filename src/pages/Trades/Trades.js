@@ -21,7 +21,7 @@ const Trades = () => {
         } else if ( data.type === 'candle_collector_notify' || data.type === '__notify' ) {
             addToast( data.title, { appearance: 'success', autoDismiss: true })
         } else {
-            setCurrentState( currentState => ( { ...currentState, [ data.symbol ]: data } ) )
+            setCurrentState( currentState => ( { ...currentState, [ data.name ]: data } ) )
         }
     }, [addToast] )
     
