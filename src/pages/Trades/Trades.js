@@ -1,4 +1,4 @@
-import { ListGroup, Container, Row } from "react-bootstrap"
+import { ListGroup, Container } from "react-bootstrap"
 import { useState, useEffect, useCallback } from "react"
 import { useSocket } from "../../components/Socket"
 import TraderInfo  from "./components/TraderInfo"
