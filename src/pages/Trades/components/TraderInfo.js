@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { PlaceHolder, ListGroup, Badge, Card, Col, Modal, Button } from "react-bootstrap"
-import { Led } from "../../../components/Icon"
+import { ListGroup, Badge, Modal, Button } from "react-bootstrap"
 import moment from "moment"
 import axios from "axios"
 import styled from "styled-components"
@@ -22,7 +21,6 @@ const Blinker = styled.div`
 `
 
 const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ...props }) => {
-    const cardBorder = active ? 'success' : 'warning'
     const [ showDetailed, setShowDetailed ] = useState(false)
     const setActive = (a) => {
         axios.post(`${process.env.REACT_APP_API_URL}/doughbot/traders/${sid}/${a?"activate":"deactivate"}`)

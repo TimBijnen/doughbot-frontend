@@ -1,4 +1,4 @@
-import { ListGroup, Container, Row, Col } from "react-bootstrap"
+import { ListGroup, Container, Row } from "react-bootstrap"
 import { useState, useEffect, useCallback } from "react"
 import { useSocket } from "../../components/Socket"
 import TraderInfo  from "./components/TraderInfo"
@@ -6,7 +6,7 @@ import Trade from "./Trade"
 import axios from "axios"
 import { useToasts } from "react-toast-notifications"
 
-const Trades = ( { simulationMode } ) => {
+const Trades = () => {
     const { addToast } = useToasts()
     const [ { socket } ] = useSocket()
     const [ currentState, setCurrentState ] = useState({})
@@ -25,9 +25,6 @@ const Trades = ( { simulationMode } ) => {
         }
     }, [addToast] )
     
-    const restartTrader = (index) => {
-        socket.emit("restart_trader", index)
-    }
     
     const onStatusUpdate = useCallback((status) => {
         setTraders(status)

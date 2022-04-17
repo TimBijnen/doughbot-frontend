@@ -1,11 +1,10 @@
-import React from 'react'
-import { Chart } from 'react-charts'
+// import React from 'react'
+// import { Chart } from 'react-charts'
 import * as d3 from "d3";
  
 const margin = { top: 0, right: 0, bottom: 0, left: 0 },
     width = 960 - margin.left - margin.right,
-    height = 240 - margin.top - margin.bottom,
-    color = "OrangeRed";
+    height = 240 - margin.top - margin.bottom;
 
 const createChartLineD3 = ( data ) => {
     if ( data.length < 30 ) {
@@ -33,15 +32,6 @@ const ChartD3Component = ({data, levels}) => {
         .domain([yMinValue * 1.00, yMaxValue * 1.01])
         .range([height, 0]);
 
-    const getXAxis = (ref) => {
-        const xAxis = d3.axisBottom(getX);
-        d3.select(ref).call(xAxis);
-    };
-
-    const getYAxis = (ref) => {
-        const yAxis = d3.axisLeft(getY);
-        d3.select(ref).call(yAxis);
-    };
     const linePath = d3
         .line()
         .x((d) => getX(d.date))
@@ -148,102 +138,102 @@ const ChartD3Component = ({data, levels}) => {
 
 
 
-const createChartLine = ( data ) => data.map( ( d, i ) => [ i, d ] )
+// const createChartLine = ( data ) => data.map( ( d, i ) => [ i, d ] )
 
-const ChartComponent = ( { zeroLine, prices=[], levels=[], height=120, data, datas=[] } ) => {
-    const priceData = datas[ 0 ] || data || createChartLine( prices )
-    const lines = levels.filter( ( d ) => d.value > 0 ).map( ( d ) => ( { ...d, data: [ [ 0, d.value ], [ 29, d.value] ] } ) )
-    const zline = React.useMemo( () => {
-        if ( zeroLine ) {
-            const pds = priceData[ 0 ]
-            const pde = priceData[ priceData.length - 1 ]
-            if ( pds && pde ) {
-                return [ {
-                    label: 'Zero',
-                    data: [ [ pds[ 0 ], 0 ], [ pde[ 0 ], 0 ] ]
-                }, {
-                    label: 'Zero',
-                    data: [ [ pds[ 0 ], -0.1 ], [ pde[ 0 ], -0.1 ] ]
-                }, {
-                    label: 'Zero',
-                    data: [ [ pds[ 0 ], -0.2 ], [ pde[ 0 ], -0.2 ] ]
-                }, {
-                    label: 'Zero',
-                    data: [ [ pds[ 0 ], 0.1 ], [ pde[ 0 ], 0.1 ] ]
-                }, {
-                    label: 'Zero',
-                    data: [ [ pds[ 0 ], 0.2 ], [ pde[ 0 ], 0.2 ] ]
-                } ]
-            }
-        }
-        return []
-    }, [ priceData, zeroLine ] )
+// const ChartComponent = ( { zeroLine, prices=[], levels=[], height=120, data, datas=[] } ) => {
+//     const priceData = datas[ 0 ] || data || createChartLine( prices )
+//     const lines = levels.filter( ( d ) => d.value > 0 ).map( ( d ) => ( { ...d, data: [ [ 0, d.value ], [ 29, d.value] ] } ) )
+//     const zline = React.useMemo( () => {
+//         if ( zeroLine ) {
+//             const pds = priceData[ 0 ]
+//             const pde = priceData[ priceData.length - 1 ]
+//             if ( pds && pde ) {
+//                 return [ {
+//                     label: 'Zero',
+//                     data: [ [ pds[ 0 ], 0 ], [ pde[ 0 ], 0 ] ]
+//                 }, {
+//                     label: 'Zero',
+//                     data: [ [ pds[ 0 ], -0.1 ], [ pde[ 0 ], -0.1 ] ]
+//                 }, {
+//                     label: 'Zero',
+//                     data: [ [ pds[ 0 ], -0.2 ], [ pde[ 0 ], -0.2 ] ]
+//                 }, {
+//                     label: 'Zero',
+//                     data: [ [ pds[ 0 ], 0.1 ], [ pde[ 0 ], 0.1 ] ]
+//                 }, {
+//                     label: 'Zero',
+//                     data: [ [ pds[ 0 ], 0.2 ], [ pde[ 0 ], 0.2 ] ]
+//                 } ]
+//             }
+//         }
+//         return []
+//     }, [ priceData, zeroLine ] )
     
     
-    const getSeriesStyle = React.useCallback((series) => {
-        const colorPalette = {
-          break_even: "var(--bs-secondary)",
-          cancel: "var(--bs-danger)",
-          rebuy: "var(--bs-warning)",
-          buy: "var(--bs-info)",
-          sell: "var(--bs-success)",
-        };
+//     const getSeriesStyle = React.useCallback((series) => {
+//         const colorPalette = {
+//           break_even: "var(--bs-secondary)",
+//           cancel: "var(--bs-danger)",
+//           rebuy: "var(--bs-warning)",
+//           buy: "var(--bs-info)",
+//           sell: "var(--bs-success)",
+//         };
     
-        return {
-          stroke: colorPalette[series.label],
-          fill: colorPalette[series.label],
-        };
-    }, []);
+//         return {
+//           stroke: colorPalette[series.label],
+//           fill: colorPalette[series.label],
+//         };
+//     }, []);
 
 
-    const d = React.useMemo(
-        () => [
-            {
-                label: 'Price',
-                data: datas[ 0 ] || priceData
-            },
-            // {
-            //     label: 'Price',
-            //     data: datas[ 1 ] || priceData
-            // },
-            // {
-            //     label: 'Price',
-            //     data: datas[ 2 ] || priceData
-            // },
-            ...lines,
-            ...zline,
-        ],
-        [priceData, lines, zline, datas]
-    )
+//     const d = React.useMemo(
+//         () => [
+//             {
+//                 label: 'Price',
+//                 data: datas[ 0 ] || priceData
+//             },
+//             // {
+//             //     label: 'Price',
+//             //     data: datas[ 1 ] || priceData
+//             // },
+//             // {
+//             //     label: 'Price',
+//             //     data: datas[ 2 ] || priceData
+//             // },
+//             ...lines,
+//             ...zline,
+//         ],
+//         [priceData, lines, zline, datas]
+//     )
   
-    const primaryAxes = React.useMemo(
-        () => ({
-        getValue: () => 0.01
-        }),
-        []
-    );
+//     const primaryAxes = React.useMemo(
+//         () => ({
+//         getValue: () => 0.01
+//         }),
+//         []
+//     );
 
-    const secondaryAxes = React.useMemo(
-        () => [
-        {
-            getValue: () => 0.01,
-        },
-        ],
-        []
-    );
-    const axes = React.useMemo(
-        () => [
-            { primary: true, type: 'time', position: 'bottom' },
-            { type: 'linear', position: 'left' }
-        ],
-        []
-    )
+//     const secondaryAxes = React.useMemo(
+//         () => [
+//         {
+//             getValue: () => 0.01,
+//         },
+//         ],
+//         []
+//     );
+//     const axes = React.useMemo(
+//         () => [
+//             { primary: true, type: 'time', position: 'bottom' },
+//             { type: 'linear', position: 'left' }
+//         ],
+//         []
+//     )
  
-    return (
-        <div style={{height: height}}>
-            <Chart data={d} axes={axes} getSeriesStyle={getSeriesStyle}/>
-        </div>
-    )
-}
+//     return (
+//         <div style={{height: height}}>
+//             <Chart data={d} axes={axes} getSeriesStyle={getSeriesStyle}/>
+//         </div>
+//     )
+// }
 
 export default ChartD3Component
