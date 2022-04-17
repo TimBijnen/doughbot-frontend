@@ -1,18 +1,26 @@
 import { useState } from "react"
-import { Card, Col, Modal, Button } from "react-bootstrap"
+import { PlaceHolder, ListGroup, Badge, Card, Col, Modal, Button } from "react-bootstrap"
 import { Led } from "../../../components/Icon"
 import moment from "moment"
 import axios from "axios"
 import styled from "styled-components"
-const AssetName = styled.div`
+const Blinker = styled.div`
     @keyframes blink {
-        from { color: var(--bs-info)}
-        20% { color: var(--bs-info)}
-        to { color: black }
+        from { color: var(--bs-info) }
+        2% { color: var(--bs-primary) }
+        10% { color: var(--bs-success) }
+        35% { color: var(--bs-success) }
+        45% { color: var(--bs-light) }
+        55% { color: var(--bs-secondary) }
+        70% { color: var(--bs-warning)}
+        to { color: var(--bs-danger)}
     }
-    animation: blink 0.5s;
+    animation: blink 60s;
+    color: var(--bs-danger);
     font-weight: bold;
+    margin: auto 16px auto 0;
 `
+
 const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ...props }) => {
     const cardBorder = active ? 'success' : 'warning'
     const [ showDetailed, setShowDetailed ] = useState(false)
@@ -22,25 +30,58 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
     const setStrategy = (i) => {
         axios.post(`${process.env.REACT_APP_API_URL}/doughbot/traders/${sid}/select_strategy/${i}`)
     }
+
+    const connectedPillBg = connected ? 'success' : 'danger'
+    let activePillBg = active ? 'success' : 'warning'
+    if (!connected) {
+        activePillBg = 'secondary'
+    }
     return (
-        <Col>
-            <Card border={cardBorder} onClick={ () => setShowDetailed(true) }>
-                <Card.Header style={ { display: "flex" } }>
-                    <div style={{width: "100%"}}>
-                        {id}
+        <ListGroup.Item
+            key={start_time}
+            as="li"
+            variant={ connected ? "light" : "secondary"}
+            onClick={ () => !showDetailed && setShowDetailed(true) }
+            className="d-flex justify-content-between align-items-start"
+        >
+            <div className="ms-2 me-auto">
+                <div className="fw-bold">
+                    <Blinker key={props.ordersFetched}>{id}</Blinker>
+                </div>
+            
+                <div style={{fontSize: 10}}>
+                    <div style={{width: "100%", display: 'flex'}}>
+                        { status }
+                        { symbol && ` - Trading ${ symbol }` }
                     </div>
-                    <div style={ { display: "flex" }}>
-                        <Led isOn={active} />
-                        <p style={{fontSize: 10}}>active</p>
-                        <Led isOn={connected} />
-                        <p style={{fontSize: 10}}>connected</p>
-                        <Led isOn={props.ordersFetched} />
-                        <p key={props.ordersFetched} style={{fontSize: 10}}>
-                        
-                            <AssetName>
-                                fetched orders {props.ordersFetched}
-                            </AssetName>
+                    <div style={{width: "100%", display: 'flex'}}>
+                        <p style={{fontSize: 10}}>
+                            {moment.unix(start_time).format()}<br/>
+                            Strategy {props.strategy_id}<br/>
+                            Hub version {props.trader_hub_version}<br/>
+                            Trader version {props.trader_version}<br/>
+                            Trades started {props.trades_started}
                         </p>
+                    </div>
+                </div>
+            </div>
+
+            { connected ? (
+                <Badge pill bg={activePillBg}>{ active ? 'active' : 'inactive'}</Badge>
+            ) : (
+                <Badge pill bg={connectedPillBg}>disconnected</Badge>
+            ) }
+        {/* </ListGroup.Item>
+        <ListGroup.Item >
+            <div style={{width: "100%", display: 'flex'}}>
+                <div style={{width: "100%", display: 'flex'}}>
+                    {id}
+                </div>
+                </div>
+            </div> */}
+            {/* <Card border={cardBorder}>
+                <Card.Header style={ { display: "flex" } }>
+                    <div>
                     </div>
                 </Card.Header>
                 <Card.Body>
@@ -56,9 +97,9 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
                         </p>
                     </Card.Text>
                 </Card.Body>
-            </Card>
+            </Card> */}
             <Modal show={showDetailed}>
-                <Modal.Header closeButton onHide={() => setShowDetailed(false)}>
+                <Modal.Header closeButton onHide={(e) => setShowDetailed(false)}>
                     Ttel
                 </Modal.Header>
                 <Modal.Body>
@@ -84,7 +125,13 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
                 </Modal.Footer>
 
             </Modal>
-        </Col>
+
+            <div style={{position: 'absolute', left:0, bottom:0, height: '100px', width: '100%'}}>
+                <div style={{margin: 'auto'}}>
+                    {props.children}
+                </div>
+            </div>
+        </ListGroup.Item>
     )
 }
 
