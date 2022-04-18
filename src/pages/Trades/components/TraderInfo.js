@@ -64,7 +64,7 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
     const sellOrders = props.orders?.filter( ( o ) => o.side === 'SELL' && o) || []
     return (
         <ListGroup.Item
-            key={start_time}
+            key={id}
             as="li"
             variant={ connected && active ? "light" : "secondary"}
             onClick={ (e) => {
@@ -145,7 +145,7 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
             { props.orders?.length > 0 && (
 
             <div className="ms-2" style={{fontSize: 12}}>
-                <Time startTimestamp={ start_time } />
+                <Time startTimestamp={ start_time / 1000 } />
                 <div className="d-flex">
                     <Blinker key={ `badge_buys_${id}_${props.orders?.length - sellOrders?.length }`}>
                         <Badge>Buys { props.orders?.length - sellOrders?.length }</Badge>
