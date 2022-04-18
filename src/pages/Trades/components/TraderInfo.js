@@ -42,7 +42,7 @@ const Blinker = styled.div`
     }
 `
 
-const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ...props }) => {
+const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, startTime, ...props }) => {
     const [ showDetailed, setShowDetailed ] = useState(false)
     const setActive = (a) => {
         axios.post(`${process.env.REACT_APP_API_URL}/doughbot/traders/${sid}/${a?"activate":"deactivate"}`)
@@ -53,14 +53,6 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
 
     const connectedPillBg = connected ? 'success' : 'danger'
     const activePillBg = (props.buy_active || props.sell_active) ? 'success' : 'secondary'
-    // const icbv = props.strategy.initial_btc_buy_value
-    // let totalBtcValue = icbv 
-    // if ( props.order_amt?.buy === 2 ) {
-    //     totalBtcValue *= 2.5
-    // }
-    // if ( props.order_amt?.buy === 3 ) {
-    //     totalBtcValue *= 2
-    // }
     const sellOrders = props.orders?.filter( ( o ) => o.side === 'SELL' && o) || []
     return (
         <ListGroup.Item
@@ -145,7 +137,7 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
             { props.orders?.length > 0 && (
 
             <div className="ms-2" style={{fontSize: 12}}>
-                <Time startTimestamp={ start_time / 1000 } />
+                <Time startTimestamp={ startTime / 1000 } />
                 <div className="d-flex">
                     <Blinker key={ `badge_buys_${id}_${props.orders?.length - sellOrders?.length }`}>
                         <Badge>Buys { props.orders?.length - sellOrders?.length }</Badge>

@@ -49,34 +49,36 @@ const Trades = () => {
         }
     }, [ socket, socket?.connected, onNotify, onStatusUpdate ] )
 
+    
+    let groupedByVersion = useCallback( () => {
+        return traders.reduce( ( a, b ) => {
+            if ( !a[ b.trader_version ] ) {
+                a[ b.trader_version ] = []
+            }
+            return { ...a, [ b.trader_version ]: [ ...a[ b.trader_version ], b ] }
+        }, {} )
+    }, [traders])
+    
     if ( Object.entries(currentState).length === 0 ) {
         return <div>Loading</div>
     }
-
-    let groupedByVersion = traders.reduce( ( a, b ) => {
-        if ( !a[ b.trader_version ] ) {
-            a[ b.trader_version ] = []
-        }
-        return { ...a, [ b.trader_version ]: [ ...a[ b.trader_version ], b ] }
-    }, {} )
-
     // const connectedTraders = traders.filter( ( a ) => a.connected ? a : null)
     // const disconnectedTraders = traders.filter( ( a ) => !a.connected ? a : null)
     // const activeTraders = connectedTraders.filter( ( a ) => a.active ? a : null)
     // const inactiveTraders = connectedTraders.filter( ( a ) => !a.active ? a : null)
     // const m = moment
-    
+    // debugger
     return (
         <Container fluid>
             <Row>
                 <Col xs={12} sm={6} md={4}>
-                    { Object.entries( groupedByVersion ).map( ( [version, _traders] ) => {
+                    { Object.entries( groupedByVersion() ).map( ( [version, _traders] ) => {
                         return (
                             <>
                                 <h6>{version}</h6>
                                 <ListGroup as="ul">
-                                    { _traders.sort( ( a, b ) => currentState[a.id]?.start_time && currentState[b.id]?.start_time > currentState[b.id]?.start_time ? 1 : -1 ).map( (t, i) => (
-                                        <TraderInfo key={t.id} { ...t } { ...currentState[t.id] } ordersFetched={ordersFetched[t.symbol]}>
+                                    { _traders.sort( ( a, b ) => ((currentState[a.id]?.start_time > currentState[b.id]?.start_time)) ? 1 : -1 ).map( (t, i) => (
+                                        <TraderInfo key={t.id} { ...t } { ...currentState[t.id] } startTime={currentState[t.id]?.start_time} ordersFetched={ordersFetched[t.symbol]}>
                                             <div className="d-sm-none">
                                                 <Trade { ...currentState[t.id] } />
                                             </div>
