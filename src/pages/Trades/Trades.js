@@ -76,7 +76,7 @@ const Trades = () => {
                                 <h6>{version}</h6>
                                 <ListGroup as="ul">
                                     { _traders.sort( ( a, b ) => currentState[a.id]?.start_time && currentState[a.id]?.start_time > currentState[b.id]?.start_time ? 1 : -1 ).map( (t, i) => (
-                                        <TraderInfo key={t.id} { ...currentState[t.id] } { ...t } ordersFetched={ordersFetched[t.symbol]}>
+                                        <TraderInfo key={t.id} { ...t } { ...currentState[t.id] } ordersFetched={ordersFetched[t.symbol]}>
                                             <div className="d-sm-none">
                                                 <Trade { ...currentState[t.id] } />
                                             </div>
