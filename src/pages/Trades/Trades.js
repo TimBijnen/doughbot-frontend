@@ -5,7 +5,6 @@ import TraderInfo  from "./components/TraderInfo"
 import Trade from "./Trade"
 import axios from "axios"
 import { useToasts } from "react-toast-notifications"
-// import moment from "moment"
 
 const Trades = () => {
     const { addToast } = useToasts()
@@ -62,12 +61,8 @@ const Trades = () => {
     if ( Object.entries(currentState).length === 0 ) {
         return <div>Loading</div>
     }
-    // const connectedTraders = traders.filter( ( a ) => a.connected ? a : null)
-    // const disconnectedTraders = traders.filter( ( a ) => !a.connected ? a : null)
-    // const activeTraders = connectedTraders.filter( ( a ) => a.active ? a : null)
-    // const inactiveTraders = connectedTraders.filter( ( a ) => !a.active ? a : null)
-    // const m = moment
-    // debugger
+    
+    
     return (
         <Container fluid>
             <Row>
@@ -88,29 +83,6 @@ const Trades = () => {
                             </>
                         )
                     } ) }
-                    {/* { activeTraders.length > 0 && (
-                    )} */}
-
-                    {/* { inactiveTraders.length > 0 && (
-                        <ListGroup>
-                        <h6 style={{marginTop: 8}}>Deactivated traders</h6>
-                        { inactiveTraders.map( t => (
-                            <TraderInfo { ...currentState[t.id] } { ...t } ordersFetched={ordersFetched[t.symbol]}>
-                                <div className="d-sm-none">
-                                    <Trade { ...currentState[t.id] } />
-                                </div>
-                            </TraderInfo>
-                        ))}
-                    </ListGroup>
-                    ) }
-                        { disconnectedTraders.length > 0 && (
-                            <ListGroup>
-                        <h6 style={{marginTop: 8}}>Disconnected traders</h6>
-                        { disconnectedTraders.map( t => (
-                            <TraderInfo { ...t } ordersFetched={ordersFetched[t.symbol]}/>
-                        ))}
-                    </ListGroup>
-                        ) } */}
                 </Col>
                 <Col className="d-none d-sm-block" sm={6} md={8}>
                     prin
