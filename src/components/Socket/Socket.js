@@ -3,7 +3,6 @@ import styled from "styled-components"
 import {useSocket} from "."
 
 const StatusBar = styled.div`
-    height: 10px;
     width: 100%;
     font-size: 8px;
     line-height: 8px;
@@ -15,11 +14,9 @@ const StatusBar = styled.div`
 const Status = () => {
     const [ { connected, socket } ] = useSocket()
     const [ color, setColor ] = useState("warning")
-    const [ collectorStatus, setCollectorStatus ] = useState()
 
     useEffect(() => {
         if ( socket ) {
-            socket.on("candle_collector", setCollectorStatus)
             if ( connected ) {
                 socket.emit("candle_collector")
                 setColor("primary")
@@ -31,9 +28,7 @@ const Status = () => {
     // console.log(process.env)
 
     return (
-        <StatusBar color={ color }>
-            Candle collector: {collectorStatus}
-        </StatusBar>
+        <StatusBar className="h-100 w-100" color={ color }/>
     );
 }
 

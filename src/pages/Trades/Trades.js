@@ -23,7 +23,6 @@ const Trades = () => {
         } else if ( data.type === 'candle_collector_notify' || data.type === '__notify' ) {
             addToast( data.title, { appearance: 'success', autoDismiss: true })
         } else {
-            console.log("Seti curretn state")
             setCurrentState( currentState => ( { ...currentState, [ data.name.toLowerCase().replace(" ", "_") ]: data } ) )
         }
     }, [addToast] )
@@ -57,19 +56,14 @@ const Trades = () => {
     if ( Object.entries(currentState).length === 0 ) {
         return <div>Loading</div>
     }
-    const _traders = traders.filter((t) => t.connected && t)
     return (
-        <Container fluid>
-                Current active {_traders.length} ({traders.length})
+        <Container className="ps-4 pe-4">
             <Row>
                 <Col xs={12} md={6}>
                     <ListGroup as="ul">
                         { traders.filter((t) => t.connected && t).map( (t, i) => (
-                        // { traders.sort( ( a, b ) => ((currentState[a.id]?.name > currentState[b.id]?.name)) ? 1 : -1 ).map( (t, i) => (
                             <TraderInfo key={t.id} { ...t } { ...currentState[t.id] } startTime={currentState[t.id]?.start_time} ordersFetched={ordersFetched[t.symbol]}>
-                                {/* <div className="d-sm-none"> */}
-                                    <Trade { ...currentState[t.id] } />
-                                {/* </div> */}
+                                <Trade { ...currentState[t.id] } />
                             </TraderInfo>
                         ) ) }
                     </ListGroup>

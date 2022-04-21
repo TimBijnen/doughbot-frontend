@@ -4,6 +4,7 @@ import { Row, Col, ListGroup, Badge } from "react-bootstrap"
 import styled from "styled-components"
 import { TraderModal } from "."
 import { Bar } from "../../../components/Icon"
+import { TradeBlinker } from "../../../components/ui"
 
 const Blinker = styled.div`
     @keyframes blink {
@@ -32,6 +33,7 @@ const Blinker = styled.div`
     animation: blink 60s;
     color: var(--bs-danger);
     font-weight: bold;
+    font-size: 0.75rem;
     
     @keyframes blinkBadge {
         from { color: white; font-weight: bold; }
@@ -51,12 +53,27 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, st
     // const setStrategy = (i) => {
     //     axios.post(`${process.env.REACT_APP_API_URL}/doughbot/traders/${sid}/select_strategy/${i}`)
     // }
-
-    const connectedPillBg = connected ? 'success' : 'danger'
-    const activePillBg = (props.buy_active || props.sell_active) ? 'success' : 'secondary'
+    let bgStatus = 'info'
+    // const tbc = parseFloat(props.total_sold_coins)
+    // const tsc = parseFloat(props.total_bought_coins)
+    const tbv = parseFloat(props.total_buy_value)
+    const tsv = parseFloat(props.total_sell_value)
+    if ( parseFloat(props.total_bought_coins) === parseFloat(props.total_sold_coins)) {
+        
+        if ( tbv > tsv) {
+            bgStatus = "warning"
+        } else {
+            bgStatus = "success"
+        }
+    }
+    // const connectedPillBg = connected ? 'success' : 'danger'
+    // const activePillBg = (props.buy_active || props.sell_active) ? 'success' : 'secondary'
     const buyOrders = props.orders?.filter( ( o ) => o.side === 'BUY' && o).sort((a,b) => a.transactionTime > b.transactionTime ? 1 : -1) || []
     const sellOrders = props.orders?.filter( ( o ) => o.side === 'SELL' && o.type !== 'MARKET' && o.status !== "IDLE" && o).sort((a,b) => a.transactionTime > b.transactionTime ? 1 : -1) || []
     const marketOrders = props.orders?.filter( ( o ) => o.side === 'SELL' && o.type === 'MARKET' && o.status !== "IDLE" && o) || []
+    const didSellAllCoins = props.total_bought_coins > 0 && props.total_sold_coins === props.total_bought_coins
+    const didBuyCoins = props.total_bought_coins > 0
+    
     return (
         <ListGroup.Item
             key={id}
@@ -66,63 +83,23 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, st
                 !showDetailed && setShowDetailed( true )
                 e.preventDefault()
             } }
+            style={{borderColor: `var(--bs-${ bgStatus })`}}
         >
+            <TradeBlinker bg={bgStatus} key={`${id}_${bgStatus}_${tbv}_${tsv}`} />
+
             <div>
                 <div className="d-flex justify-content-between align-items-start">
-                    <div className="ms-2 me-auto" style={{height: 60}}>
-                        <div className="fw-bold d-flex">
-                            <Blinker key={props.ordersFetched}>{props.name}</Blinker>
-                        </div>
-                    
-                        <div style={{fontSize: 10}}>
-                            <Badge pill bg={activePillBg}>
-
-                            <div style={{width: "100%", display: 'flex'}}>
-                                { status }
-                                { symbol && ` - Trading ${ symbol }` }
-                            </div>
-                            </Badge>
-                        </div>
-                    </div>
-
-                    { connected ? (
-                        <Badge style={{fontSize: 10}} bg="secondary">
-                            {`Strategy ${ props.strategy_id }`}
-                        </Badge>
-                    ) : (
-                        <Badge pill bg={connectedPillBg}>disconnected</Badge>
-                    ) }
+                    <Blinker key={props.ordersFetched}>{`${props.name} ${ symbol }`}</Blinker>
                 </div>
             </div>
             <TraderModal name={props.name} tid={id} showDetailed={showDetailed} setShowDetailed={setShowDetailed} />
 
-            { props.children ? (
-                <div style={{display: 'flex', position: 'absolute', left:0, bottom:0, height: '100px', width: '100%'}}>
-                    <div className="ms-auto mt-auto">
-                        {props.children}
-                    </div>
-                </div>
-            ) : null }
-            {/* { props.orders?.length > 0 && (
-
-                <div className="ms-2" style={{fontSize: 12}}>
-                    <Time startTimestamp={ startTime / 1000 } />
-                    <div className="d-flex">
-                        <Blinker key={ `badge_buys_${id}_${props.orders?.length - sellOrders?.length }`}>
-                            <Badge>Buys { props.orders?.length - sellOrders?.length }</Badge>
-                        </Blinker>
-                        <Blinker key={ `badge_sell_${id}_${sellOrders?.length }`}>
-                            <Badge>Sells { sellOrders?.length }</Badge>
-                        </Blinker>
-                    </div>
-                </div>
-            )} */}
             <div>
                 <Row>
-                    <Col xs={2} className="small">
-                        Buy {props.total_bought_coins}
+                    <Col xs={2} className={`small ${ didBuyCoins ? 'bg-success' : 'outline-success'}`} as={Badge}>
+                        Buy
                     </Col>
-                    <Col xs={8} className="d-flex">
+                    <Col xs={10} className="d-flex">
                         {buyOrders.map(( o ) => (
                             <div style={{ width: `${ o.original_qty / props.total_bought_coins * 100 }%`}}>
                                 <Bar market={ o.type === "MARKET" } cancelled={ o.status === "CANCELED" || o.status === "IDLE" } value={ o.executed_qty } target={ o.original_qty} />
@@ -130,31 +107,43 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, st
                         ))}
                     </Col>
                 </Row>
-                <Row>
-                    <Col xs={2} className="small">
-                        Sell {props.total_sold_coins}
-                    </Col>
-                    <Col xs={8} className="d-flex">
-                        {sellOrders.map(( o ) => (
-                            <div style={{ width: `${ o.original_qty / props.total_bought_coins * 100 }%`}}>
-                                <Bar market={ o.type === "MARKET" } cancelled={ o.status === "CANCELED" || o.status === "IDLE" } value={ o.executed_qty } target={ o.original_qty} />
-                            </div>
-                        ))}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={2} className="small">
-                        Market 
-                    </Col>
-                    <Col xs={8} className="d-flex">
-                        {marketOrders.map(( o ) => (
-                            <div style={{ width: `${ o.original_qty / props.total_bought_coins * 100 }%`}}>
-                                <Bar market={ o.type === "MARKET" } cancelled={ o.status === "CANCELED" || o.status === "IDLE" } value={ o.executed_qty } target={ o.original_qty} />
-                            </div>
-                        ))}
-                    </Col>
-                </Row>
+                { marketOrders.length > 0 ? (
+                    <Row>
+                        <Col xs={2} className={`small ${ didSellAllCoins ? 'bg-warning' : 'outline-warning'}`} as={Badge}>
+                        {/* <Col xs={2} className="small bg-warning" as={Badge}> */}
+                            Market 
+                        </Col>
+                        <Col xs={10} className="d-flex">
+                            {marketOrders.map(( o ) => (
+                                <div style={{ width: `${ o.original_qty / props.total_bought_coins * 100 }%`}}>
+                                    <Bar market={ o.type === "MARKET" } cancelled={ o.status === "CANCELED" || o.status === "IDLE" } value={ o.executed_qty } target={ o.original_qty} />
+                                </div>
+                            ))}
+                        </Col>
+                    </Row>
+                ) : (
+                    <Row>
+                        <Col xs={2} className={`small ${ didSellAllCoins ? 'bg-success' : 'outline-success'}`} as={Badge}>
+                            Sell 
+                        </Col>
+                        <Col xs={10} className="d-flex">
+                            {sellOrders.map(( o ) => (
+                                <div style={{ width: `${ o.original_qty / props.total_bought_coins * 100 }%`}}>
+                                    <Bar market={ o.type === "MARKET" } cancelled={ o.status === "CANCELED" || o.status === "IDLE" } value={ o.executed_qty } target={ o.original_qty} />
+                                </div>
+                            ))}
+                        </Col>
+                    </Row>
+                )}
             </div>
+            { props.children ? (
+                <div style={{display: 'flex', position: 'absolute', right:0, bottom:0}}>
+                    <div className="ms-auto mt-auto">
+                        {props.children}
+                    </div>
+                </div>
+            ) : null }
+            
         </ListGroup.Item>
     )
 }

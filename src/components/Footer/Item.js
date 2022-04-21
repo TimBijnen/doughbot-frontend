@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 
 const StyledItem = styled.div`
-    height: 48px;
-    line-height: 48px;
+    height: 24px;
+    line-height: 24px;
     &:hover {
         background-color: var(--bs-primary);
         cursor: pointer;
@@ -15,8 +15,8 @@ const StyledItem = styled.div`
 `
 
 
-const Item = ( { link, children } ) => (
-    <StyledItem className="w-100 text-center">
+const Item = ( { link, children, ...props } ) => (
+    <StyledItem {...props}>
         <Link className="d-block" to={ link }>
             { children }
         </Link>

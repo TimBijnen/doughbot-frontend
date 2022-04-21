@@ -1,7 +1,9 @@
 // import React from 'react'
 // import { Chart } from 'react-charts'
 import * as d3 from "d3";
- 
+import ChartBackground from "./ChartBackground"
+
+
 const margin = { top: 0, right: 0, bottom: 0, left: 0 };
 
 const createChartLineD3 = ( data ) => {
@@ -57,7 +59,7 @@ const ChartD3Component = ({data, levels, width, height}) => {
     const levelBreakEven = breakEvenLevel && createFlatLine(breakEvenLevel)
     
     return (
-        <div style={{width, height}}>
+        <ChartBackground width={width} height={height}>
 
             <svg
                 viewBox={`0 0 ${width + margin.left + margin.right} 
@@ -81,7 +83,7 @@ const ChartD3Component = ({data, levels, width, height}) => {
 
                 <path strokeWidth={6} fill="none" stroke="url(#PriceLine)"  d={linePath} />
             </svg>
-        </div>
+        </ChartBackground>
       );
           
 }

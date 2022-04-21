@@ -1,5 +1,5 @@
 import FooterItem from "./Item"
-import { TradesIcon, HomeIcon, CoinIcon, WalletIcon, ProjectorIcon } from "../Icon"
+import { HomeIcon, CoinIcon, WalletIcon } from "../Icon"
 // import { ProjectorIcon, HomeIcon, TradesIcon, CoinIcon, LogIcon, WalletIcon, SettingsIcon, Piggy } from "../Icon"
 import { useAuth } from "../Auth"
 
@@ -8,33 +8,18 @@ const Footer = () => {
     const [ { user } ] = useAuth()
 
     return (
-        <footer className="d-flex shadow-lg">
+        <footer className="d-flex shadow-lg" style={{minHeight: 32}}>
             { user && (
                 <>
-                    <FooterItem link="/">
-                        <HomeIcon />
+                    <FooterItem className="m-auto" link="/">
+                        <HomeIcon width={24} height={24}/>
                     </FooterItem>
-                    <FooterItem link="/oversold">
-                        <CoinIcon />
+                    <FooterItem className="m-auto" link="/oversold">
+                        <CoinIcon width={24} height={24}/>
                     </FooterItem>
-                    <FooterItem link="/wallet">
-                        <WalletIcon />
+                    <FooterItem className="m-auto" link="/wallet">
+                        <WalletIcon width={24} height={24}/>
                     </FooterItem>
-                    {/* <FooterItem link="/sirb">
-                        <Piggy />
-                    </FooterItem> */}
-                    <FooterItem link="/trades">
-                        <TradesIcon />
-                    </FooterItem>
-                    {/* <FooterItem link="/log">
-                        <LogIcon />
-                    </FooterItem>
-                    <FooterItem link="/settings">
-                        <SettingsIcon />
-                    </FooterItem> */}
-                    <FooterItem link="/simulations">
-                        <ProjectorIcon />
-                    </FooterItem> 
                 </>
             ) }
         </footer>

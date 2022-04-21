@@ -10,12 +10,12 @@ import Socket, { SocketProvider } from "./components/Socket"
 import { ToastProvider } from "react-toast-notifications";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Audio from "./components/Audio"
-import Sentiment from "./components/Sentiment"
+// import Sentiment from "./components/Sentiment"
 
 
 const appStyle = {
     display: "grid",
-    gridTemplateRows: "10px 56px 48px auto 32px",
+    gridTemplateRows: "38px 4px 38px auto 1fr",
     height: "100vh",
 }
 
@@ -34,18 +34,17 @@ const App = () => {
                         <Router>
                             <AuthBlocker />
                             <Audio />
-                            <Socket />
                             <Navbar />
+                            <Socket />
                             <Footer />
                             <Route path="/login" component={ Login } />
-                            <div style={ oversoldContainer }>
+                            <div className="pt-2" style={ oversoldContainer }>
                                 <Route exact path="/" component={ Dashboard } />
                                 <Route exact path="/wallet" component={ Wallet } />
                                 <Route exact path="/oversold" component={ Oversold } />
                                 <Route exact path="/trades" component={ TradesPage } />
                                 <Route exact path="/trades/:id" component={ TradePage } />
                             </div>
-                            <Sentiment />
                         </Router>
                     </div>
                 </SocketProvider>
