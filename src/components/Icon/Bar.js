@@ -23,13 +23,13 @@ const BarInner = styled.div`
     color: ${ ( { type = "info" } ) => type !== "info" ? "white" : "black" };
 `
 
-const BarAppend = styled.div`
-    min-width: 80px;
-    text-align: right;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-`
+// const BarAppend = styled.div`
+//     min-width: 160px;
+//     text-align: right;
+//     white-space: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+// `
 
 const Bar = ( { value, target, cancelled, market } ) => {
     const isFilled = value === target && value > 0
@@ -37,28 +37,28 @@ const Bar = ( { value, target, cancelled, market } ) => {
     let width
     let text
     if ( isFilled ) {
-        text = "FILLED"
+        text = "V"
         width = 100
-    } else if ( !value && cancelled ) {
-        text = "CANCELLED"
-        width = 100
+    } else if ( cancelled ) {
+        text = "X"
+        // width = 100
     } else {
         width = value / target * 100
         text = `${ parseInt( value / target * 10000, 10 ) / 100 }%`
     }
 
     return (
-        <Container className="d-flex h-100">
+        <Container className="d-flex h-100 w-100">
             <BarContainer type={ type }>
-                <BarInner className="d-flex" width={ width } type={ type }>
+                <BarInner className="d-flex text-wrap" width={ width } type={ type }>
                     <div className="m-auto small">
-                        { text}
+                        {text}
                     </div>
                 </BarInner>
             </BarContainer>
-            <BarAppend className="m-auto">
-                { value.toFixed(2) || 0 } / { target.toFixed(2) }
-            </BarAppend>
+            {/* <BarAppend className="m-auto">
+                { value.toFixed(8) || 0 } / { target.toFixed(8) }
+            </BarAppend> */}
         </Container>
     )
 }

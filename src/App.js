@@ -27,7 +27,7 @@ const oversoldContainer = {
 
 const App = () => {
     return (
-        <ToastProvider>
+        <ToastProvider transitionDuration={0}>
             <AuthProvider>
                 <SocketProvider>
                     <div className="App" style={ appStyle }>
