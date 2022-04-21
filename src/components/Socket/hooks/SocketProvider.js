@@ -31,7 +31,7 @@ function SocketProvider( { children } ) {
     // const { addToast } = useToasts()
     
     useEffect(() => {
-        console.log(REACT_APP_SOCKET_URL)
+        console.log(REACT_APP_SOCKET_URL, process.env)
         const socket = socketIOClient( REACT_APP_SOCKET_URL, { transports: [ "websocket" ], auth: {name:"frontend"} })
         socket.on("connect", (response) => {
             console.log("Connect", response)
