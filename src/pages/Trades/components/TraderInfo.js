@@ -52,7 +52,9 @@ const TraderInfo = ({ id, active, connected, status, symbol, sid, start_time, ..
                             Strategy {props.strategy_id}<br/>
                             Hub version {props.trader_hub_version}<br/>
                             Trader version {props.trader_version}<br/>
-                            Trades started {props.trades_started}
+                            Trades started {props.trades_started}<br />
+                            Last trade update {props.last_trade_update}<br />
+                            Last trade started {props.last_trade_start_time}<br />
                         </p>
                     </Card.Text>
                 </Card.Body>
