@@ -28,7 +28,7 @@ const Trade = ( { simulationMode, restartTrader, index, ...props } ) => {
             <Card.Body>
                 <Row>
                     <Col xs={4}>
-                        <TradeLog symbol={ currentState.symbol } />
+                        { props.latest_update }
                     </Col>
                     <Col xs={8}>
                         <div className="d-flex">
